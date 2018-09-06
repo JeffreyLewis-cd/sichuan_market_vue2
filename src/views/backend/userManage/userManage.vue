@@ -24,7 +24,7 @@
       <el-table-column
         prop="password"
         label="密码"
-        width="120">
+        width="300">
       </el-table-column>
       <el-table-column
         prop="phone"
@@ -82,6 +82,7 @@
 <script type="text/ecmascript-6">
   import backendManage_api from "../../../api/backendManage_api";
 
+
   export default {
     name: "userManage",
     data() {
@@ -119,7 +120,7 @@
           email: "",
           status: "",
         },
-        dialogState:"add"
+        dialogState: "add"
       }
     },
     created() {
@@ -178,25 +179,33 @@
       },
 
       /*展示添加用户对话框*/
-      showAddUserDialog(){
-          this.dialogVisible=true;
-          this.dialogState="add";
+      showAddUserDialog() {
+        this.dialogVisible = true;
+        this.dialogState = "add";
+        this.reqParam={
+          id: "",
+          name: "",
+          password: "",
+          phone: "",
+          email: "",
+          status: "",
+        }
       },
 
       /*对话框-确定*/
       dialogConfirm() {
-        if("add"===this.dialogState){
-            this.saveAnewUser();
-        }else if("edit"===this.dialogState){
-            this.updateUser();
+        if ("add" === this.dialogState) {
+          this.saveAnewUser();
+        } else if ("edit" === this.dialogState) {
+          this.updateUser();
         }
       },
 
       /*保存新用户*/
-      saveAnewUser(){
+      saveAnewUser() {
         let self = this;
+        this.reqParam.password = this.$md5(this.reqParam.password);//加密
         let saveNewUserPromise = backendManage_api.addAnewPerson(this.reqParam);
-
         saveNewUserPromise.then((res) => {
           self.$notify({
             title: '成功',
@@ -216,11 +225,11 @@
       editUser(row) {
         this.reqParam = row;
         this.dialogVisible = true;
-        this.dialogState="edit";
+        this.dialogState = "edit";
       },
 
       /*执行后台更新用户操作*/
-      updateUser(){
+      updateUser() {
         let self = this;
         let updateUserPromise = backendManage_api.updateUser(this.reqParam);
         updateUserPromise.then((res) => {

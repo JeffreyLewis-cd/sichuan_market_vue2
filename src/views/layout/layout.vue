@@ -25,7 +25,7 @@
       }
     },
     mounted: function () {
-
+      console.log("主页-01-layout");
     },
     components: {
       leftSideNav,

@@ -10,14 +10,14 @@
     <el-row class="tac">
       <el-col :span="24">
         <el-menu
-          default-active="2"
+          default-active="1-1"
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"
           background-color="#002140"
           text-color="#fff"
           active-text-color="#ffd04b">
-          <el-submenu index="1" >
+          <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>导航一</span>
@@ -38,7 +38,7 @@
             <span slot="title">导航三</span>
           </el-menu-item>
 
-          <el-submenu index="4" >
+          <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-setting"></i>
               <span>后台管理</span>
@@ -100,6 +100,14 @@
         width: 40px;
       }
     }
+  }
+
+</style>
+
+<style lang="less">
+
+  .el-menu {
+    border-right: none !important;
   }
 
 </style>

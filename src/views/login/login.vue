@@ -63,6 +63,9 @@
         }
       };
     },
+    mounted(){
+      console.log(this.$router)
+    },
     methods: {
       submitForm(formName) {
         let self=this;
@@ -70,6 +73,7 @@
           if (valid) {
             console.log(login_api);
             console.log(this.ruleForm2);
+            this.ruleForm2.password=this.$md5(this.ruleForm2.password);
             let loginResult=login_api.login(this.ruleForm2);
             loginResult.then((res)=>{
               console.log(res);
