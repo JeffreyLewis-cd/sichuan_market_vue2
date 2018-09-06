@@ -79,7 +79,7 @@
               console.log(res);
               if(200==res.retCode){
                 document.cookie="loginInfo="+"true";
-                self.$router.push({name:"mainPage"});
+                self.$router.push({name:"adminAreas"});
               }
             });
             loginResult.catch((err)=>{

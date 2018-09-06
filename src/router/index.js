@@ -1,9 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const userManage = () => import('@/views/backend/userManage/userManage.vue');
-const layout = () => import('@/views/layout/layout.vue');
 const login = () => import('@/views/login/login.vue');
+
+const layout = () => import('@/views/layout/layout.vue');
+
+const userManage = () => import('@/views/backend/userManage/userManage.vue');
+
+const adminAreas = () => import('@/views/administrative/areas/areas.vue');
+
 
 Vue.use(Router);
 
@@ -12,8 +17,16 @@ const router = new Router({
     {
       path: '/',
       name: 'mainPage',
-      component: layout
+      component: layout,
+      children: [
+        {
+          path: "adminAreas",
+          name: "adminAreas",
+          component: adminAreas,
+        },
+      ]
     },
+
     {
       path: '/login',
       name: 'login',
@@ -33,7 +46,5 @@ const router = new Router({
     }
   ]
 });
-
-console.log("666");
 
 export default router;
