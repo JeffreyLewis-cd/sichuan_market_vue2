@@ -9,7 +9,8 @@
         </el-form-item>
 
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
+          <el-input type="password" v-model="ruleForm2.password" @keyup.enter.native="toLogin('ruleForm2')"
+                    auto-complete="off"></el-input>
         </el-form-item>
 
         <el-form-item class="login-btns">
@@ -34,7 +35,7 @@
       var checkUserName = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('账号不能为空'));
-        }else{
+        } else {
           callback();
         }
 
@@ -42,7 +43,7 @@
       var validatePassword = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
-        }else{
+        } else {
           callback();
         }
       };
@@ -63,29 +64,28 @@
         }
       };
     },
-    mounted(){
+    mounted() {
       console.log(this.$router)
     },
     methods: {
       submitForm(formName) {
-        let self=this;
+        let self = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log(login_api);
             console.log(this.ruleForm2);
-            this.ruleForm2.password=this.$md5(this.ruleForm2.password);
-            let loginResult=login_api.login(this.ruleForm2);
-            loginResult.then((res)=>{
+            this.ruleForm2.password = this.$md5(this.ruleForm2.password);
+            let loginResult = login_api.login(this.ruleForm2);
+            loginResult.then((res) => {
               console.log(res);
-              if(200==res.retCode){
-                document.cookie="loginInfo="+"true";
-                self.$router.push({name:"adminAreas"});
+              if (200 == res.retCode) {
+                document.cookie = "loginInfo=" + "true";
+                self.$router.push({name: "adminAreas"});
               }
             });
-            loginResult.catch((err)=>{
+            loginResult.catch((err) => {
               console.log(err);
             })
-
 
 
           } else {
@@ -94,8 +94,15 @@
           }
         });
       },
+
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+
+      /*回车键登录*/
+      toLogin(formName) {
+        console.log("回车键登录");
+        this.submitForm(formName);
       }
     }
 

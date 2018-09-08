@@ -1,5 +1,9 @@
 <template>
   <div class="topBar">
+    <!--导航-->
+    <div class="expandOrCollapse" @click="expandOrCollpseControl">
+      <p class="expandOrCollapse-icon" :class="{'expandOrCollapse-icon-expand':leftSideNavCollapse}"></p>
+    </div>
 
     <div class="topBar-userDropdown">
       <el-dropdown>
@@ -19,17 +23,34 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import * as MUTATIONS from '../../../store/mutations'
+
   export default {
     name: "topBar",
     data() {
-      return {}
+      return {
+        isCollapse: false,
+      }
     },
     methods: {
       logout() {
         console.log("退出");
         document.cookie = "loginInfo=false";
         this.$router.push({name: "login"})
+      },
+
+      /*控制左侧导航展开或者折叠*/
+      expandOrCollpseControl() {
+        this.$store.commit(MUTATIONS.leftSideNavCollapse_mu);
       }
+    },
+    watch: {},
+    computed: {
+
+      ...mapGetters({
+        leftSideNavCollapse: 'leftSideNavCollapse',
+      })
     }
   }
 
@@ -40,6 +61,28 @@
   .topBar {
     width: 100%;
     height: 60px;
+    .expandOrCollapse {
+      height: 60px;
+      width: 60px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      float: left;
+      .expandOrCollapse-icon {
+        height: 25px;
+        width: 25px;
+        background-image: url("../../../assets/image/img01/list-collapsed.png");
+        background-size: 100% 100%;
+      }
+      .expandOrCollapse-icon-expand {
+        background-image: url("../../../assets/image/img01/expand.png");
+        background-size: 100% 100%;
+      }
+    }
+    .expandOrCollapse:hover{
+      background-color: aliceblue;
+    }
     .topBar-userIcon {
       height: 60px;
       width: 60px;
@@ -69,7 +112,7 @@
 </style>
 <style lang="less">
   .topBar-userDropdown {
-    .el-dropdown{
+    .el-dropdown {
       width: 100%;
       .el-dropdown-link {
         display: inline-block;

@@ -1,29 +1,31 @@
 <template>
 
-  <div class="leftSideNav">
+  <div class="leftSideNav ">
     <!--网站标题-->
     <div class="web-title">
-      <img src="../../../assets/image/img01/download.svg" class="logo"> <span>四川消费研究</span>
+      <img src="../../../assets/image/img01/CUIT.png" class="logo">
+      <span v-show="!leftSideNavCollapse">四川消费研究</span>
     </div>
 
-    <!--导航-->
-    <el-row class="tac">
-      <el-col :span="24">
+
+    <!--<el-row class="tac">-->
+      <!--<el-col :span="24">-->
         <el-menu
           default-active="1-1"
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"
+          :collapse="leftSideNavCollapse"
           background-color="#002140"
           text-color="#fff"
           active-text-color="#ffd04b">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <span>四川概况</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="1-1" @click.native="linkToMainPage">选项1</el-menu-item>
+              <el-menu-item index="1-1" @click.native="linkToMainPage">行政区域</el-menu-item>
               <el-menu-item index="1-2">选项2</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -51,14 +53,22 @@
 
 
         </el-menu>
-      </el-col>
-    </el-row>
+      <!--</el-col>-->
+    <!--</el-row>-->
   </div>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
     name: "leftSideNav",
+    data(){
+      return{
+
+
+      }
+    },
 
     methods: {
       handleOpen(key, keyPath) {
@@ -71,7 +81,7 @@
       /*跳转到主页*/
       linkToMainPage() {
         console.log("跳转到主页");
-        this.$router.push({path: "/"});
+        this.$router.push({name: "adminAreas"});
       },
 
       /*跳转到后台管理界面*/
@@ -80,6 +90,15 @@
         this.$router.push({name: "backendUserManage"});
 
       }
+
+    },
+
+    computed: {
+      ...mapGetters({
+        leftSideNavCollapse: 'leftSideNavCollapse',
+      })
+    },
+    watch:{
 
     }
   }
@@ -95,12 +114,15 @@
       color: #fff;
       text-align: center;
       font-size: 22px;
+      overflow: hidden;
       .logo {
         height: 40px;
         width: 40px;
       }
     }
   }
+
+
 
 </style>
 
@@ -109,5 +131,10 @@
   .el-menu {
     border-right: none !important;
   }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+  }
+
 
 </style>

@@ -1,10 +1,10 @@
 <template>
 
   <div class="layout">
-    <div class="layout-left">
+    <div class="layout-left " :class="{'layout-left-collapse':leftSideNavCollapse}">
       <leftSideNav></leftSideNav>
     </div>
-    <div class="layout-right">
+    <div class="layout-right " :class="{'layout-right-collapse':leftSideNavCollapse}">
       <topBar class="layout-right-topbar"></topBar>
       <div class="layout-right-details">
         <router-view></router-view>
@@ -16,6 +16,8 @@
 <script type="text/ecmascript-6">
   import leftSideNav from '@/views/layout/leftSideNav/leftSideNav';
   import topBar from '@/views/layout/topBar/topBar';
+  import {mapGetters} from "vuex"
+
 
   export default {
     name: 'Title',
@@ -31,7 +33,13 @@
       leftSideNav,
       topBar,
     },
-    methods: {}
+    methods: {},
+    computed: {
+
+      ...mapGetters({
+        leftSideNavCollapse: 'leftSideNavCollapse',
+      })
+    }
   }
 </script>
 
@@ -49,18 +57,19 @@
       height: 100vh;
       min-height: @pageMinheight;
       width: 15%;
-      min-width: 100px;
+      min-width: 70px;
       background-color: #002140;
+      transition: width linear 270ms;
     }
     .layout-right {
       height: 100vh;
       min-height: @pageMinheight;
       width: 85%;
       background-color: gray;
+      transition: width linear 270ms;
       .layout-right-topbar {
         height: 60px;
         line-height: 60px;
-        padding-left: 20px;
         padding-right: 20px;
         width: calc(100% - 40px);
         background-color: #fff;
@@ -72,6 +81,13 @@
         background-color: #f0f2f5;
         padding: 20px;
       }
+    }
+
+    .layout-left-collapse {
+      width: 60px;
+    }
+    .layout-right-collapse {
+      width: calc(100% - 60px);
     }
   }
 

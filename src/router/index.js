@@ -7,7 +7,7 @@ const layout = () => import('@/views/layout/layout.vue');
 
 const userManage = () => import('@/views/backend/userManage/userManage.vue');
 
-const adminAreas = () => import('@/views/administrative/areas/areas.vue');
+const adminAreas = () => import('@/views/administrative/areas/adminAreas.vue');
 
 
 Vue.use(Router);
