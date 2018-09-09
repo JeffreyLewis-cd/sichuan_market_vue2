@@ -1,61 +1,67 @@
 <template>
   <div class="adminAreas-page">
-    <!--城市信息操作按钮-->
-    <div class="adminAreas-operate">
-      <h3 class="title">市级行政区域列表</h3>
-      <el-button type="primary" size="small" class="addCityInfo" @click="showCityInfoDialog">
-        <i class="el-icon-plus"></i>&nbsp;&nbsp;添加城市信息
-      </el-button>
-    </div>
 
-    <!--城市信息列表展示-->
-    <el-table
-      :data="adminAreasData"
-      border
-      style="width: 100%">
-      <el-table-column
-        v-for="(cityItem,index) in cityInfoFieldsAndLabels"
-        :fixed="'city_name'===cityItem.field"
-        :prop="cityItem.field"
-        :label="cityItem.label"
-        :key="index"
-        width="150px"
-        align="center"
-      >
-      </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        width="100">
-        <template slot-scope="scope">
-          <el-button @click="deleteCityInfo(scope.row)" type="text" size="small">删除</el-button>
-          <el-button @click="updateCityInfo(scope.row)" type="text" size="small">编辑</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <!--对话框-添加新用户-->
-    <el-dialog class="cityInfo-dialog"
-               :title="dialogTitle"
-               :visible.sync="dialogVisible"
-               width="70%">
-      <!--新用户信息-->
-      <div class="dialog-row-box" v-for="(item,index) in cityInfoFieldsAndLabels" :key="index">
-        <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
-        <el-input
-          style="width: 50%;"
-          placeholder="请输入..."
-          suffix-icon="el-icon-edit"
-          v-model="dialogPara[item.field]">
-        </el-input>
+      <!--城市信息操作按钮-->
+      <div class="adminAreas-operate">
+        <h3 class="title">市级行政区域列表</h3>
+        <el-button type="primary" size="small" class="addCityInfo" @click="showCityInfoDialog">
+          <i class="el-icon-plus"></i>&nbsp;&nbsp;添加城市信息
+        </el-button>
       </div>
 
-      <!--对话框-按钮-->
-      <span slot="footer" class="dialog-footer">
+      <!--城市信息列表展示-->
+      <el-table
+        :data="adminAreasData"
+        border
+        :default-sort="{prop: 'city_gdp_total', order: 'descending'}"
+        max-height="500"
+        style="width: 100%;">
+        <el-table-column
+          v-for="(cityItem,index) in cityInfoFieldsAndLabels"
+          :fixed="'city_name'===cityItem.field"
+          :prop="cityItem.field"
+          :label="cityItem.label"
+          :key="index"
+          sortable
+          width="150px"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="100">
+          <template slot-scope="scope">
+            <el-button @click="deleteCityInfo(scope.row)" type="text" size="small">删除</el-button>
+            <el-button @click="updateCityInfo(scope.row)" type="text" size="small">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!--对话框-添加新用户-->
+      <el-dialog class="cityInfo-dialog"
+                 :title="dialogTitle"
+                 :visible.sync="dialogVisible"
+                 width="70%">
+        <!--新用户信息-->
+        <div class="dialog-row-box" v-for="(item,index) in cityInfoFieldsAndLabels" :key="index">
+          <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
+          <el-input
+            style="width: 50%;"
+            placeholder="请输入..."
+            suffix-icon="el-icon-edit"
+            v-model="dialogPara[item.field]">
+          </el-input>
+        </div>
+
+        <!--对话框-按钮-->
+        <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false" size="small">取 消</el-button>
           <el-button type="primary" @click="dialogConfirm" size="small">确 定</el-button>
       </span>
-    </el-dialog>
+      </el-dialog>
+
+
   </div>
 
 </template>
@@ -73,20 +79,36 @@
             label: "城市名称",
           },
           {
+            field: "city_gdp_total",
+            label: "GDP总量",
+          },
+          {
+            field: "city_gdp_total_unit",
+            label: "GDP总量单位",
+          },
+          {
+            field: "city_gdp_pp",
+            label: "人均GDP",
+          },
+          {
+            field: "city_gdp_pp_unit",
+            label: "人均GDP单位",
+          },
+          {
             field: "city_areas",
-            label: "城市面积",
+            label: "面积",
           },
           {
             field: "city_areas_unit",
-            label: "城市面积单位",
+            label: "面积单位",
           },
           {
             field: "city_population",
-            label: "城市人口",
+            label: "人口",
           },
           {
             field: "city_population_unit",
-            label: "城市人口单位",
+            label: "人口单位",
           },
           {
             field: "city_gov_address",
@@ -115,29 +137,15 @@
           {
             field: "city_cars_counts",
             label: "汽车保有量",
-          },
-          {
-            field: "city_gdp_total",
-            label: "GDP总量",
-          },
-          {
-            field: "city_gdp_total_unit",
-            label: "GDP总量单位",
-          },
-          {
-            field: "city_gdp_pp",
-            label: "人均GDP",
-          },
-          {
-            field: "city_gdp_pp_unit",
-            label: "人均GDP单位",
           }
+
         ],
         adminAreasData: [],
         dialogVisible: false,
         dialogPara: {},
         dialogTitle: "添加城市信息",
         dialogFunction: "add",
+
       }
     },
     mounted() {
@@ -174,19 +182,19 @@
         allCityInfoes.then((res) => {
 
           self.adminAreasData = res.data;
-          self.adminAreasData.map((item) => {
-            item.city_areas = self.toDecimal(item.city_areas);
-            item.city_population = self.toDecimal(item.city_population);
-            item.city_gdp_total = self.toDecimal(item.city_gdp_total);
-          })
+          /*小数点后两位*/
+          /*          self.adminAreasData.map((item) => {
+                      item.city_areas = self.toDecimal(item.city_areas);
+                      item.city_population = self.toDecimal(item.city_population);
+                      item.city_gdp_total = self.toDecimal(item.city_gdp_total);
+                    });*/
           console.log(self.adminAreasData);
         });
         allCityInfoes.catch((err) => {
           console.log(err);
         })
 
-      }
-      ,
+      },
 
       /*删除城市信息*/
       deleteCityInfo(row) {
@@ -224,8 +232,7 @@
             message: '已取消删除'
           });
         });
-      }
-      ,
+      },
 
       /*编辑城市信息*/
       updateCityInfo(row) {
@@ -234,35 +241,34 @@
         this.dialogVisible = true;
         this.dialogFunction = "update";
         this.dialogTitle = "编辑城市信息";
-      }
-      ,
+      },
 
       /*展示添加城市信息对话框*/
       showCityInfoDialog() {
         this.dialogPara = {
           city_id: "",
           city_name: "",
+          city_gdp_total: 0,
+          city_gdp_total_unit: "亿元",
+          city_gdp_pp: 0,
+          city_gdp_pp_unit: "元",
           city_areas: 0.00,
-          city_areas_unit: "",
+          city_areas_unit: "平方千米",
           city_population: 0,
-          city_population_unit: "",
+          city_population_unit: "万人",
           city_gov_address: "",
           city_scenic_spots: 0,
           city_airlines: 0,
-          city_airlines_unit: "",
+          city_airlines_unit: "条",
           city_train: 0,
           city_train_unit: "",
-          city_cars_counts: 0,
-          city_gdp_total: 0,
-          city_gdp_total_unit: "",
-          city_gdp_pp: 0,
-          city_gdp_pp_unit: "",
+          city_cars_counts: 0
+
         };
         this.dialogVisible = true;
         this.dialogFunction = "add";
         this.dialogTitle = "添加城市信息";
-      }
-      ,
+      },
 
       /*确认*/
       dialogConfirm() {
@@ -272,8 +278,7 @@
         } else if ("update" === this.dialogFunction) {
           this.confirmUpdateCityInfo();
         }
-      }
-      ,
+      },
 
       /*确认添加城市信息*/
       confirmAddCityInfo() {
@@ -296,8 +301,7 @@
             message: '操作失败！'
           });
         })
-      }
-      ,
+      },
 
       /*确认编辑城市信息*/
       confirmUpdateCityInfo() {
