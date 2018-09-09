@@ -92,6 +92,16 @@ export default {
     return apiPromise(apiParam);
   },
 
+  /*查询城市总GDP列表*/
+  findTotalGDPList: function () {
+    let apiParam = {
+      url: "/cityInfo/findTotalGDPList",
+      method: "get",
+      param: ""
+    };
+    return apiPromise(apiParam);
+  },
+
 }
 
 

@@ -16,6 +16,11 @@ Vue.prototype.$md5=md5;
 /*Vuex-store*/
 import store from './store';
 
+/*百度-echarst*/
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

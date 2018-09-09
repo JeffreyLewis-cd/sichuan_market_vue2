@@ -6,7 +6,7 @@
         <el-menu-item index="3">消息中心</el-menu-item>
       </el-menu>
 
-      <adminAreasCharts v-show="'1'==activeIndex"></adminAreasCharts>
+      <adminAreasCharts v-if="'1'==activeIndex"></adminAreasCharts>
       <adminAreas v-show="'2'==activeIndex"></adminAreas>
 
     </div>
