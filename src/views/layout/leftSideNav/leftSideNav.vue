@@ -80,13 +80,11 @@
 
       /*跳转到主页*/
       linkToMainPage() {
-        console.log("跳转到主页");
         this.$router.push({name: "adminAreas"});
       },
 
       /*跳转到后台管理界面*/
       linkToBackend() {
-        console.log("跳转到后台管理界面");
         this.$router.push({name: "backendUserManage"});
 
       }

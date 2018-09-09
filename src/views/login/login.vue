@@ -65,19 +65,17 @@
       };
     },
     mounted() {
-      console.log(this.$router)
+
+
     },
     methods: {
       submitForm(formName) {
         let self = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(login_api);
-            console.log(this.ruleForm2);
             this.ruleForm2.password = this.$md5(this.ruleForm2.password);
             let loginResult = login_api.login(this.ruleForm2);
             loginResult.then((res) => {
-              console.log(res);
               if (200 == res.retCode) {
                 document.cookie = "loginInfo=" + "true";
                 self.$router.push({name: "adminAreas"});
@@ -101,7 +99,6 @@
 
       /*回车键登录*/
       toLogin(formName) {
-        console.log("回车键登录");
         this.submitForm(formName);
       }
     }

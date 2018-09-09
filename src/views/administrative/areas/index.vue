@@ -1,47 +1,64 @@
 <template>
-    <div>
-      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="1">图表展示</el-menu-item>
-        <el-menu-item index="2"> 表格展示</el-menu-item>
-        <el-menu-item index="3">消息中心</el-menu-item>
-      </el-menu>
+  <div>
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1">图表展示</el-menu-item>
+      <el-menu-item index="2"> 表格展示</el-menu-item>
+      <el-menu-item index="3">消息中心</el-menu-item>
+    </el-menu>
 
-      <adminAreasCharts v-if="'1'==activeIndex"></adminAreasCharts>
-      <adminAreas v-show="'2'==activeIndex"></adminAreas>
+    <adminAreasCharts v-if="'1'==activeIndex"></adminAreasCharts>
+    <adminAreas v-show="'2'==activeIndex"></adminAreas>
 
-    </div>
+  </div>
 
 </template>
 
 <script type="text/ecmascript-6">
-   import adminAreas from "./adminAreas"
-   import adminAreasCharts from "./adminAreasCharts"
+  import adminAreas from "./adminAreas"
+  import adminAreasCharts from "./adminAreasCharts"
+  import {mapGetters} from "vuex"
 
+  export default {
+    name: "index",
+    data() {
+      return {
+        activeIndex: '1',
+      }
+    },
+    mounted() {
 
-    export default {
-        name: "index",
-        data() {
-            return {
-              activeIndex: '1',
-            }
-        },
-        mounted() {
+    },
 
-        },
+    components: {
+      adminAreas,
+      adminAreasCharts,
+    },
 
-        components: {
-          adminAreas,
-          adminAreasCharts,
-        },
+    methods: {
+      handleSelect(key, keyPath) {
+        this.activeIndex = key;
+      }
+    },
+    computed: {
 
-        methods: {
-          handleSelect(key, keyPath) {
-            console.log(key, keyPath);
-            this.activeIndex=key;
-          }
-        },
+      ...mapGetters({
+        leftSideNavCollapse: 'leftSideNavCollapse',
+      })
+    },
+    watch: {
+      leftSideNavCollapse() {
+        let self = this;
+        if ('1' === self.activeIndex) {
+          self.activeIndex = '0';
+          setTimeout(function () {
+            self.activeIndex = '1';
+          }, 200)
+        }
+      }
 
     }
+
+  }
 </script>
 
 <style scoped>

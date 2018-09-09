@@ -35,7 +35,6 @@
     },
     methods: {
       logout() {
-        console.log("退出");
         document.cookie = "loginInfo=false";
         this.$router.push({name: "login"})
       },

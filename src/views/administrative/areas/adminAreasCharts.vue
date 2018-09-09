@@ -1,6 +1,6 @@
 <template>
   <div class="adminAreasCharts">
-    <div id="myChart" :style="{width: '100%', height: '500px'}"></div>
+    <div id="GDPChart" :style="{width: '100%', height: '500px'}"></div>
 
   </div>
 
@@ -8,6 +8,7 @@
 
 <script type="text/ecmascript-6">
   import adminAreas from "../../../api/adminAreas"
+  import {mapGetters} from "vuex"
 
   export default {
     name: "adminAreasCharts",
@@ -34,7 +35,6 @@
         let self = this;
         let totalGDP = adminAreas.findTotalGDPList();
         totalGDP.then((res) => {
-          console.log(res);
           self.GDPList = res.data;
           self.drawLine();
         });
@@ -47,6 +47,11 @@
 
       /*画柱状图*/
       drawLine() {
+        this.cityCategory = [];
+        this.totalGDPList = [];
+        this.ppGDPList = [];
+        this.population = [];
+
         /*抽取相关数据*/
         this.GDPList.map((item) => {
           this.cityCategory.push(item.city_name);
@@ -54,15 +59,11 @@
           this.ppGDPList.push(item.city_gdp_pp);
           this.population.push(item.city_population);
         });
-        console.log(this.cityCategory);
-        console.log(this.totalGDPList);
-        console.log(this.ppGDPList);
-        console.log(this.population);
 
         // 基于准备好的dom，初始化echarts实例
-        let myChart = this.$echarts.init(document.getElementById('myChart'))
+        let GDPChart = this.$echarts.init(document.getElementById('GDPChart'))
         // 绘制图表
-        myChart.setOption({
+        GDPChart.setOption({
           tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -73,7 +74,7 @@
             }
           },
           toolbox: {
-            left:0,
+            left: 0,
             feature: {
               dataView: {show: true, readOnly: false},
               magicType: {show: true, type: ['line', 'bar']},
@@ -156,6 +157,13 @@
         });
       }
     },
+    computed: {
+
+      ...mapGetters({
+        leftSideNavCollapse: 'leftSideNavCollapse',
+      })
+    },
+    watch: {}
   }
 </script>
 
@@ -168,6 +176,9 @@
     background-color: #fff;
     overflow: hidden;
     margin-top: 20px;
+    #GDPChart{
+      margin:0 auto;
+    }
   }
 
 </style>

@@ -188,7 +188,6 @@
                       item.city_population = self.toDecimal(item.city_population);
                       item.city_gdp_total = self.toDecimal(item.city_gdp_total);
                     });*/
-          console.log(self.adminAreasData);
         });
         allCityInfoes.catch((err) => {
           console.log(err);
@@ -198,7 +197,6 @@
 
       /*删除城市信息*/
       deleteCityInfo(row) {
-        console.log(row);
         let self = this;
         this.$confirm('此操作将永久删除, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -209,7 +207,6 @@
           /*确定要删除*/
           let deleteResult = adminAreas.deleteCityInfo(row);
           deleteResult.then((res) => {
-            console.log(res);
             self.$notify({
               title: '成功',
               message: '成功删除一条城市信息！',
@@ -236,7 +233,6 @@
 
       /*编辑城市信息*/
       updateCityInfo(row) {
-        console.log(row);
         this.dialogPara = row;
         this.dialogVisible = true;
         this.dialogFunction = "update";
@@ -272,7 +268,6 @@
 
       /*确认*/
       dialogConfirm() {
-        console.log(this.dialogPara);
         if ("add" === this.dialogFunction) {
           this.confirmAddCityInfo();
         } else if ("update" === this.dialogFunction) {
@@ -285,7 +280,6 @@
         let self = this;
         let addResult = adminAreas.addAnewCityInfo(this.dialogPara);
         addResult.then((res) => {
-          console.log(res);
           self.$notify({
             title: '成功',
             message: '成功添加一条城市信息！',
@@ -308,7 +302,6 @@
         let self = this;
         let updateResult = adminAreas.updateCityInfo(this.dialogPara);
         updateResult.then((res) => {
-          console.log(res);
           self.$notify({
             title: '成功',
             message: '成功编辑一条城市信息！',
