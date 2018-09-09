@@ -71,7 +71,7 @@
         height: 60px;
         line-height: 60px;
         padding-right: 20px;
-        width: calc(100% - 40px);
+        width: calc(100% - 20px);
         background-color: #fff;
       }
       .layout-right-details {
@@ -80,6 +80,7 @@
         width: calc(100% - 40px);
         background-color: #f0f2f5;
         padding: 20px;
+        overflow: hidden;
       }
     }
 
@@ -88,6 +89,7 @@
     }
     .layout-right-collapse {
       width: calc(100% - 60px);
+      overflow: hidden;
     }
   }
 

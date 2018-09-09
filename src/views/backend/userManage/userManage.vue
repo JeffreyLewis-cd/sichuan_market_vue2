@@ -1,8 +1,9 @@
 <template>
   <div class="userManage">
     <div class="userManage-title">
-      <span>用户管理</span>
-      <el-button type="primary" size="small" class="addUser" @click="showAddUserDialog">添加用户</el-button>
+      <h3>用户管理</h3>
+      <el-button type="primary" size="small" class="addUser" @click="showAddUserDialog">
+        <i class="el-icon-plus"></i>&nbsp;&nbsp;添加用户</el-button>
     </div>
 
     <!--所有用户列表-->
@@ -253,15 +254,13 @@
 
 <style scoped lang="less">
   .userManage {
-    background-color: #fff;
-    padding: 20px;
     .userManage-title {
       height: 40px;
-      line-height: 20px;
-      font-size: 18px;
-      .addUser {
-        float: right;
-      }
+      widht:100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
     }
     .userManage-dialog {
       .dialog-row-box {
