@@ -76,8 +76,10 @@
             this.ruleForm2.password = this.$md5(this.ruleForm2.password);
             let loginResult = login_api.login(this.ruleForm2);
             loginResult.then((res) => {
+              console.log(res);
               if (200 == res.retCode) {
                 document.cookie = "loginInfo=" + "true";
+                document.cookie = "token=" + res.data.token;
                 self.$router.push({name: "adminAreas"});
               }
             });

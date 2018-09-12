@@ -27,6 +27,15 @@ function filterNull(o) {
   return o
 }
 
+//读取cookies
+function getCookie(name) {
+  var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+  if (arr = document.cookie.match(reg))
+    return unescape(arr[2]);
+  else
+    return null;
+}
+
 /*
   接口处理函数
   这个函数每个项目都是不一样的，我现在调整的是适用于
@@ -52,7 +61,12 @@ function apiAxios(method, urlPath, params, success, failure) {
     data: method === 'POST' || method === 'PUT' ? params : null,
     params: method === 'GET' || method === 'DELETE' ? params : null,
     // baseURL: root,
-    withCredentials: false
+    withCredentials: false,
+    headers: {
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': getCookie('token'),
+    }
   })
     .then(function (res) {
       if (200 === res.data.retCode) {
