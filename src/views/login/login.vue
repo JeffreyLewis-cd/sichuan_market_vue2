@@ -1,5 +1,5 @@
 <template>
-  <div class="loginPage">
+  <div class="loginPage" :style="loginPageStyle">
     <div class="loginPage-box">
       <h2 class="login-title">四川省消费市场统计平台</h2>
       <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="70px" class="login-ruleForm">
@@ -61,11 +61,16 @@
           password: [
             {validator: validatePassword, trigger: 'blur'}
           ],
-        }
+        },
+        loginPageStyle: {
+          backgroundImage: 'url(' + require('../../assets/image/img01/big-data.jpg') + ')'
+        },
       };
     },
     mounted() {
-
+      /*初始化cookie*/
+      document.cookie = "loginInfo=" + "false";
+      document.cookie = "token=" + "";
 
     },
     methods: {
@@ -76,14 +81,20 @@
             this.ruleForm2.password = this.$md5(this.ruleForm2.password);
             let loginResult = login_api.login(this.ruleForm2);
             loginResult.then((res) => {
+              console.log("成功");
               console.log(res);
-              if (200 == res.retCode) {
-                document.cookie = "loginInfo=" + "true";
-                document.cookie = "token=" + res.data.token;
-                self.$router.push({name: "adminAreas"});
-              }
+              let date = new Date();
+              /*毫秒，30分钟后过期*/
+              let expire = date.setTime(date.getTime() + 30 * 60 * 1000).toLocaleString();
+              let expireTime = ";expires=" + expire;
+              console.log("loginInfo=" + "true" + expireTime);
+
+              document.cookie = "loginInfo=" + "true" + expireTime;
+              document.cookie = "token=" + res.data.token + expireTime;
+              self.$router.push({name: "adminAreas"});
             });
             loginResult.catch((err) => {
+              console.log("失败");
               console.log(err);
             })
 
@@ -119,8 +130,8 @@
     min-width: @minWidth;
     width: 100%;
     background-color: lightblue;
-    background-image: url("../../assets/image/img01/big-data.jpg");
     background-size: cover;
+    /*background: url("~@/assets/image/img01/big-data.jpg") center center no-repeat;*/
     display: flex;
     justify-content: center;
     align-items: center;

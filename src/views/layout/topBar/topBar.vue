@@ -2,7 +2,8 @@
   <div class="topBar">
     <!--导航-->
     <div class="expandOrCollapse" @click="expandOrCollpseControl">
-      <p class="expandOrCollapse-icon" :class="{'expandOrCollapse-icon-expand':leftSideNavCollapse}"></p>
+      <p class="expandOrCollapse-icon" :style="(leftSideNavCollapse)?collapseStyle :expandStyle"
+         :class="{'expandOrCollapse-icon-expand':leftSideNavCollapse}"></p>
     </div>
 
     <div class="topBar-userDropdown">
@@ -17,7 +18,7 @@
       </el-dropdown>
     </div>
     <div class="topBar-userIcon">
-      <p class="user-img"></p>
+      <p class="user-img" :style="userimgStyle"></p>
     </div>
   </div>
 </template>
@@ -31,6 +32,18 @@
     data() {
       return {
         isCollapse: false,
+        collapseStyle: {
+          backgroundImage: 'url(' + require('../../../assets/image/img01/list-collapsed.png') + ')',
+          backgroundSize: '100% 100%'
+        },
+        expandStyle: {
+          backgroundImage: 'url(' + require('../../../assets/image/img01/expand.png') + ')',
+          backgroundSize: '100% 100%'
+        },
+        userimgStyle: {
+          backgroundImage: 'url(' + require('../../../assets/image/img01/user.png') + ')',
+          backgroundSize: '100% 100%'
+        },
       }
     },
     methods: {
@@ -71,12 +84,14 @@
       .expandOrCollapse-icon {
         height: 25px;
         width: 25px;
-        background-image: url("../../../assets/image/img01/list-collapsed.png");
-        background-size: 100% 100%;
+        /*background-image: url("../../../assets/image/img01/list-collapsed.png");*/
+        /*background: url("~@/assets/image/img01/list-collapsed.png") center center no-repeat;*/
+        /*background-size: 100% 100%;*/
       }
       .expandOrCollapse-icon-expand {
-        background-image: url("../../../assets/image/img01/expand.png");
-        background-size: 100% 100%;
+        /*background-image: url("../../../assets/image/img01/expand.png");*/
+        /*background: url("~@/assets/image/img01/expand.png") center center no-repeat;*/
+        /*background-size: 100% 100%;*/
       }
     }
     .expandOrCollapse:hover{
@@ -93,7 +108,8 @@
       .user-img {
         height: 25px;
         width: 25px;
-        background-image: url("../../../assets/image/img01/user.png");
+        /*background-image: url("../../../assets/image/img01/user.png");*/
+        /*background: url("~@/assets/image/img01/user.png") center center no-repeat;*/
         background-size: 100% 100%;
       }
     }
