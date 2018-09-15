@@ -4,6 +4,7 @@ let root = 'http://localhost:8080/SiChuanMarket_SSM';
 
 // 引用axios
 let axios = require('axios');
+import router from '../router'
 
 // 自定义判断元素类型JS
 function toType(obj) {
@@ -54,6 +55,7 @@ function apiAxios(method, urlPath, params, success, failure) {
     return false
   }
   urlPath = root + urlPath;
+  let self = this;
 
   axios({
     method: method,
@@ -75,6 +77,10 @@ function apiAxios(method, urlPath, params, success, failure) {
         }
       } else {
         if (failure) {
+          console.log(res.data.code);
+          if (403 === res.data.code) {
+            router.push({name: "login"}); //后台token过期了，必须重新登录
+          }
           failure(res.data)
         } else {
           window.alert('error: ' + res.data.message)

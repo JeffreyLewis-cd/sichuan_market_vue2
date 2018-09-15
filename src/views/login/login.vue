@@ -74,6 +74,26 @@
 
     },
     methods: {
+      /*字符串转日期*/
+      stringToDate(dateStr, separator) {
+        if (!separator) {
+          separator = "-";
+        }
+        var dateArr = dateStr.split(separator);
+        var year = parseInt(dateArr[0]);
+        var month;
+        //处理月份为04这样的情况
+        if (dateArr[1].indexOf("0") == 0) {
+          month = parseInt(dateArr[1].substring(1));
+        } else {
+          month = parseInt(dateArr[1]);
+        }
+        var day = parseInt(dateArr[2]);
+        var date = new Date(year, month - 1, day);
+        return date;
+      },
+
+
       submitForm(formName) {
         let self = this;
         this.$refs[formName].validate((valid) => {
@@ -83,11 +103,11 @@
             loginResult.then((res) => {
               console.log("成功");
               console.log(res);
-              let date = new Date();
+              let exp = new Date();
+
               /*毫秒，30分钟后过期*/
-              let expire = date.setTime(date.getTime() + 30 * 60 * 1000).toLocaleString();
-              let expireTime = ";expires=" + expire;
-              console.log("loginInfo=" + "true" + expireTime);
+              exp.setTime(exp.getTime() + (2 * 60 * 60 * 1000));
+              let expireTime = "; expires=" + exp.toUTCString();
 
               document.cookie = "loginInfo=" + "true" + expireTime;
               document.cookie = "token=" + res.data.token + expireTime;
