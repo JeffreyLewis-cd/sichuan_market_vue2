@@ -1,6 +1,6 @@
 // 配置API接口地址
-// let root = 'https://localhost:8080/SiChuanMarket_SSM';
-let root = 'http://localhost:8080/SiChuanMarket_SSM';
+// let apiRootURL = 'https://localhost:8080/SiChuanMarket_SSM';
+let apiRootURL = 'http://localhost:8080/SiChuanMarket_SSM';
 
 // 引用axios
 let axios = require('axios');
@@ -54,7 +54,7 @@ function apiAxios(method, urlPath, params, success, failure) {
   if (!urlPath) {
     return false
   }
-  urlPath = root + urlPath;
+  urlPath = apiRootURL + urlPath;
   let self = this;
 
   axios({
@@ -62,7 +62,7 @@ function apiAxios(method, urlPath, params, success, failure) {
     url: urlPath,
     data: method === 'POST' || method === 'PUT' ? params : null,
     params: method === 'GET' || method === 'DELETE' ? params : null,
-    // baseURL: root,
+    // baseURL: apiRootURL,
     withCredentials: false,
     headers: {
       // 'Content-Type': 'application/x-www-form-urlencoded',
@@ -107,5 +107,6 @@ export default {
   },
   delete: function (url, params, success, failure) {
     return apiAxios('DELETE', url, params, success, failure)
-  }
+  },
+  apiRootURL
 }
