@@ -2,7 +2,7 @@
   <div class="topBar">
     <!--导航-->
     <div class="expandOrCollapse" @click="expandOrCollpseControl">
-      <p class="expandOrCollapse-icon" :style="(leftSideNavCollapse)?collapseStyle :expandStyle"
+      <p class="expandOrCollapse-icon" :style="(leftSideNavCollapse)? expandStyle:collapseStyle"
          :class="{'expandOrCollapse-icon-expand':leftSideNavCollapse}"></p>
     </div>
 
@@ -94,7 +94,7 @@
         /*background-size: 100% 100%;*/
       }
     }
-    .expandOrCollapse:hover{
+    .expandOrCollapse:hover {
       background-color: aliceblue;
     }
     .topBar-userIcon {

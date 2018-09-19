@@ -9,51 +9,60 @@
 
 
     <!--<el-row class="tac">-->
-      <!--<el-col :span="24">-->
-        <el-menu
-          default-active="1-1"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-          :collapse="leftSideNavCollapse"
-          background-color="#002140"
-          text-color="#fff"
-          active-text-color="#ffd04b">
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>四川概况</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1" @click.native="linkToMainPage">行政区域</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+    <!--<el-col :span="24">-->
+    <el-menu
+      default-active="1-1"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose"
+      :collapse="leftSideNavCollapse"
+      background-color="#002140"
+      text-color="#fff"
+      active-text-color="#ffd04b">
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>四川概况</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="1-1" @click.native="linkToMainPage">行政区域</el-menu-item>
+          <el-menu-item index="1-2">选项2</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
 
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-
-          <el-menu-item index="3">
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-setting"></i>
-              <span>后台管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="4-1" @click.native="linkToBackend">用户管理</el-menu-item>
-              <el-menu-item index="4-2">选项2</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+      <el-submenu index="2">
+        <template slot="title">
+          <i class="el-icon-menu"></i>
+          <span>衣食住行</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="2-1">服装</el-menu-item>
+          <el-menu-item index="2-2">食品</el-menu-item>
+          <el-menu-item index="2-3">住房</el-menu-item>
+          <el-menu-item index="2-4">交通</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
 
 
-        </el-menu>
-      <!--</el-col>-->
+      <el-menu-item index="3">
+        <i class="el-icon-document"></i>
+        <span slot="title">导航三</span>
+      </el-menu-item>
+
+      <el-submenu index="4">
+        <template slot="title">
+          <i class="el-icon-setting"></i>
+          <span>后台管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="4-1" @click.native="linkToBackend">用户管理</el-menu-item>
+          <el-menu-item index="4-2">选项2</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
+
+    </el-menu>
+    <!--</el-col>-->
     <!--</el-row>-->
   </div>
 </template>
@@ -63,11 +72,8 @@
 
   export default {
     name: "leftSideNav",
-    data(){
-      return{
-
-
-      }
+    data() {
+      return {}
     },
 
     methods: {
@@ -96,9 +102,7 @@
         leftSideNavCollapse: 'leftSideNavCollapse',
       })
     },
-    watch:{
-
-    }
+    watch: {}
   }
 </script>
 
@@ -121,7 +125,6 @@
   }
 
 
-
 </style>
 
 <style lang="less">
@@ -129,6 +132,7 @@
   .el-menu {
     border-right: none !important;
   }
+
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
