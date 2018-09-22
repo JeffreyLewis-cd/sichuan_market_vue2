@@ -172,7 +172,7 @@
   .adminAreasCharts {
     height: 70vh;
     width: 100%;
-    min-height: 500px;
+    min-height: 300px;
     background-color: #fff;
     overflow: hidden;
     margin-top: 20px;

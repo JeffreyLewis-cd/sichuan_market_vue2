@@ -34,10 +34,9 @@
           <span>第一产业</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="2-1">农业</el-menu-item>
-          <el-menu-item index="2-2">林业</el-menu-item>
-          <el-menu-item index="2-3">畜牧业</el-menu-item>
-          <el-menu-item index="2-4">渔业</el-menu-item>
+          <el-menu-item v-for="(item,index) in navRouters.primary" :key="index"
+                        :index="item.index" @click.native="linkToIndustry(item.router)">{{item.name}}
+          </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="3">
@@ -118,6 +117,30 @@
             backgroundImage: "url(" + require("../../../assets/image/img01/setting.png") + ")",
             backgroundSize: "100% 100%",
           },
+        },
+        navRouters: {
+          primary: [
+            {
+              index: "2-1",
+              router: "agriculture",
+              name: "农业"
+            },
+            {
+              index: "2-2",
+              router: "forestry",
+              name: "林业"
+            },
+            {
+              index: "2-3",
+              router: "animal",
+              name: "畜牧业"
+            },
+            {
+              index: "2-4",
+              router: "fisheries",
+              name: "渔业"
+            },
+          ]
         }
       }
     },
@@ -154,6 +177,13 @@
       linkToBackend() {
         this.$router.push({name: "backendUserManage"});
 
+      },
+
+      /*跳转到行业*/
+      linkToIndustry(industry) {
+        console.log("跳转到行业");
+        console.log(industry);
+        this.$router.push({name: industry});
       }
 
     },

@@ -9,6 +9,11 @@ const layout = () => import('@/views/layout/layout.vue');
 const adminAreas = () => import('@/views/administrative/areas/index.vue');
 const adminMap = () => import('@/views/administrative/map/sichuanMap.vue');
 
+/*第一产业*/
+const agriculture = () => import('@/views/primaryIndustry/agriculture/agriculture.vue');
+const forestry = () => import('@/views/primaryIndustry/forestry/forestry.vue');
+const animal = () => import('@/views/primaryIndustry/animal/animal.vue');
+const fisheries = () => import('@/views/primaryIndustry/fisheries/fisheries.vue');
 
 /*后台管理*/
 const userManage = () => import('@/views/backend/userManage/userManage.vue');
@@ -23,6 +28,7 @@ const router = new Router({
       name: 'login',
       component: login
     },
+    /*四川概况*/
     {
       path: '/',
       name: 'mainPage',
@@ -41,7 +47,36 @@ const router = new Router({
       ]
     },
 
+    /*第一产业*/
+    {
+      path: "/primaryIndustry",
+      name: "primaryIndustry",
+      component: layout,
+      children: [
+        {
+          path: "agriculture",
+          name: "agriculture",
+          component: agriculture,
+        },
+        {
+          path: "forestry",
+          name: "forestry",
+          component: forestry,
+        },
+        {
+          path: "animal",
+          name: "animal",
+          component: animal,
+        },
+        {
+          path: "fisheries",
+          name: "fisheries",
+          component: fisheries,
+        },
+      ]
+    },
 
+    /*后台管理*/
     {
       path: "/backend",
       name: "backend",
@@ -53,7 +88,7 @@ const router = new Router({
           component: userManage,
         },
       ]
-    }
+    },
   ]
 });
 

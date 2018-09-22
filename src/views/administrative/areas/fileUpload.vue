@@ -60,7 +60,7 @@
   .fileUpload-component {
     width: calc(100% - 40px);
     height: calc(100vh - 220px);
-    min-height: 500px;
+    min-height: 300px;
     min-width: 1200px;
     overflow: hidden;
     background: #fff;

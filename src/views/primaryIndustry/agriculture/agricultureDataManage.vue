@@ -1,0 +1,191 @@
+<template>
+  <div class="agricultureDataManage">
+    <div class="agrDataBtns">
+      <el-button type="primary" size="small" @click="dialogFormVisible = true">添 &nbsp;&nbsp;&nbsp; 加</el-button>
+    </div>
+
+    <div class="agrDataTable">
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="行业名称"
+          width="180"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="totalOutPut"
+          label="总产值"
+          width="100"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="totalOutPut_unit"
+          label="总产值单位"
+          width="120"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="productionCosts"
+          label="生产成本"
+          width="100"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="productionCosts_unit"
+          label="生产成本单位"
+          width="120"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="profit"
+          label="行业利润"
+          width="100"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="profit_unit"
+          label="行业利润单位"
+          width="120"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="employedPopulation"
+          label="从业人数"
+          width="100"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="employedPopulation_unit"
+          label="从业人数单位"
+          width="120"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="statisticsDate"
+          label="统计日期"
+          width=""
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="topCompanies"
+          label="龙头企业"
+          width=""
+          align="center"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <div class="agrDataDialog">
+      <el-dialog title="添加农业数据" :visible.sync="dialogFormVisible">
+        <div class="agrDataDialog-content">
+          <!--新用户信息-->
+          <div class="dialog-row-box" v-for="(item,index) in agrDataFieldsAndLabels" :key="index">
+            <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
+            <el-input
+              style="width: 50%;"
+              placeholder="请输入..."
+              suffix-icon="el-icon-edit"
+              v-model="item.label">
+            </el-input>
+          </div>
+
+        </div>
+
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false" size="small">确 定</el-button>
+        </div>
+      </el-dialog>
+
+    </div>
+  </div>
+
+</template>
+
+<script type="text/ecmascript-6">
+  export default {
+    name: "agricultureDataManage",
+    data() {
+      return {
+        tableData: [{
+          id: "",
+          name: '农业',
+          totalOutPut: '100',
+          totalOutPut_unit: '亿元',
+          productionCosts: '50',
+          productionCosts_unit: '亿元',
+          profit: '50',
+          profit_unit: '亿元',
+          employedPopulation: '100',
+          employedPopulation_unit: '万人',
+          statisticsDate: '2017',
+          topCompanies: ""
+        },],
+        agrDataFieldsAndLabels: [
+          {
+            field: "city_name",
+            label: "城市名称",
+          },
+
+
+        ],
+        dialogFormVisible: false,
+      }
+    },
+    mounted() {
+
+    },
+
+    components: {},
+
+    methods: {},
+
+  }
+</script>
+
+<style scoped lang="less">
+  .agricultureDataManage {
+    height: 100%;
+    width: 100%;
+    border: 1px solid red;
+    .agrDataBtns {
+      text-align: right;
+      padding-bottom: 10px;
+    }
+    .agrDataDialog {
+      .agrDataDialog-content {
+        .dialog-row-box {
+          margin-bottom: 20px;
+          width: 48%;
+          display: inline-block;
+          .dialog-row-label {
+            float: left;
+            width: 30%;
+            text-align: right;
+            height: 40px;
+            line-height: 40px;
+          }
+
+        }
+
+      }
+    }
+
+  }
+
+</style>

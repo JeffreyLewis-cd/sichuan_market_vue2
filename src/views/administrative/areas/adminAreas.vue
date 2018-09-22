@@ -328,7 +328,7 @@
   .adminAreas-page {
     width: 100%;
     height: calc(100vh - 100px);
-    min-height: 500px;
+    min-height: 300px;
     min-width: 1200px;
     overflow: hidden;
     .adminAreas-operate {
