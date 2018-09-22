@@ -2,9 +2,10 @@
 
   <div class="layout">
     <div class="layout-left " :class="{'layout-left-collapse':leftSideNavCollapse}">
-      <leftSideNav></leftSideNav>
+      <leftSideNav @adjustRightHeight="adjustRightHeightFa" ref="layoutLeft"></leftSideNav>
     </div>
-    <div class="layout-right " :class="{'layout-right-collapse':leftSideNavCollapse}">
+    <div class="layout-right " ref="layoutRight"
+         :class="{'layout-right-collapse':leftSideNavCollapse}">
       <topBar class="layout-right-topbar"></topBar>
       <div class="layout-right-details">
         <router-view></router-view>
@@ -34,7 +35,23 @@
       leftSideNav,
       topBar,
     },
-    methods: {},
+    methods: {
+
+      /*调整页面右边高度*/
+      adjustRightHeightFa(val) {
+        console.log('调整页面右边高度');
+        console.log(val);
+        let newRheight = '';
+        let rightEle = this.$refs.layoutRight;
+        if (document.body.clientHeight < val) {
+          newRheight = val + "px";
+        } else {
+          newRheight = "100vh"
+        }
+        rightEle.style.height = newRheight;
+      }
+
+    },
     computed: {
 
       ...mapGetters({
@@ -57,7 +74,7 @@
     .layout-left {
       height: 100vh;
       min-height: @pageMinheight;
-      width: 15%;
+      width: 200px;
       min-width: 70px;
       background-color: #002140;
       transition: width linear 270ms;
@@ -65,9 +82,9 @@
     .layout-right {
       height: 100vh;
       min-height: @pageMinheight;
-      width: 85%;
-      background-color: gray;
-      transition: width linear 270ms;
+      width: calc(100% - 200px);
+      background-color: #F0F2F5;
+      transition: width linear 270ms, height linear 270ms;
       .layout-right-topbar {
         height: 60px;
         line-height: 60px;

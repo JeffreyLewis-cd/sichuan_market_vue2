@@ -111,7 +111,7 @@
 
               document.cookie = "loginInfo=" + "true" + expireTime;
               document.cookie = "token=" + res.data.token + expireTime;
-              self.$router.push({name: "adminAreas"});
+              self.$router.push({name: "adminMap"});
             });
             loginResult.catch((err) => {
               console.log("失败");

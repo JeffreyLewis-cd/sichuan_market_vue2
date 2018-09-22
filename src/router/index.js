@@ -5,15 +5,24 @@ const login = () => import('@/views/login/login.vue');
 
 const layout = () => import('@/views/layout/layout.vue');
 
-const userManage = () => import('@/views/backend/userManage/userManage.vue');
-
+/*四川概况*/
 const adminAreas = () => import('@/views/administrative/areas/index.vue');
+const adminMap = () => import('@/views/administrative/map/sichuanMap.vue');
+
+
+/*后台管理*/
+const userManage = () => import('@/views/backend/userManage/userManage.vue');
 
 
 Vue.use(Router);
 
 const router = new Router({
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
     {
       path: '/',
       name: 'mainPage',
@@ -24,14 +33,15 @@ const router = new Router({
           name: "adminAreas",
           component: adminAreas,
         },
+        {
+          path: "adminMap",
+          name: "adminMap",
+          component: adminMap,
+        },
       ]
     },
 
-    {
-      path: '/login',
-      name: 'login',
-      component: login
-    },
+
     {
       path: "/backend",
       name: "backend",

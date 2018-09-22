@@ -7,12 +7,12 @@
       <span v-show="!leftSideNavCollapse">四川经济</span>
     </div>
 
-
     <el-menu
       default-active="1-1"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
+      :unique-opened='true'
       :collapse="leftSideNavCollapse"
       background-color="#002140"
       text-color="#fff"
@@ -23,8 +23,8 @@
           <span>四川概况</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-1" @click.native="linkToMainPage">行政区域</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
+          <el-menu-item index="1-1" @click.native="linkToAdminMap">行政区域</el-menu-item>
+          <el-menu-item index="1-2" @click.native="linkToMainPage">GDP(市)</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -74,7 +74,6 @@
       </el-submenu>
 
 
-
       <el-submenu index="5">
         <template slot="title">
           <p class="leftNav-icon" :style="iconStyle.setting"></p>
@@ -98,26 +97,26 @@
     name: "leftSideNav",
     data() {
       return {
-        iconStyle:{
-          overView:{
-            backgroundImage:"url("+require("../../../assets/image/img01/industry_overview.png")+")",
-            backgroundSize:"100% 100%",
+        iconStyle: {
+          overView: {
+            backgroundImage: "url(" + require("../../../assets/image/img01/industry_overview.png") + ")",
+            backgroundSize: "100% 100%",
           },
-          agriculture:{
-            backgroundImage:"url("+require("../../../assets/image/img01/industry_agriculture.png")+")",
-            backgroundSize:"100% 100%",
+          agriculture: {
+            backgroundImage: "url(" + require("../../../assets/image/img01/industry_agriculture.png") + ")",
+            backgroundSize: "100% 100%",
           },
-          industry:{
-            backgroundImage:"url("+require("../../../assets/image/img01/factory.png")+")",
-            backgroundSize:"100% 100%",
+          industry: {
+            backgroundImage: "url(" + require("../../../assets/image/img01/factory.png") + ")",
+            backgroundSize: "100% 100%",
           },
-          service:{
-            backgroundImage:"url("+require("../../../assets/image/img01/iconfont-services.png")+")",
-            backgroundSize:"100% 100%",
+          service: {
+            backgroundImage: "url(" + require("../../../assets/image/img01/iconfont-services.png") + ")",
+            backgroundSize: "100% 100%",
           },
-          setting:{
-            backgroundImage:"url("+require("../../../assets/image/img01/setting.png")+")",
-            backgroundSize:"100% 100%",
+          setting: {
+            backgroundImage: "url(" + require("../../../assets/image/img01/setting.png") + ")",
+            backgroundSize: "100% 100%",
           },
         }
       }
@@ -125,10 +124,25 @@
 
     methods: {
       handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+        this.adjustRheight(); //调整右侧页面高度
       },
       handleClose(key, keyPath) {
-        console.log(key, keyPath);
+        this.adjustRheight(); //调整右侧页面高度
+      },
+
+      /*调整右侧页面高度*/
+      adjustRheight() {
+        let self = this;
+        setTimeout(function () {
+          let leftEle = document.getElementsByClassName("leftSideNav")[0];
+          self.$emit("adjustRightHeight", leftEle.clientHeight);
+        }, 400);
+      },
+
+
+      /*四川地图*/
+      linkToAdminMap() {
+        this.$router.push({name: "adminMap"});
       },
 
       /*跳转到主页*/
@@ -169,12 +183,12 @@
         width: 40px;
       }
     }
-    .el-menu-vertical-demo{
-      .leftNav-icon{
+    .el-menu-vertical-demo {
+      .leftNav-icon {
         height: 18px;
-        width:18px;
+        width: 18px;
         /*background-color: pink;*/
-        margin:0 5px;
+        margin: 0 5px;
         /*background-image: url("../../../assets/image/img01/industry_overview.png");*/
       }
 
@@ -194,7 +208,8 @@
     width: 200px;
     min-height: 400px;
   }
-  .el-submenu__title{
+
+  .el-submenu__title {
     height: 56px;
     line-height: 56px;
     display: flex;
