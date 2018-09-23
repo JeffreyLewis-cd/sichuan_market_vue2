@@ -71,7 +71,8 @@ function apiAxios(method, urlPath, params, success, failure) {
     }
   })
     .then(function (res) {
-      if (200 === res.data.retCode) {
+      /*尝试两种不同的java response模板*/
+      if (200 === res.data.retCode || 200 ===res.data.code) {
         if (success) {
           success(res.data)
         }

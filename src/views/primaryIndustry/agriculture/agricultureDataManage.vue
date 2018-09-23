@@ -99,7 +99,7 @@
               style="width: 50%;"
               placeholder="请输入..."
               suffix-icon="el-icon-edit"
-              v-model="item.label">
+              v-model="argData[item.field]">
             </el-input>
           </div>
 
@@ -108,7 +108,7 @@
 
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false" size="small">确 定</el-button>
+          <el-button type="primary" @click="confirmAgrData" size="small">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -138,12 +138,66 @@
         },],
         agrDataFieldsAndLabels: [
           {
-            field: "city_name",
-            label: "城市名称",
+            field: "name",
+            label: "行业名称",
+          },
+          {
+            field: "totalOutPut",
+            label: "总产值",
+          },
+          {
+            field: "totalOutPut_unit",
+            label: "总产值单位",
+          },
+          {
+            field: "productionCosts",
+            label: "生产成本",
+          },
+          {
+            field: "productionCosts_unit",
+            label: "生产成本单位",
+          },
+          {
+            field: "profit",
+            label: "行业利润",
+          },
+          {
+            field: "profit_unit",
+            label: "行业利润单位",
+          },
+          {
+            field: "employedPopulation",
+            label: "从业人数",
+          },
+          {
+            field: "employedPopulation_unit",
+            label: "从业人数单位",
+          },
+          {
+            field: "statisticsDate",
+            label: "统计日期",
+          },
+          {
+            field: "topCompanies",
+            label: "龙头企业",
           },
 
 
         ],
+        argData: {
+          id: "",
+          name: '农业',
+          totalOutPut: '100',
+          totalOutPut_unit: '亿元',
+          productionCosts: '50',
+          productionCosts_unit: '亿元',
+          profit: '50',
+          profit_unit: '亿元',
+          employedPopulation: '100',
+          employedPopulation_unit: '万人',
+          statisticsDate: '2017',
+          topCompanies: ""
+        },
         dialogFormVisible: false,
       }
     },
@@ -153,7 +207,13 @@
 
     components: {},
 
-    methods: {},
+    methods: {
+      /*确认添加数据*/
+      confirmAgrData(){
+        console.log("确认添加数据");
+        console.log(this.argData);
+      }
+    },
 
   }
 </script>

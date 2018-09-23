@@ -1,51 +1,64 @@
 <template>
   <div class="adminAreas-page">
 
-      <!--城市信息操作按钮-->
-      <div class="adminAreas-operate">
-        <h3 class="title">市级行政区域列表</h3>
-        <el-button type="primary" size="small" class="addCityInfo" @click="showCityInfoDialog">
-          <i class="el-icon-plus"></i>&nbsp;&nbsp;添加城市信息
-        </el-button>
-      </div>
+    <!--城市信息操作按钮-->
+    <div class="adminAreas-operate">
+      <h3 class="title">市级行政区域列表</h3>
+      <el-button type="primary" size="small" class="addCityInfo" @click="showCityInfoDialog">
+        <i class="el-icon-plus"></i>&nbsp;&nbsp;添加城市信息
+      </el-button>
+    </div>
 
-      <!--城市信息列表展示-->
-      <el-table
-        :data="adminAreasData"
-        border
-        :default-sort="{prop: 'city_gdp_total', order: 'descending'}"
-        max-height="500"
-        style="width: 100%;">
-        <el-table-column
-          v-for="(cityItem,index) in cityInfoFieldsAndLabels"
-          :fixed="'city_name'===cityItem.field"
-          :prop="cityItem.field"
-          :label="cityItem.label"
-          :key="index"
-          sortable
-          width="150px"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
-          <template slot-scope="scope">
-            <el-button @click="deleteCityInfo(scope.row)" type="text" size="small">删除</el-button>
-            <el-button @click="updateCityInfo(scope.row)" type="text" size="small">编辑</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+    <!--城市信息列表展示-->
+    <el-table
+      :data="adminAreasData"
+      border
+      :default-sort="{prop: 'city_gdp_total', order: 'descending'}"
+      max-height="500"
+      style="width: 100%;">
+      <el-table-column
+        v-for="(cityItem,index) in cityInfoFieldsAndLabels"
+        :fixed="'city_name'===cityItem.field"
+        :prop="cityItem.field"
+        :label="cityItem.label"
+        :key="index"
+        sortable
+        width="150px"
+        align="center"
+      >
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作"
+        width="100">
+        <template slot-scope="scope">
+          <el-button @click="deleteCityInfo(scope.row)" type="text" size="small">删除</el-button>
+          <el-button @click="updateCityInfo(scope.row)" type="text" size="small">编辑</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-      <!--对话框-添加新用户-->
-      <el-dialog class="cityInfo-dialog"
-                 :title="dialogTitle"
-                 :visible.sync="dialogVisible"
-                 width="70%">
-        <!--新用户信息-->
-        <div class="dialog-row-box" v-for="(item,index) in cityInfoFieldsAndLabels" :key="index">
-          <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
+    <!--对话框-添加新用户-->
+    <el-dialog class="cityInfo-dialog"
+               :title="dialogTitle"
+               :visible.sync="dialogVisible"
+               width="70%">
+      <!--新用户信息-->
+      <div class="dialog-row-box" v-for="(item,index) in cityInfoFieldsAndLabels" :key="index">
+        <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
+
+        <div class="selector" v-if="'city_name'===item.field">
+          <el-select v-model="dialogPara[item.field]" placeholder="请选择" style="width: 50%;" @change="selectCity">
+            <el-option
+              v-for="item in cityList"
+              :key="item.city_code"
+              :label="item.city_name"
+              :value="item.city_name">
+            </el-option>
+          </el-select>
+        </div>
+
+        <div class="txtInput" v-else>
           <el-input
             style="width: 50%;"
             placeholder="请输入..."
@@ -53,13 +66,14 @@
             v-model="dialogPara[item.field]">
           </el-input>
         </div>
+      </div>
 
-        <!--对话框-按钮-->
-        <span slot="footer" class="dialog-footer">
+      <!--对话框-按钮-->
+      <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false" size="small">取 消</el-button>
           <el-button type="primary" @click="dialogConfirm" size="small">确 定</el-button>
       </span>
-      </el-dialog>
+    </el-dialog>
 
 
   </div>
@@ -145,6 +159,24 @@
         dialogPara: {},
         dialogTitle: "添加城市信息",
         dialogFunction: "add",
+        cityList: [],
+        options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+        value: ''
 
       }
     },
@@ -241,9 +273,20 @@
 
       /*展示添加城市信息对话框*/
       showCityInfoDialog() {
+        let self = this;
+        let cityListResponse = adminAreas.findCityList();
+        cityListResponse.then((res) => {
+          self.cityList = res.data.cityList;
+          console.log(self.cityList);
+        }).catch((err) => {
+          console.log(err);
+        });
+
+
         this.dialogPara = {
           city_id: "",
           city_name: "",
+          city_code: "",
           city_gdp_total: 0,
           city_gdp_total_unit: "亿元",
           city_gdp_pp: 0,
@@ -317,6 +360,20 @@
             message: '操作失败！'
           });
         })
+      },
+
+      /*对话框选择城市*/
+      selectCity(selectedCity) {
+        console.log("对话框选择城市");
+        let city_code = '';
+        this.cityList.map((item) => {
+          if (selectedCity === item.city_name) {
+            city_code = item.city_code;
+          }
+        });
+        this.dialogPara.city_code = city_code;
+        console.log(this.dialogPara);
+
       }
 
     },

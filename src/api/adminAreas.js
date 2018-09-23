@@ -102,6 +102,15 @@ export default {
     return apiPromise(apiParam);
   },
 
+  /*获取城市列表*/
+  findCityList: function () {
+    let apiParam = {
+      url: "/cityInfo/findCityList",
+      method: "get",
+      param: ""
+    };
+    return apiPromise(apiParam);
+  },
 }
 
 
