@@ -4,18 +4,21 @@
     <!--城市信息操作按钮-->
     <div class="adminAreas-operate">
       <h3 class="title">市级行政区域列表</h3>
-      <el-button type="primary" size="small" class="addCityInfo" @click="showCityInfoDialog">
-        <i class="el-icon-plus"></i>&nbsp;&nbsp;添加城市信息
-      </el-button>
-      <el-select v-model="activeDate" placeholder="请选择" style="width: 120px;" size="small"
-                 @change="switchDate">
-        <el-option
-          v-for="item in dateList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
+      <div class="operates">
+        <el-button type="primary" size="small" class="addCityInfo" @click="showCityInfoDialog">
+          <i class="el-icon-plus"></i>&nbsp;&nbsp;添加城市信息
+        </el-button>
+        <el-select v-model="activeDate" placeholder="请选择" style="width: 120px;" size="small"
+                   @change="switchDate">
+          <el-option
+            v-for="item in dateList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </div>
+
     </div>
 
     <!--城市信息列表展示-->
@@ -225,7 +228,7 @@
             label: '2008年'
           },
         ],
-        activeDate:"2017年",
+        activeDate: "2017年",
 
       }
     },
@@ -256,17 +259,16 @@
       },
 
       /*切换日期*/
-      switchDate(){
+      switchDate() {
         this.findAllCityInfo(); //获取四川省基本信息
       },
-
 
 
       /*查询所有的城市信息*/
       findAllCityInfo() {
         let self = this;
-        let param={
-          statistic_date:this.activeDate,
+        let param = {
+          statistic_date: this.activeDate,
         };
         let allCityInfoes = adminAreas.findAllCityInfo(param);
         allCityInfoes.then((res) => {
@@ -281,7 +283,7 @@
         });
         allCityInfoes.catch((err) => {
           console.log(err);
-          self.adminAreasData=[]
+          self.adminAreasData = []
         })
 
       },
