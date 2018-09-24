@@ -10,7 +10,7 @@
         border
         style="width: 100%">
         <el-table-column
-          prop="name"
+          prop="industryName"
           label="行业名称"
           width="180"
           align="center"
@@ -45,7 +45,7 @@
         >
         </el-table-column>
         <el-table-column
-          prop="profit"
+          prop="industryProfit"
           label="行业利润"
           width="100"
           align="center"
@@ -82,9 +82,18 @@
         <el-table-column
           prop="topCompanies"
           label="龙头企业"
-          width=""
+          width="300"
           align="center"
         >
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="100">
+          <template slot-scope="scope">
+            <el-button @click="deleteAgrData(scope.row)" type="text" size="small">删除</el-button>
+            <el-button type="text" size="small">编辑</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -97,7 +106,7 @@
             <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
 
             <div v-if="'statisticDate'===item.field">
-              <el-select v-model="argData[item.value]" placeholder="请选择" style="width: 50%;" size="small">
+              <el-select v-model="argData[item.field]" placeholder="请选择" style="width: 50%;" size="small">
                 <el-option
                   v-for="item in dateList"
                   :key="item.value"
@@ -112,7 +121,7 @@
                 style="width: 50%;"
                 placeholder="请输入..."
                 suffix-icon="el-icon-edit"
-                :disabled="'name'===item.field"
+                :disabled="'industryName'===item.field"
                 v-model="argData[item.field]">
               </el-input>
             </div>
@@ -134,18 +143,20 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import industryInfo_api from "../../../api/industryInfo"
+
   export default {
     name: "agricultureDataManage",
     data() {
       return {
         tableData: [{
-          id: "",
-          name: '农业',
+          industryId: "201",
+          industryName: '农业',
           totalOutPut: '100',
           totalOutPut_unit: '亿元',
           productionCosts: '50',
           productionCosts_unit: '亿元',
-          profit: '50',
+          industryProfit: '50',
           profit_unit: '亿元',
           employedPopulation: '100',
           employedPopulation_unit: '万人',
@@ -154,7 +165,7 @@
         },],
         agrDataFieldsAndLabels: [
           {
-            field: "name",
+            field: "industryName",
             label: "行业名称",
           },
           {
@@ -174,7 +185,7 @@
             label: "生产成本单位",
           },
           {
-            field: "profit",
+            field: "industryProfit",
             label: "行业利润",
           },
           {
@@ -201,17 +212,17 @@
 
         ],
         argData: {
-          id: "",
-          name: '农业',
+          industryId: "201",
+          industryName: '农业',
           totalOutPut: '100',
           totalOutPut_unit: '亿元',
           productionCosts: '50',
           productionCosts_unit: '亿元',
-          profit: '50',
+          industryProfit: '50',
           profit_unit: '亿元',
           employedPopulation: '100',
           employedPopulation_unit: '万人',
-          statisticsDate: '2017',
+          statisticDate: '2017年',
           topCompanies: ""
         },
         dialogFormVisible: false,
@@ -271,6 +282,38 @@
       confirmAgrData() {
         console.log("确认添加数据");
         console.log(this.argData);
+        this.addAindustryInfo_vue(); //添加一条行业数据
+
+      },
+
+      /*添加一条行业数据*/
+      addAindustryInfo_vue(){
+        let self=this;
+        let addResult=industryInfo_api.addAindustryInfo(this.argData);
+        addResult.then((res)=>{
+          console.log(res);
+          self.$notify({
+            title: '成功',
+            message: '成功添加一条行业信息！',
+            type: 'success'
+          });
+          self.dialogFormVisible = false;
+
+
+        });
+        addResult.catch((err)=>{
+          console.log(err);
+
+
+        })
+
+      },
+
+      /*删除一条数据*/
+      deleteAgrData(row){
+        console.log('删除一条数据');
+        console.log(row);
+
       }
     },
 
