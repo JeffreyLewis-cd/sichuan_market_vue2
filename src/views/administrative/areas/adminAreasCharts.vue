@@ -1,5 +1,16 @@
 <template>
   <div class="adminAreasCharts">
+    <div class="switchDate">
+      <el-select v-model="activeDate" placeholder="请选择" style="width: 120px;" size="small"
+                 @change="switchDate">
+        <el-option
+          v-for="item in dateList"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    </div>
     <div id="GDPChart" :style="{width: '100%', height: '500px'}"></div>
 
   </div>
@@ -19,6 +30,49 @@
         totalGDPList: [],
         ppGDPList: [],
         population: [],
+        dateList: [
+          {
+            value: '2017年',
+            label: '2017年'
+          },
+          {
+            value: '2016年',
+            label: '2016年'
+          },
+          {
+            value: '2015年',
+            label: '2015年'
+          },
+          {
+            value: '2014年',
+            label: '2014年'
+          },
+          {
+            value: '2013年',
+            label: '2013年'
+          },
+          {
+            value: '2012年',
+            label: '2012年'
+          },
+          {
+            value: '2011年',
+            label: '2011年'
+          },
+          {
+            value: '2010年',
+            label: '2010年'
+          },
+          {
+            value: '2009年',
+            label: '2009年'
+          },
+          {
+            value: '2008年',
+            label: '2008年'
+          },
+        ],
+        activeDate: "2017年",
 
       }
     },
@@ -30,23 +84,34 @@
 
     methods: {
 
+
+      /*切换日期*/
+      switchDate() {
+        this.findTotalGDPList(); //获取四川省基本信息
+      },
+
       /*获取总的GDP数据*/
       findTotalGDPList() {
         let self = this;
-        let totalGDP = adminAreas.findTotalGDPList();
+        let param = {
+          statistic_date: this.activeDate,
+        };
+        let totalGDP = adminAreas.findTotalGDPList(param);
         totalGDP.then((res) => {
           self.GDPList = res.data;
-          self.drawLine();
+          self.drawCharts();
         });
         totalGDP.catch((err) => {
           console.log(err);
+          self.GDPList = [];
+          self.drawCharts();
         })
 
 
       },
 
       /*画柱状图*/
-      drawLine() {
+      drawCharts() {
         this.cityCategory = [];
         this.totalGDPList = [];
         this.ppGDPList = [];
@@ -176,8 +241,13 @@
     background-color: #fff;
     overflow: hidden;
     margin-top: 20px;
-    #GDPChart{
-      margin:0 auto;
+    .switchDate {
+      height: 40px;
+      background-color: #f0f2f5;
+      text-align: right;
+    }
+    #GDPChart {
+      margin: 0 auto;
     }
   }
 

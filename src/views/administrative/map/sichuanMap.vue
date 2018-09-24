@@ -1,6 +1,15 @@
 <template>
   <div class="sichuanMap">
     <div class="sichuanMapBtns">
+      <el-select v-model="activeDate" placeholder="请选择" style="width: 100%;" size="small"
+      @change="switchDate">
+        <el-option
+          v-for="item in dateList"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <el-button class="mapVSbtns" @click.native="showAreasData" :type="'areas'==mapType?'primary':''"
                  size="small">各市面积比较
       </el-button>
@@ -50,6 +59,49 @@
         },
         allCityInfo: {},
         mapType: "areas",
+        dateList: [
+          {
+            value: '2017年',
+            label: '2017年'
+          },
+          {
+            value: '2016年',
+            label: '2016年'
+          },
+          {
+            value: '2015年',
+            label: '2015年'
+          },
+          {
+            value: '2014年',
+            label: '2014年'
+          },
+          {
+            value: '2013年',
+            label: '2013年'
+          },
+          {
+            value: '2012年',
+            label: '2012年'
+          },
+          {
+            value: '2011年',
+            label: '2011年'
+          },
+          {
+            value: '2010年',
+            label: '2010年'
+          },
+          {
+            value: '2009年',
+            label: '2009年'
+          },
+          {
+            value: '2008年',
+            label: '2008年'
+          },
+        ],
+        activeDate:"2017年",
       }
     },
     mounted() {
@@ -126,10 +178,19 @@
 
       },
 
+      /*切换日期*/
+      switchDate(){
+          this.findAllCityInfo(); //获取四川省基本信息
+      },
+
+
       /*获取四川省基本信息*/
       findAllCityInfo() {
         let self = this;
-        let allCityInfoes = adminAreas.findAllCityInfo();
+        let param={
+          statistic_date:this.activeDate,
+        };
+        let allCityInfoes = adminAreas.findAllCityInfo(param);
         allCityInfoes.then((res) => {
 
           console.log(res);
@@ -272,12 +333,13 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      margin-right: 20px;
     }
 
     .sichuanMapBox {
-      height: calc(100% - 80px);
+      height: calc(100% - 100px);
       width: 90%;
-      min-height: 650px;
+      min-height: 600px;
       min-width: 600px;
       margin: 5px 0;
       border: 1px solid #cccccc;

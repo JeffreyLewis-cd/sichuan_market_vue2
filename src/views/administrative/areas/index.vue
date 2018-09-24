@@ -8,7 +8,7 @@
 
     <adminAreasCharts v-if="'1'==activeIndex"></adminAreasCharts>
     <adminAreas v-show="'2'==activeIndex"></adminAreas>
-    <fileUpload  v-show="'3'==activeIndex"></fileUpload>
+    <fileUpload v-show="'3'==activeIndex"></fileUpload>
 
   </div>
 
@@ -65,6 +65,10 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+  .el-menu-demo {
+    height: 40px;
+    line-height: 40px;
+  }
 
 </style>

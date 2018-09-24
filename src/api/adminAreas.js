@@ -50,7 +50,6 @@ let apiPromise = function (apiParam) {
 export default {
 
 
-
   /*添加一条城市信息*/
   addAnewCityInfo: function (reqParam) {
     let apiParam = {
@@ -83,21 +82,21 @@ export default {
 
 
   /*查询所有的城市信息*/
-  findAllCityInfo: function () {
+  findAllCityInfo: function (reqParam) {
     let apiParam = {
       url: "/cityInfo/findAllCityInfo",
       method: "get",
-      param: ""
+      param: reqParam
     };
     return apiPromise(apiParam);
   },
 
   /*查询城市总GDP列表*/
-  findTotalGDPList: function () {
+  findTotalGDPList: function (reqParam) {
     let apiParam = {
       url: "/cityInfo/findTotalGDPList",
       method: "get",
-      param: ""
+      param: reqParam
     };
     return apiPromise(apiParam);
   },
@@ -107,7 +106,7 @@ export default {
     let apiParam = {
       url: "/cityInfo/findCityList",
       method: "get",
-      param: ""
+      param: ''
     };
     return apiPromise(apiParam);
   },

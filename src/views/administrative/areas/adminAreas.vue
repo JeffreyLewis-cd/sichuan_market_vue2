@@ -7,6 +7,15 @@
       <el-button type="primary" size="small" class="addCityInfo" @click="showCityInfoDialog">
         <i class="el-icon-plus"></i>&nbsp;&nbsp;添加城市信息
       </el-button>
+      <el-select v-model="activeDate" placeholder="请选择" style="width: 120px;" size="small"
+                 @change="switchDate">
+        <el-option
+          v-for="item in dateList"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
     </div>
 
     <!--城市信息列表展示-->
@@ -54,6 +63,16 @@
               :key="item.city_code"
               :label="item.city_name"
               :value="item.city_name">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="selector" v-else-if="'statistic_date'===item.field">
+          <el-select v-model="dialogPara[item.field]" placeholder="请选择" style="width: 50%;">
+            <el-option
+              v-for="item in dateList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
             </el-option>
           </el-select>
         </div>
@@ -151,7 +170,11 @@
           {
             field: "city_cars_counts",
             label: "汽车保有量",
-          }
+          },
+          {
+            field: "statistic_date",
+            label: "统计时间",
+          },
 
         ],
         adminAreasData: [],
@@ -160,23 +183,49 @@
         dialogTitle: "添加城市信息",
         dialogFunction: "add",
         cityList: [],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: ''
+        dateList: [
+          {
+            value: '2017年',
+            label: '2017年'
+          },
+          {
+            value: '2016年',
+            label: '2016年'
+          },
+          {
+            value: '2015年',
+            label: '2015年'
+          },
+          {
+            value: '2014年',
+            label: '2014年'
+          },
+          {
+            value: '2013年',
+            label: '2013年'
+          },
+          {
+            value: '2012年',
+            label: '2012年'
+          },
+          {
+            value: '2011年',
+            label: '2011年'
+          },
+          {
+            value: '2010年',
+            label: '2010年'
+          },
+          {
+            value: '2009年',
+            label: '2009年'
+          },
+          {
+            value: '2008年',
+            label: '2008年'
+          },
+        ],
+        activeDate:"2017年",
 
       }
     },
@@ -206,11 +255,20 @@
         return s;
       },
 
+      /*切换日期*/
+      switchDate(){
+        this.findAllCityInfo(); //获取四川省基本信息
+      },
+
+
 
       /*查询所有的城市信息*/
       findAllCityInfo() {
         let self = this;
-        let allCityInfoes = adminAreas.findAllCityInfo();
+        let param={
+          statistic_date:this.activeDate,
+        };
+        let allCityInfoes = adminAreas.findAllCityInfo(param);
         allCityInfoes.then((res) => {
 
           self.adminAreasData = res.data;
@@ -223,6 +281,7 @@
         });
         allCityInfoes.catch((err) => {
           console.log(err);
+          self.adminAreasData=[]
         })
 
       },
@@ -301,7 +360,8 @@
           city_airlines_unit: "条",
           city_train: 0,
           city_train_unit: "",
-          city_cars_counts: 0
+          city_cars_counts: 0,
+          statistic_date: "2017",
 
         };
         this.dialogVisible = true;
