@@ -21,8 +21,6 @@ let apiPromise = function (apiParam) {
 };
 
 
-
-
 export default {
 
 
@@ -30,6 +28,36 @@ export default {
   addAindustryInfo: function (reqParam) {
     let apiParam = {
       url: "/industryInfo/addAindustryInfo",
+      method: "post",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
+
+  /*删除一条行业信息*/
+  deleteAgrData: function (reqParam) {
+    let apiParam = {
+      url: "/industryInfo/deleteAindustryInfo",
+      method: "get",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
+
+  /*修改一条行业信息*/
+  updateAgrData: function (reqParam) {
+    let apiParam = {
+      url: "/industryInfo/updateAindustryInfo",
+      method: "post",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
+
+  /*查询某个行业信息*/
+  findIndustryInfoByCode: function (reqParam) {
+    let apiParam = {
+      url: "/industryInfo/findIndustryInfoByCode",
       method: "post",
       param: reqParam
     };

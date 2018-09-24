@@ -28,7 +28,7 @@
   .agricultureProfile {
     height: 100%;
     width: 100%;
-    border: 1px solid blue;
+    /*border: 1px solid blue;*/
     /*background-color: pink;*/
   }
 

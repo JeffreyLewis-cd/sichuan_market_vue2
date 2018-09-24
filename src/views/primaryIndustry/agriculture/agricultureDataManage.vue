@@ -1,14 +1,25 @@
 <template>
   <div class="agricultureDataManage">
     <div class="agrDataBtns">
-      <el-button type="primary" size="small" @click="dialogFormVisible = true">添 &nbsp;&nbsp;&nbsp; 加</el-button>
+      <el-select v-model="activeDate" placeholder="请选择" style="width: 120px;" size="small"
+                 @change="switchDate">
+        <el-option
+          v-for="item in dateList"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-button type="primary" size="small" @click="showDialog_add">添 &nbsp;&nbsp;&nbsp; 加</el-button>
     </div>
 
     <div class="agrDataTable">
       <el-table
         :data="tableData"
         border
-        style="width: 100%">
+        style="width: 100%"
+        max-height="500"
+      >
         <el-table-column
           prop="industryName"
           label="行业名称"
@@ -73,7 +84,7 @@
         >
         </el-table-column>
         <el-table-column
-          prop="statisticsDate"
+          prop="statisticDate"
           label="统计日期"
           width=""
           align="center"
@@ -91,8 +102,8 @@
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button @click="deleteAgrData(scope.row)" type="text" size="small">删除</el-button>
-            <el-button type="text" size="small">编辑</el-button>
+            <el-button @click="deleteAgrData_vue(scope.row)" type="text" size="small">删除</el-button>
+            <el-button @click="showDialog_update(scope.row)" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -150,17 +161,17 @@
     data() {
       return {
         tableData: [{
-          industryId: "201",
-          industryName: '农业',
-          totalOutPut: '100',
-          totalOutPut_unit: '亿元',
-          productionCosts: '50',
-          productionCosts_unit: '亿元',
-          industryProfit: '50',
-          profit_unit: '亿元',
-          employedPopulation: '100',
-          employedPopulation_unit: '万人',
-          statisticsDate: '2017',
+          industryCode: "",
+          industryName: '',
+          totalOutPut: '',
+          totalOutPut_unit: '',
+          productionCosts: '',
+          productionCosts_unit: '',
+          industryProfit: '',
+          profit_unit: '',
+          employedPopulation: '',
+          employedPopulation_unit: '',
+          statisticsDate: '',
           topCompanies: ""
         },],
         agrDataFieldsAndLabels: [
@@ -211,20 +222,7 @@
 
 
         ],
-        argData: {
-          industryId: "201",
-          industryName: '农业',
-          totalOutPut: '100',
-          totalOutPut_unit: '亿元',
-          productionCosts: '50',
-          productionCosts_unit: '亿元',
-          industryProfit: '50',
-          profit_unit: '亿元',
-          employedPopulation: '100',
-          employedPopulation_unit: '万人',
-          statisticDate: '2017年',
-          topCompanies: ""
-        },
+        argData: {},
         dialogFormVisible: false,
         dateList: [
           {
@@ -269,28 +267,62 @@
           },
         ],
         activeDate: "2017年",
+        dialogState: "add"
       }
     },
     mounted() {
+      this.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
 
     },
 
     components: {},
 
     methods: {
+      /*展示弹窗--添加*/
+      showDialog_add() {
+        this.dialogState = "add";
+        this.dialogFormVisible = true;
+        this.argData = {
+          industryCode: "201",
+          industryName: '农业',
+          totalOutPut: '100',
+          totalOutPut_unit: '亿元',
+          productionCosts: '50',
+          productionCosts_unit: '亿元',
+          industryProfit: '50',
+          profit_unit: '亿元',
+          employedPopulation: '100',
+          employedPopulation_unit: '万人',
+          statisticDate: '2017年',
+          topCompanies: ""
+        }
+      },
+
+      /*展示弹窗--编辑*/
+      showDialog_update(row) {
+        this.dialogState = "update";
+        this.dialogFormVisible = true;
+        this.argData = row;
+      },
+
       /*确认添加数据*/
       confirmAgrData() {
         console.log("确认添加数据");
-        console.log(this.argData);
-        this.addAindustryInfo_vue(); //添加一条行业数据
 
+        if ('add' === this.dialogState) {
+          this.addAindustryInfo_vue(); //添加一条行业数据
+        } else if ("update" === this.dialogState) {
+          this.updateAgrData_vue();  //修改一条行业数据
+        }
       },
 
       /*添加一条行业数据*/
-      addAindustryInfo_vue(){
-        let self=this;
-        let addResult=industryInfo_api.addAindustryInfo(this.argData);
-        addResult.then((res)=>{
+      addAindustryInfo_vue() {
+        let self = this;
+        console.log(this.argData);
+
+        let addResult = industryInfo_api.addAindustryInfo(this.argData);
+        addResult.then((res) => {
           console.log(res);
           self.$notify({
             title: '成功',
@@ -298,10 +330,101 @@
             type: 'success'
           });
           self.dialogFormVisible = false;
+          self.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
+        });
+        addResult.catch((err) => {
+          console.log(err);
+        })
+
+      },
+
+      /*删除一条数据*/
+      deleteAgrData_vue(row) {
+        console.log('删除一条数据');
+        console.log(row);
+        let self = this;
+
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          let param = {
+            industryId: row.industryId
+          };
+          let deleteResult = industryInfo_api.deleteAgrData(param);
+          deleteResult.then((res) => {
+            console.log(res);
+            self.$notify({
+              title: '成功',
+              message: '成功删除一条行业信息！',
+              type: 'success'
+            });
+            self.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
+
+
+          });
+          deleteResult.catch((err) => {
+            console.log(err);
+
+
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
+
+      },
+
+      /*修改一条行业数据*/
+      updateAgrData_vue() {
+        let self = this;
+        let param = this.argData;
+        let updateResult = industryInfo_api.updateAgrData(param);
+        updateResult.then((res) => {
+          console.log(res);
+          self.$notify({
+            title: '成功',
+            message: '成功修改一条行业信息！',
+            type: 'success'
+          });
+          self.dialogFormVisible = false;
+          self.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
 
 
         });
-        addResult.catch((err)=>{
+        updateResult.catch((err) => {
+          console.log(err);
+
+
+        })
+      },
+
+      /*查询某个行业的全部数据*/
+      findIndustryInfoByCode_vue() {
+        let self = this;
+        let param = {
+          industryCode: "201",
+          statisticDate: this.activeDate,
+        };
+        let findResult = industryInfo_api.findIndustryInfoByCode(param);
+        findResult.then((res) => {
+          console.log(res);
+          if (res.data.industryInfo.length > 0) {
+            self.$notify({
+              title: '成功',
+              message: '成功获取行业信息！',
+              type: 'success'
+            });
+          }
+          self.tableData = res.data.industryInfo;
+
+        });
+        findResult.catch((err) => {
           console.log(err);
 
 
@@ -309,12 +432,11 @@
 
       },
 
-      /*删除一条数据*/
-      deleteAgrData(row){
-        console.log('删除一条数据');
-        console.log(row);
-
-      }
+      /*切换日期*/
+      switchDate(val) {
+        this.activeDate = val;
+        this.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
+      },
     },
 
   }
@@ -324,9 +446,8 @@
   .agricultureDataManage {
     height: 100%;
     width: 100%;
-    border: 1px solid red;
     .agrDataBtns {
-      text-align: right;
+      text-align: left;
       padding-bottom: 10px;
     }
     .agrDataDialog {
