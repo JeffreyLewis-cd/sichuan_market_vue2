@@ -72,3 +72,13 @@
   }
 
 </style>
+<style lang="less">
+  .el-menu-demo {
+    .el-menu-item {
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+
+</style>
+

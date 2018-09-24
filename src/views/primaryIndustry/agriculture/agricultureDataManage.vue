@@ -95,12 +95,28 @@
           <!--新用户信息-->
           <div class="dialog-row-box" v-for="(item,index) in agrDataFieldsAndLabels" :key="index">
             <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
-            <el-input
-              style="width: 50%;"
-              placeholder="请输入..."
-              suffix-icon="el-icon-edit"
-              v-model="argData[item.field]">
-            </el-input>
+
+            <div v-if="'statisticDate'===item.field">
+              <el-select v-model="argData[item.value]" placeholder="请选择" style="width: 50%;" size="small">
+                <el-option
+                  v-for="item in dateList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </div>
+
+            <div v-else>
+              <el-input
+                style="width: 50%;"
+                placeholder="请输入..."
+                suffix-icon="el-icon-edit"
+                :disabled="'name'===item.field"
+                v-model="argData[item.field]">
+              </el-input>
+            </div>
+
           </div>
 
         </div>
@@ -174,7 +190,7 @@
             label: "从业人数单位",
           },
           {
-            field: "statisticsDate",
+            field: "statisticDate",
             label: "统计日期",
           },
           {
@@ -199,6 +215,49 @@
           topCompanies: ""
         },
         dialogFormVisible: false,
+        dateList: [
+          {
+            value: '2017年',
+            label: '2017年'
+          },
+          {
+            value: '2016年',
+            label: '2016年'
+          },
+          {
+            value: '2015年',
+            label: '2015年'
+          },
+          {
+            value: '2014年',
+            label: '2014年'
+          },
+          {
+            value: '2013年',
+            label: '2013年'
+          },
+          {
+            value: '2012年',
+            label: '2012年'
+          },
+          {
+            value: '2011年',
+            label: '2011年'
+          },
+          {
+            value: '2010年',
+            label: '2010年'
+          },
+          {
+            value: '2009年',
+            label: '2009年'
+          },
+          {
+            value: '2008年',
+            label: '2008年'
+          },
+        ],
+        activeDate: "2017年",
       }
     },
     mounted() {
@@ -209,7 +268,7 @@
 
     methods: {
       /*确认添加数据*/
-      confirmAgrData(){
+      confirmAgrData() {
         console.log("确认添加数据");
         console.log(this.argData);
       }

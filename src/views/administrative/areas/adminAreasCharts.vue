@@ -11,7 +11,7 @@
         </el-option>
       </el-select>
     </div>
-    <div id="GDPChart" :style="{width: '100%', height: '500px'}"></div>
+    <div id="GDPChart" :style="{width: 'calc(100% - 2px)', height: '500px'}"></div>
 
   </div>
 
@@ -235,12 +235,13 @@
 <style scoped lang="less">
 
   .adminAreasCharts {
-    height: 70vh;
+    height: 75vh;
     width: 100%;
-    min-height: 300px;
-    background-color: #fff;
+    min-height: 360px;
+    background-color: #f0f2f5;
     overflow: hidden;
-    margin-top: 20px;
+    margin-top: 5px;
+
     .switchDate {
       height: 40px;
       background-color: #f0f2f5;
@@ -248,6 +249,10 @@
     }
     #GDPChart {
       margin: 0 auto;
+      border: 1px solid #DCDFE6;
+      border-radius: 5px;
+      overflow: hidden;
+      background-color: #fff;
     }
   }
 
