@@ -1,16 +1,17 @@
 <template>
   <div class="agricultureDataManage">
     <div class="agrDataBtns">
-      <el-select v-model="activeDate" placeholder="请选择" style="width: 120px;" size="small"
-                 @change="switchDate">
-        <el-option
-          v-for="item in dateList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
+      <!--      <el-select v-model="activeDate" placeholder="请选择" style="width: 120px;" size="small"
+                       @change="switchDate">
+              <el-option
+                v-for="item in dateList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>-->
       <el-button type="primary" size="small" @click="showDialog_add">添 &nbsp;&nbsp;&nbsp; 加</el-button>
+      <batchImport class="batchImport-btn"></batchImport>
     </div>
 
     <div class="agrDataTable">
@@ -86,7 +87,8 @@
         <el-table-column
           prop="statisticDate"
           label="统计日期"
-          width=""
+          sortable
+          width="140"
           align="center"
         >
         </el-table-column>
@@ -154,7 +156,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import industryInfo_api from "../../../api/industryInfo"
+  import industryInfo_api from "../../../api/industryInfo";
+  import batchImport from "../../../components/fileUpload/batchImport";
 
   export default {
     name: "agricultureDataManage",
@@ -275,7 +278,9 @@
 
     },
 
-    components: {},
+    components: {
+      batchImport,
+    },
 
     methods: {
       /*展示弹窗--添加*/
@@ -285,13 +290,13 @@
         this.argData = {
           industryCode: "201",
           industryName: '农业',
-          totalOutPut: '100',
+          totalOutPut: '',
           totalOutPut_unit: '亿元',
-          productionCosts: '50',
+          productionCosts: '',
           productionCosts_unit: '亿元',
-          industryProfit: '50',
+          industryProfit: '',
           profit_unit: '亿元',
-          employedPopulation: '100',
+          employedPopulation: '',
           employedPopulation_unit: '万人',
           statisticDate: '2017年',
           topCompanies: ""
@@ -409,7 +414,7 @@
         let self = this;
         let param = {
           industryCode: "201",
-          statisticDate: this.activeDate,
+          // statisticDate: this.activeDate,
         };
         let findResult = industryInfo_api.findIndustryInfoByCode(param);
         findResult.then((res) => {
@@ -449,6 +454,22 @@
     .agrDataBtns {
       text-align: left;
       padding-bottom: 10px;
+      .batchImport-btn {
+        height: 32px;
+        line-height: 32px;
+        width: 120px;
+        float: right;
+        background: #409EFF;
+        border: 1px solid #409EFF;
+        border-radius: 3px;
+        text-align: center;
+        color: #fff;
+        cursor: pointer;
+      }
+      .batchImport-btn:hover {
+        background: #66b1ff;
+        border: 1px solid #66b1ff;
+      }
     }
     .agrDataDialog {
       .agrDataDialog-content {

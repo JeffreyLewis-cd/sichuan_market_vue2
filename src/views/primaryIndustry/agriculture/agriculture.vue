@@ -49,12 +49,12 @@
 
 <style scoped lang="less">
   .agriculture {
-    .agri-tabs{
+    .agri-tabs {
       height: 36px;
       line-height: 36px;
-      width:100%;
+      width: 100%;
     }
-    .agri-content{
+    .agri-content {
       height: calc(100vh - 180px);
       width: calc(100% - 22px);
       border: 1px solid #E5E5E5;
@@ -62,7 +62,7 @@
       background: #fff;
       min-height: 300px;
       min-width: 50px;
-      padding:10px;
+      padding: 10px;
     }
   }
 
