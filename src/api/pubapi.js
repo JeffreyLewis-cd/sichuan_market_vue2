@@ -1,6 +1,6 @@
 // 配置API接口地址
 // let apiRootURL = 'https://localhost:8080/SiChuanMarket_SSM';
-let apiRootURL = 'http://localhost:8080/SiChuanMarket_SSM/';
+let apiRootURL = 'http://localhost:8080/SiChuanMarket_SSM';
 
 // 引用axios
 let axios = require('axios');
@@ -109,5 +109,6 @@ export default {
   delete: function (url, params, success, failure) {
     return apiAxios('DELETE', url, params, success, failure)
   },
-  apiRootURL
+  apiRootURL,
+  getCookie,
 }
