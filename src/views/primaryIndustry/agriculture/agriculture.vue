@@ -7,8 +7,8 @@
         </el-tab-pane>
         <el-tab-pane class="agri-content" label="配置管理" name="second">配置管理22</el-tab-pane>
         <el-tab-pane class="agri-content" label="角色管理" name="third">角色管理33</el-tab-pane>
-        <el-tab-pane class="agri-content" label="管理农业数据" name="agricultureDataManage">
-          <agricultureDataManage></agricultureDataManage>
+        <el-tab-pane class="agri-content" label="管理农业数据" name="industryDataManage">
+          <industryDataManage :industryInfoProp="industryInfoProp"></industryDataManage>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -19,14 +19,18 @@
 
 <script type="text/ecmascript-6">
   import agricultureProfile from "./agricultureProfile"
-  import agricultureDataManage from "./agricultureDataManage"
+  import industryDataManage from "../../../components/industryDataManage/industryDataManage"
 
 
   export default {
     name: "agriculture",
     data() {
       return {
-        activeName: 'agricultureProfile'
+        activeName: 'agricultureProfile',
+        industryInfoProp:{
+          code:"201",
+          name:"农业"
+        }
       }
     },
     mounted() {
@@ -35,12 +39,12 @@
 
     components: {
       agricultureProfile,
-      agricultureDataManage,
+      industryDataManage,
     },
 
     methods: {
       handleClick(tab, event) {
-        console.log(tab, event);
+
       }
     },
 

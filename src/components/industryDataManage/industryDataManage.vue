@@ -1,20 +1,11 @@
 <template>
-  <div class="agricultureDataManage">
-    <div class="agrDataBtns">
-      <!--      <el-select v-model="activeDate" placeholder="请选择" style="width: 120px;" size="small"
-                       @change="switchDate">
-              <el-option
-                v-for="item in dateList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>-->
+  <div class="industryDataManage">
+    <div class="industryDataBtns">
       <el-button type="primary" size="small" @click="showDialog_add">添 &nbsp;&nbsp;&nbsp; 加</el-button>
       <batchImport class="batchImport-btn" @importSuccess="importResult"></batchImport>
     </div>
 
-    <div class="agrDataTable">
+    <div class="industryDataTable">
       <el-table
         :data="tableData"
         border
@@ -111,11 +102,11 @@
       </el-table>
     </div>
 
-    <div class="agrDataDialog">
+    <div class="industryDataDialog">
       <el-dialog title="添加农业数据" :visible.sync="dialogFormVisible">
-        <div class="agrDataDialog-content">
+        <div class="industryDataDialog-content">
           <!--新用户信息-->
-          <div class="dialog-row-box" v-for="(item,index) in agrDataFieldsAndLabels" :key="index">
+          <div class="dialog-row-box" v-for="(item,index) in dataFieldsAndLabels" :key="index">
             <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
 
             <div v-if="'statisticDate'===item.field">
@@ -156,11 +147,12 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import industryInfo_api from "../../../api/industryInfo";
-  import batchImport from "../../../components/fileUpload/batchImport";
+  import industryInfo_api from "../../api/industryInfo";
+  import batchImport from "../fileUpload/batchImport";
 
   export default {
-    name: "agricultureDataManage",
+    name: "industryDataManage",
+    props:['industryInfoProp'],
     data() {
       return {
         tableData: [{
@@ -177,7 +169,7 @@
           statisticsDate: '',
           topCompanies: ""
         },],
-        agrDataFieldsAndLabels: [
+        dataFieldsAndLabels: [
           {
             field: "industryName",
             label: "行业名称",
@@ -288,8 +280,8 @@
         this.dialogState = "add";
         this.dialogFormVisible = true;
         this.argData = {
-          industryCode: "201",
-          industryName: '农业',
+          industryCode: this.industryInfoProp.code,
+          industryName: this.industryInfoProp.name,
           totalOutPut: '',
           totalOutPut_unit: '亿元',
           productionCosts: '',
@@ -406,7 +398,7 @@
       findIndustryInfoByCode_vue() {
         let self = this;
         let param = {
-          industryCode: "201",
+          industryCode: this.industryInfoProp.code,
           // statisticDate: this.activeDate,
         };
         let findResult = industryInfo_api.findIndustryInfoByCode(param);
@@ -448,10 +440,10 @@
 </script>
 
 <style scoped lang="less">
-  .agricultureDataManage {
+  .industryDataManage {
     height: 100%;
     width: 100%;
-    .agrDataBtns {
+    .industryDataBtns {
       text-align: left;
       padding-bottom: 10px;
       .batchImport-btn {
@@ -471,8 +463,8 @@
         border: 1px solid #66b1ff;
       }
     }
-    .agrDataDialog {
-      .agrDataDialog-content {
+    .industryDataDialog {
+      .industryDataDialog-content {
         .dialog-row-box {
           margin-bottom: 20px;
           width: 48%;

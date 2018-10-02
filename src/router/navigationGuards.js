@@ -4,7 +4,6 @@ import router from "./index"
 /*全局路由守卫*/
 
 router.beforeEach((to, from, next) => {
-  console.log("888");
   const nextRoute = ["backendUserManage", "mainPage", "backend"];  //被守卫的页面
   let isLogin = false;
 
@@ -22,7 +21,6 @@ router.beforeEach((to, from, next) => {
 
   /*如果没有登录*/
   if (nextRoute.indexOf(to.name) >= 0 && !isLogin) {
-    console.log("请你登录-55！");
     router.push({path: '/login'});
   } else {
     next();  //关键，正常通关
