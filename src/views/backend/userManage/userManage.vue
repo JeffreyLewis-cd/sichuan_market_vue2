@@ -140,7 +140,7 @@
 
         });
         allUsersPromise.catch((err) => {
-          console.log(err);
+          console.error(err);
         })
 
 
@@ -166,7 +166,7 @@
 
             });
             deleteUserPromise.catch((err) => {
-              console.log(err);
+              console.error(err);
             })
           })
           .catch(() => {
@@ -217,7 +217,7 @@
           self.dialogVisible = false;
         });
         saveNewUserPromise.catch((err) => {
-          console.log(err);
+          console.error(err);
           self.dialogVisible = false;
         })
       },
@@ -244,7 +244,7 @@
 
         });
         updateUserPromise.catch((err) => {
-          console.log(err);
+          console.error(err);
         })
       }
 

@@ -42,6 +42,7 @@
 
       //③创建fileUpload方法用来上传文件Authorization
       fileUpload(e) {
+        let self = this;
         let file = e.target.files[0];
         let param = new FormData(); //创建form对象
         param.append('filename', file);//通过append向form对象添加数据
@@ -56,27 +57,27 @@
             'Authorization': pubapi.getCookie('token'),
           }
         }).then((res) => {
-          console.log("传文件-01");
-          console.log(res);
+          if (200 === res.data.code) {
+            self.$notify({
+              title: '成功',
+              message: '导入成功！',
+              type: 'success'
+            });
+            self.$emit("importSuccess",true);
+          } else {
+            self.$notify.error({
+              title: '错误',
+              message: '导入失败！'
+            });
+            self.$emit("importSuccess",false);
+          }
+
         })
           .catch((err) => {
-            console.log("传文件-02");
-            console.log(err);
+            console.error(err);
+            self.$emit("importSuccess",false);
           })
 
-
-        /*        axios.post(
-                  pubapi.apiRootURL + "/files/batchImport",
-                  param,
-                  {
-                    // 'Content-Type': 'multipart/form-data',
-                    // 'Authorization': pubapi.getCookie('token'),
-                  }
-                ).then((res) => {
-                  console.log(res);
-                }).catch((err) => {
-                  console.log(err);
-                });*/
       },
 
     },

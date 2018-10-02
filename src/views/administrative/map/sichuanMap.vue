@@ -193,13 +193,12 @@
         let allCityInfoes = adminAreas.findAllCityInfo(param);
         allCityInfoes.then((res) => {
 
-          console.log(res);
           self.allCityInfo = res;
           self.showAreasData(); //展示面积数据
 
         });
         allCityInfoes.catch((err) => {
-          console.log(err);
+          console.error(err);
         })
       },
 
@@ -220,7 +219,6 @@
             value: item.city_areas,
           })
         });
-        console.log(this.optionData.mapValue);
         this.mapDisplay()
       },
 
@@ -241,7 +239,6 @@
             value: item.city_gdp_total,
           })
         });
-        console.log(this.optionData.mapValue);
         this.mapDisplay()
 
       },
@@ -263,7 +260,6 @@
             value: item.city_gdp_pp,
           })
         });
-        console.log(this.optionData.mapValue);
         this.mapDisplay()
 
       },
@@ -285,7 +281,6 @@
             value: item.city_population,
           })
         });
-        console.log(this.optionData.mapValue);
         this.mapDisplay()
 
       },
@@ -307,7 +302,6 @@
             value: Math.round(item.city_population / item.city_areas * 10000),
           })
         });
-        console.log(this.optionData.mapValue);
         this.mapDisplay()
 
       },

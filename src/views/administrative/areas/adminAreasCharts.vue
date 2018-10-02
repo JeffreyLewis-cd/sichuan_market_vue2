@@ -102,7 +102,7 @@
           self.drawCharts();
         });
         totalGDP.catch((err) => {
-          console.log(err);
+          console.error(err);
           self.GDPList = [];
           self.drawCharts();
         })

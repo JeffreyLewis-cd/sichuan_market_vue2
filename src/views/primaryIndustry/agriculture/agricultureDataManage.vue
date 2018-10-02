@@ -11,7 +11,7 @@
               </el-option>
             </el-select>-->
       <el-button type="primary" size="small" @click="showDialog_add">添 &nbsp;&nbsp;&nbsp; 加</el-button>
-      <batchImport class="batchImport-btn"></batchImport>
+      <batchImport class="batchImport-btn" @importSuccess="importResult"></batchImport>
     </div>
 
     <div class="agrDataTable">
@@ -312,7 +312,6 @@
 
       /*确认添加数据*/
       confirmAgrData() {
-        console.log("确认添加数据");
 
         if ('add' === this.dialogState) {
           this.addAindustryInfo_vue(); //添加一条行业数据
@@ -324,11 +323,9 @@
       /*添加一条行业数据*/
       addAindustryInfo_vue() {
         let self = this;
-        console.log(this.argData);
 
         let addResult = industryInfo_api.addAindustryInfo(this.argData);
         addResult.then((res) => {
-          console.log(res);
           self.$notify({
             title: '成功',
             message: '成功添加一条行业信息！',
@@ -338,15 +335,13 @@
           self.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
         });
         addResult.catch((err) => {
-          console.log(err);
+          console.error(err);
         })
 
       },
 
       /*删除一条数据*/
       deleteAgrData_vue(row) {
-        console.log('删除一条数据');
-        console.log(row);
         let self = this;
 
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -360,7 +355,6 @@
           };
           let deleteResult = industryInfo_api.deleteAgrData(param);
           deleteResult.then((res) => {
-            console.log(res);
             self.$notify({
               title: '成功',
               message: '成功删除一条行业信息！',
@@ -371,7 +365,7 @@
 
           });
           deleteResult.catch((err) => {
-            console.log(err);
+            console.error(err);
 
 
           })
@@ -391,7 +385,6 @@
         let param = this.argData;
         let updateResult = industryInfo_api.updateAgrData(param);
         updateResult.then((res) => {
-          console.log(res);
           self.$notify({
             title: '成功',
             message: '成功修改一条行业信息！',
@@ -403,7 +396,7 @@
 
         });
         updateResult.catch((err) => {
-          console.log(err);
+          console.error(err);
 
 
         })
@@ -418,7 +411,6 @@
         };
         let findResult = industryInfo_api.findIndustryInfoByCode(param);
         findResult.then((res) => {
-          console.log(res);
           if (res.data.industryInfo.length > 0) {
             self.$notify({
               title: '成功',
@@ -430,7 +422,7 @@
 
         });
         findResult.catch((err) => {
-          console.log(err);
+          console.error(err);
 
 
         })
@@ -442,6 +434,14 @@
         this.activeDate = val;
         this.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
       },
+
+      /*导入数据的结果*/
+      importResult(res) {
+        if (res) {
+          this.findIndustryInfoByCode_vue(); //查询某个行业的全部数据
+        }
+
+      }
     },
 
   }

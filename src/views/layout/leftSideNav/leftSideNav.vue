@@ -181,8 +181,6 @@
 
       /*跳转到行业*/
       linkToIndustry(industry) {
-        console.log("跳转到行业");
-        console.log(industry);
         this.$router.push({name: industry});
       }
 

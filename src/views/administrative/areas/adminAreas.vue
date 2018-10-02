@@ -282,7 +282,7 @@
                     });*/
         });
         allCityInfoes.catch((err) => {
-          console.log(err);
+          console.error(err);
           self.adminAreasData = []
         })
 
@@ -309,7 +309,7 @@
             self.findAllCityInfo();//查询所有的城市信息
           });
           deleteResult.catch((err) => {
-            console.log(err);
+            console.error(err);
             self.$notify.error({
               title: '错误',
               message: '操作失败！'
@@ -338,9 +338,8 @@
         let cityListResponse = adminAreas.findCityList();
         cityListResponse.then((res) => {
           self.cityList = res.data.cityList;
-          console.log(self.cityList);
         }).catch((err) => {
-          console.log(err);
+          console.error(err);
         });
 
 
@@ -394,7 +393,7 @@
           self.findAllCityInfo();//查询所有的城市信息
         });
         addResult.catch((err) => {
-          console.log(err);
+          console.error(err);
           self.$notify.error({
             title: '错误',
             message: '操作失败！'
@@ -416,7 +415,7 @@
           self.findAllCityInfo();//查询所有的城市信息
         });
         updateResult.catch((err) => {
-          console.log(err);
+          console.error(err);
           self.$notify.error({
             title: '错误',
             message: '操作失败！'
@@ -426,7 +425,6 @@
 
       /*对话框选择城市*/
       selectCity(selectedCity) {
-        console.log("对话框选择城市");
         let city_code = '';
         this.cityList.map((item) => {
           if (selectedCity === item.city_name) {
@@ -434,7 +432,6 @@
           }
         });
         this.dialogPara.city_code = city_code;
-        console.log(this.dialogPara);
 
       }
 

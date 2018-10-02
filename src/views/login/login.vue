@@ -101,8 +101,6 @@
             this.ruleForm2.password = this.$md5(this.ruleForm2.password);
             let loginResult = login_api.login(this.ruleForm2);
             loginResult.then((res) => {
-              console.log("成功");
-              console.log(res);
               let exp = new Date();
 
               /*毫秒，30分钟后过期*/
@@ -114,13 +112,12 @@
               self.$router.push({name: "adminMap"});
             });
             loginResult.catch((err) => {
-              console.log("失败");
-              console.log(err);
+              console.error(err);
             })
 
 
           } else {
-            console.log('error submit!!');
+            console.error('error submit!!');
             return false;
           }
         });

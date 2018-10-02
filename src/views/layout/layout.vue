@@ -39,8 +39,6 @@
 
       /*调整页面右边高度*/
       adjustRightHeightFa(val) {
-        console.log('调整页面右边高度');
-        console.log(val);
         let newRheight = '';
         let rightEle = this.$refs.layoutRight;
         if (document.body.clientHeight < val) {
