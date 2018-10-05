@@ -3,7 +3,7 @@
     <div class="forestry-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane class="forestry-content" label="林业概况" name="forestryProfile">
-          <forestryProfile></forestryProfile>
+          <industryProfile></industryProfile>
         </el-tab-pane>
         <el-tab-pane class="forestry-content" label="配置管理" name="second">配置管理22</el-tab-pane>
         <el-tab-pane class="forestry-content" label="角色管理" name="third">角色管理33</el-tab-pane>
@@ -18,7 +18,8 @@
 
 <script type="text/ecmascript-6">
   import forestryProfile from "./forestryProfile"
-  import industryDataManage from "../../../components/industryDataManage/industryDataManage"
+  import industryDataManage from "@/components/industryDataManage/industryDataManage"
+  import industryProfile from "@/components/industryDataManage/industryProfile"
 
 
   export default {
@@ -38,7 +39,8 @@
 
     components: {
       forestryProfile,
-      industryDataManage
+      industryDataManage,
+      industryProfile
     },
 
     methods: {

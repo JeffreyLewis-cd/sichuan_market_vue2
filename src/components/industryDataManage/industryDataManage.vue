@@ -152,7 +152,7 @@
 
   export default {
     name: "industryDataManage",
-    props:['industryInfoProp'],
+    props: ['industryInfoProp'],
     data() {
       return {
         tableData: [{
@@ -399,14 +399,13 @@
         let self = this;
         let param = {
           industryCode: this.industryInfoProp.code,
-          // statisticDate: this.activeDate,
         };
         let findResult = industryInfo_api.findIndustryInfoByCode(param);
         findResult.then((res) => {
           if (res.data.industryInfo.length > 0) {
             self.$notify({
               title: '成功',
-              message: '成功获取行业信息！',
+              message: '成功获取_' + self.industryInfoProp.name + '_信息！',
               type: 'success'
             });
           }
@@ -418,7 +417,6 @@
 
 
         })
-
       },
 
       /*切换日期*/
