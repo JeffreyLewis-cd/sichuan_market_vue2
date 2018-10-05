@@ -5,11 +5,13 @@
         <el-tab-pane class="forestry-content" label="林业概况" name="forestryProfile">
           <industryProfile></industryProfile>
         </el-tab-pane>
-        <el-tab-pane class="forestry-content" label="配置管理" name="second">配置管理22</el-tab-pane>
-        <el-tab-pane class="forestry-content" label="角色管理" name="third">角色管理33</el-tab-pane>
+
         <el-tab-pane class="forestry-content" label="管理林业数据" name="industryDataManage">
           <industryDataManage :industryInfoProp="industryInfoProp"></industryDataManage>
         </el-tab-pane>
+
+        <el-tab-pane class="forestry-content" label="配置管理" name="second">配置管理22</el-tab-pane>
+        <el-tab-pane class="forestry-content" label="角色管理" name="third">角色管理33</el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -17,7 +19,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import forestryProfile from "./forestryProfile"
   import industryDataManage from "@/components/industryDataManage/industryDataManage"
   import industryProfile from "@/components/industryDataManage/industryProfile"
 
@@ -38,7 +39,6 @@
     },
 
     components: {
-      forestryProfile,
       industryDataManage,
       industryProfile
     },

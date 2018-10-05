@@ -403,13 +403,15 @@
         let findResult = industryInfo_api.findIndustryInfoByCode(param);
         findResult.then((res) => {
           if (res.data.industryInfo.length > 0) {
-            self.$notify({
-              title: '成功',
-              message: '成功获取_' + self.industryInfoProp.name + '_信息！',
-              type: 'success'
-            });
+            /*            self.$notify({
+                          title: '成功',
+                          message: '成功获取_' + self.industryInfoProp.name + '_信息！',
+                          type: 'success'
+                        });*/
+
+            self.tableData = res.data.industryInfo;
           }
-          self.tableData = res.data.industryInfo;
+
 
         });
         findResult.catch((err) => {

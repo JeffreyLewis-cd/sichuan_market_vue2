@@ -1,6 +1,6 @@
 <template>
   <div class="industryProfile">
-    <div id="industryProfile" ref="industryProfile" class="industryProfileBox"></div>
+    <div id="industryProfile" ref="industryProfile" class="industryProfileBox" v-if="industryProfileShow"></div>
   </div>
 
 </template>
@@ -9,6 +9,7 @@
   import industryInfo_api from "../../api/industryInfo";
 
   var echarts = require('echarts');
+  import {mapGetters} from 'vuex'
 
 
   export default {
@@ -57,6 +58,8 @@
 
         },
         dataCount: 0,
+        industryProfileShow: true,
+        myChart_line: null,
 
 
       }
@@ -81,9 +84,9 @@
       /*画折线图*/
       drawLineChart() {
         let self = this;
-        let myChart = echarts.init(this.$refs.industryProfile); //这里是为了获得容器所在位置
-        window.onresize = myChart.resize;
-        myChart.setOption({ // 进行相关配置
+        let myChart_line = echarts.init(this.$refs.industryProfile); //这里是为了获得容器所在位置
+        window.onresize = myChart_line.resize;
+        myChart_line.setOption({ // 进行相关配置
           title: {
             text: '四川省第一产业统计折线图'
           },
@@ -119,6 +122,7 @@
           ],
           yAxis: [
             {
+              name: "单位（亿元）",
               type: 'value'
             }
           ],
@@ -205,14 +209,32 @@
     watch: {
       dataCount() {
         if (this.dataCount === this.primaryIndustry.length) {
-          this.$notify({
+/*          this.$notify({
             title: '成功',
             message: '成功获取第一产业信息！',
             type: 'success'
-          });
+          });*/
           this.drawLineChart();  //所有数据加载以后，才开始画折线图
         }
+      },
+      leftSideNavCollapse() {
+        let self = this;
+        this.industryProfileShow = false;
+        setTimeout(function () {
+          self.industryProfileShow = true;
+        }, 60);
+
+        setTimeout(function () {
+          self.drawLineChart();  //刷新折线图
+        }, 360)
+
       }
+    },
+    computed: {
+
+      ...mapGetters({
+        leftSideNavCollapse: 'leftSideNavCollapse',
+      })
     }
 
   }
@@ -222,11 +244,9 @@
   .industryProfile {
     width: 100%;
     min-height: 500px;
-    border: 1px solid red;
     .industryProfileBox {
       width: 100%;
       height: 500px;
-      border: 1px solid blue;
     }
   }
 

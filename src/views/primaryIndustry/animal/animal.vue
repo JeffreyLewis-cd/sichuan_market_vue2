@@ -3,14 +3,15 @@
     <div class="animal-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane class="animal-content" label="畜牧业概况" name="animalProfile">
-          <!--<agricultureProfile></agricultureProfile>-->
           <industryProfile></industryProfile>
         </el-tab-pane>
-        <el-tab-pane class="animal-content" label="配置管理" name="second">配置管理22</el-tab-pane>
-        <el-tab-pane class="animal-content" label="角色管理" name="third">角色管理33</el-tab-pane>
+
         <el-tab-pane class="animal-content" label="管理畜牧业数据" name="industryDataManage">
           <industryDataManage :industryInfoProp="industryInfoProp"></industryDataManage>
         </el-tab-pane>
+
+        <el-tab-pane class="animal-content" label="配置管理" name="second">配置管理22</el-tab-pane>
+        <el-tab-pane class="animal-content" label="角色管理" name="third">角色管理33</el-tab-pane>
       </el-tabs>
     </div>
 

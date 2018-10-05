@@ -5,11 +5,12 @@
         <el-tab-pane class="agri-content" label="农业概况" name="agricultureProfile">
           <industryProfile></industryProfile>
         </el-tab-pane>
-        <el-tab-pane class="agri-content" label="配置管理" name="second">配置管理22</el-tab-pane>
-        <el-tab-pane class="agri-content" label="角色管理" name="third">角色管理33</el-tab-pane>
+
         <el-tab-pane class="agri-content" label="管理农业数据" name="industryDataManage">
           <industryDataManage :industryInfoProp="industryInfoProp"></industryDataManage>
         </el-tab-pane>
+        <el-tab-pane class="agri-content" label="配置管理" name="second">配置管理22</el-tab-pane>
+        <el-tab-pane class="agri-content" label="角色管理" name="third">角色管理33</el-tab-pane>
       </el-tabs>
     </div>
 
@@ -18,7 +19,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import agricultureProfile from "./agricultureProfile"
   import industryDataManage from "@/components/industryDataManage/industryDataManage"
   import industryProfile from "@/components/industryDataManage/industryProfile"
 
@@ -39,7 +39,6 @@
     },
 
     components: {
-      agricultureProfile,
       industryDataManage,
       industryProfile,
     },
