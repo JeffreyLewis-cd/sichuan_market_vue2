@@ -15,6 +15,10 @@ const forestry = () => import('@/views/primaryIndustry/forestry/forestry.vue');
 const animal = () => import('@/views/primaryIndustry/animal/animal.vue');
 const fisheries = () => import('@/views/primaryIndustry/fisheries/fisheries.vue');
 
+/*第二产业*/
+const industry = () => import('@/views/secondaryIndustry/industry/industry.vue');
+const construction = () => import('@/views/secondaryIndustry/construction/construction.vue');
+
 /*后台管理*/
 const userManage = () => import('@/views/backend/userManage/userManage.vue');
 
@@ -73,6 +77,26 @@ const router = new Router({
           name: "fisheries",
           component: fisheries,
         },
+      ]
+    },
+
+    /*第二产业*/
+    {
+      path: "/secondaryIndustry",
+      name: "secondaryIndustry",
+      component: layout,
+      children: [
+        {
+          path: "industry",
+          name: "industry",
+          component: industry,
+        },
+        {
+          path: "construction",
+          name: "construction",
+          component: construction,
+        },
+
       ]
     },
 

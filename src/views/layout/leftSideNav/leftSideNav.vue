@@ -45,10 +45,9 @@
           <span>第二产业</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="3-1">采矿业</el-menu-item>
-          <el-menu-item index="3-2">制造业</el-menu-item>
-          <el-menu-item index="3-3">水电热燃供应</el-menu-item>
-          <el-menu-item index="3-4">建筑业</el-menu-item>
+          <el-menu-item v-for="(item,index) in navRouters.secondary" :key="index"
+                        :index="item.index" @click.native="linkToIndustry(item.router)">{{item.name}}
+          </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="4">
@@ -57,18 +56,13 @@
           <span>第三产业</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="4-1">批发和零售业</el-menu-item>
-          <el-menu-item index="4-2">交通运输、仓储和邮政业</el-menu-item>
+          <el-menu-item index="4-1">交通运输、仓储和邮政业</el-menu-item>
+          <el-menu-item index="4-2">批发和零售业</el-menu-item>
           <el-menu-item index="4-3">住宿和餐饮业</el-menu-item>
-          <el-menu-item index="4-4">信息软件</el-menu-item>
-          <el-menu-item index="4-5">金融业</el-menu-item>
-          <el-menu-item index="4-6">房地产业</el-menu-item>
-          <el-menu-item index="4-7">科学研究和技术</el-menu-item>
-          <el-menu-item index="4-8">居民服务</el-menu-item>
-          <el-menu-item index="4-9">教育</el-menu-item>
-          <el-menu-item index="4-10">卫生和社会工作</el-menu-item>
-          <el-menu-item index="4-11">文化、体育和娱乐业</el-menu-item>
-          <el-menu-item index="4-12">公共管理、社会保障</el-menu-item>
+          <el-menu-item index="4-4">金融业</el-menu-item>
+          <el-menu-item index="4-5">房地产业</el-menu-item>
+          <el-menu-item index="4-6">其他</el-menu-item>
+
         </el-menu-item-group>
       </el-submenu>
 
@@ -140,7 +134,19 @@
               router: "fisheries",
               name: "渔业"
             },
-          ]
+          ],
+          secondary: [
+            {
+              index: "3-1",
+              router: "industry",
+              name: "工业"
+            },
+            {
+              index: "3-2",
+              router: "construction",
+              name: "建筑业"
+            },
+          ],
         }
       }
     },

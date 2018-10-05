@@ -3,7 +3,7 @@
     <div class="fisheries-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane class="fisheries-content" label="渔业概况" name="fisheriesProfile">
-          <industryProfile></industryProfile>
+          <primaryProfile></primaryProfile>
         </el-tab-pane>
 
         <el-tab-pane class="fisheries-content" label="管理渔业数据" name="industryDataManage">
@@ -20,9 +20,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  // import agricultureProfile from "./agricultureProfile"
   import industryDataManage from "@/components/industryDataManage/industryDataManage"
-  import industryProfile from "@/components/industryDataManage/industryProfile"
+  import primaryProfile from "@/components/industryDataManage/primaryProfile"
 
 
   export default {
@@ -41,9 +40,8 @@
     },
 
     components: {
-      // agricultureProfile,
       industryDataManage,
-      industryProfile,
+      primaryProfile,
     },
 
     methods: {

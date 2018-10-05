@@ -1,6 +1,6 @@
 <template>
-  <div class="industryProfile">
-    <div id="industryProfile" ref="industryProfile" class="industryProfileBox" v-if="industryProfileShow"></div>
+  <div class="secondaryProfile">
+    <div id="secondaryProfile" ref="secondaryProfile" class="secondaryProfileBox" v-if="secondaryProfileShow"></div>
   </div>
 
 </template>
@@ -13,52 +13,34 @@
 
 
   export default {
-    name: "industryProfile",
+    name: "secondaryProfile",
     data() {
       return {
         primaryIndustry: [
           {
-            code: "201",
-            name: "农业"
+            code: "208",
+            name: "建筑业"
           },
           {
-            code: "202",
-            name: "林业"
-          },
-          {
-            code: "203",
-            name: "畜牧业"
-          },
-          {
-            code: "204",
-            name: "渔业"
-          },
+            code: "221",
+            name: "工业"
+          }
         ],
         industryData: {
-          '201': {
-            name: "农业",
+          '208': {
+            name: "建筑业",
             xAxisData: [],
             seriesData: [],
           },
-          '202': {
-            name: "林业",
+          '221': {
+            name: "工业",
             xAxisData: [],
             seriesData: [],
-          },
-          '203': {
-            name: "畜牧业",
-            xAxisData: [],
-            seriesData: [],
-          },
-          '204': {
-            name: "渔业",
-            xAxisData: [],
-            seriesData: [],
-          },
+          }
 
         },
         dataCount: 0,
-        industryProfileShow: true,
+        secondaryProfileShow: true,
         myChart_line: null,
 
 
@@ -84,11 +66,11 @@
       /*画折线图*/
       drawLineChart() {
         let self = this;
-        let myChart_line = echarts.init(this.$refs.industryProfile); //这里是为了获得容器所在位置
+        let myChart_line = echarts.init(this.$refs.secondaryProfile); //这里是为了获得容器所在位置
         window.onresize = myChart_line.resize;
         myChart_line.setOption({ // 进行相关配置
           title: {
-            text: '四川省第一产业统计折线图'
+            text: '四川省第二产业统计折线图'
           },
           tooltip: {
             trigger: 'axis',
@@ -100,7 +82,7 @@
             }
           },
           legend: {
-            data: ['农业', '林业', '畜牧业', '渔业']
+            data: ['建筑业', '工业']
           },
           toolbox: {
             feature: {
@@ -117,7 +99,7 @@
             {
               type: 'category',
               boundaryGap: false,
-              data: self.industryData[201].xAxisData
+              data: self.industryData[208].xAxisData
             }
           ],
           yAxis: [
@@ -128,32 +110,18 @@
           ],
           series: [
             {
-              name: '农业',
+              name: '建筑业',
               type: 'line',
               stack: '总量',
               areaStyle: {},
-              data: self.industryData[201].seriesData
+              data: self.industryData[208].seriesData
             },
             {
-              name: '林业',
+              name: '工业',
               type: 'line',
               stack: '总量',
               areaStyle: {},
-              data: self.industryData[202].seriesData
-            },
-            {
-              name: '畜牧业',
-              type: 'line',
-              stack: '总量',
-              areaStyle: {},
-              data: self.industryData[203].seriesData
-            },
-            {
-              name: '渔业',
-              type: 'line',
-              stack: '总量',
-              areaStyle: {normal: {}},
-              data: self.industryData[204].seriesData
+              data: self.industryData[221].seriesData
             }
           ]
         });
@@ -209,19 +177,19 @@
     watch: {
       dataCount() {
         if (this.dataCount === this.primaryIndustry.length) {
-/*          this.$notify({
-            title: '成功',
-            message: '成功获取第一产业信息！',
-            type: 'success'
-          });*/
+          /*          this.$notify({
+                      title: '成功',
+                      message: '成功获取第一产业信息！',
+                      type: 'success'
+                    });*/
           this.drawLineChart();  //所有数据加载以后，才开始画折线图
         }
       },
       leftSideNavCollapse() {
         let self = this;
-        this.industryProfileShow = false;
+        this.secondaryProfileShow = false;
         setTimeout(function () {
-          self.industryProfileShow = true;
+          self.secondaryProfileShow = true;
         }, 60);
 
         setTimeout(function () {
@@ -241,12 +209,13 @@
 </script>
 
 <style scoped lang="less">
-  .industryProfile {
+  .secondaryProfile {
     width: 100%;
     min-height: 500px;
-    .industryProfileBox {
+    .secondaryProfileBox {
       width: 100%;
       height: 500px;
+      min-width: 1000px;
     }
   }
 

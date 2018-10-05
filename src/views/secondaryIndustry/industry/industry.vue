@@ -1,16 +1,15 @@
 <template>
-  <div class="agriculture">
-    <div class="agri-tabs">
+  <div class="industry">
+    <div class="industry-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane class="agri-content" label="农业概况" name="agricultureProfile">
-          <primaryProfile></primaryProfile>
+        <el-tab-pane class="industry-content" label="工业概况" name="secondaryProfile">
+          <secondaryProfile></secondaryProfile>
         </el-tab-pane>
-
-        <el-tab-pane class="agri-content" label="管理农业数据" name="industryDataManage">
+        <el-tab-pane class="industry-content" label="管理工业数据" name="industryDataManage">
           <industryDataManage :industryInfoProp="industryInfoProp"></industryDataManage>
         </el-tab-pane>
-        <el-tab-pane class="agri-content" label="配置管理" name="second">配置管理22</el-tab-pane>
-        <el-tab-pane class="agri-content" label="角色管理" name="third">角色管理33</el-tab-pane>
+        <el-tab-pane class="industry-content" label="配置管理" name="second">配置管理22</el-tab-pane>
+        <el-tab-pane class="industry-content" label="角色管理" name="third">角色管理33</el-tab-pane>
       </el-tabs>
     </div>
 
@@ -20,17 +19,17 @@
 
 <script type="text/ecmascript-6">
   import industryDataManage from "@/components/industryDataManage/industryDataManage"
-  import primaryProfile from "@/components/industryDataManage/primaryProfile"
+  import secondaryProfile from "@/components/industryDataManage/secondaryProfile"
 
 
   export default {
-    name: "agriculture",
+    name: "industry",
     data() {
       return {
-        activeName: 'agricultureProfile',
-        industryInfoProp:{
-          code:"201",
-          name:"农业"
+        activeName: 'secondaryProfile',
+        industryInfoProp: {
+          code: "221",
+          name: "工业"
         }
       }
     },
@@ -40,7 +39,7 @@
 
     components: {
       industryDataManage,
-      primaryProfile,
+      secondaryProfile,
     },
 
     methods: {
@@ -53,13 +52,13 @@
 </script>
 
 <style scoped lang="less">
-  .agriculture {
-    .agri-tabs {
+  .industry {
+    .industry-tabs {
       height: 36px;
       line-height: 36px;
       width: 100%;
     }
-    .agri-content {
+    .industry-content {
       height: calc(100vh - 180px);
       width: calc(100% - 22px);
       border: 1px solid #E5E5E5;
