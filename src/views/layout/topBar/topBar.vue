@@ -9,7 +9,7 @@
     <div class="topBar-userDropdown">
       <el-dropdown>
           <span class="el-dropdown-link">
-            {{loggerName}}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{loginName}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>个人信息</el-dropdown-item>
@@ -45,7 +45,7 @@
           backgroundImage: 'url(' + require('../../../assets/image/img01/user.png') + ')',
           backgroundSize: '100% 100%'
         },
-        loggerName:pubapi.getCookie("loggerName"),
+        loginName:pubapi.getCookie("loginName"),
       }
     },
     mounted() {
