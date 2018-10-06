@@ -19,6 +19,18 @@ const fisheries = () => import('@/views/primaryIndustry/fisheries/fisheries.vue'
 const industry = () => import('@/views/secondaryIndustry/industry/industry.vue');
 const construction = () => import('@/views/secondaryIndustry/construction/construction.vue');
 
+
+/*第三产业*/
+const transportation = () => import('@/views/thirdIndustry/transportation/transportation.vue');
+const wholeSale = () => import('@/views/thirdIndustry/wholeSale/wholeSale.vue');
+const hotel = () => import('@/views/thirdIndustry/hotel/hotel.vue');
+const finance = () => import('@/views/thirdIndustry/finance/finance.vue');
+const realEstate = () => import('@/views/thirdIndustry/realEstate/realEstate.vue');
+const other = () => import('@/views/thirdIndustry/other/other.vue');
+
+
+
+
 /*后台管理*/
 const userManage = () => import('@/views/backend/userManage/userManage.vue');
 
@@ -99,6 +111,50 @@ const router = new Router({
 
       ]
     },
+
+
+    /*第三产业*/
+    {
+      path: "/thirdIndustry",
+      name: "thirdIndustry",
+      component: layout,
+      children: [
+        {
+          path: "transportation",
+          name: "transportation",
+          component: transportation,
+        },
+        {
+          path: "wholeSale",
+          name: "wholeSale",
+          component: wholeSale,
+        },
+        {
+          path: "hotel",
+          name: "hotel",
+          component: hotel,
+        },
+        {
+          path: "finance",
+          name: "finance",
+          component: finance,
+        },
+        {
+          path: "realEstate",
+          name: "realEstate",
+          component: realEstate,
+        },
+        {
+          path: "other",
+          name: "other",
+          component: other,
+        },
+
+
+      ]
+    },
+
+
 
     /*后台管理*/
     {

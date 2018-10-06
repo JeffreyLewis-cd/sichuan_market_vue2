@@ -220,52 +220,25 @@
         argData: {},
         dialogFormVisible: false,
         dateList: [
-          {
-            value: '2017年',
-            label: '2017年'
-          },
-          {
-            value: '2016年',
-            label: '2016年'
-          },
-          {
-            value: '2015年',
-            label: '2015年'
-          },
-          {
-            value: '2014年',
-            label: '2014年'
-          },
-          {
-            value: '2013年',
-            label: '2013年'
-          },
-          {
-            value: '2012年',
-            label: '2012年'
-          },
-          {
-            value: '2011年',
-            label: '2011年'
-          },
-          {
-            value: '2010年',
-            label: '2010年'
-          },
-          {
-            value: '2009年',
-            label: '2009年'
-          },
-          {
-            value: '2008年',
-            label: '2008年'
-          },
+          /*          {
+                      value: '2017年',
+                      label: '2017年'
+                    },*/
+
         ],
         activeDate: "2017年",
         dialogState: "add"
       }
     },
     mounted() {
+      this.dateList = [];
+      for (let key = 1978; key < 2018; key++) {
+        this.dateList.push({
+          value: key + "年",
+          label: key + "年",
+        })
+      }
+
       this.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
 
     },

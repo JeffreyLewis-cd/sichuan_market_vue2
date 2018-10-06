@@ -56,12 +56,9 @@
           <span>第三产业</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="4-1">交通运输、仓储和邮政业</el-menu-item>
-          <el-menu-item index="4-2">批发和零售业</el-menu-item>
-          <el-menu-item index="4-3">住宿和餐饮业</el-menu-item>
-          <el-menu-item index="4-4">金融业</el-menu-item>
-          <el-menu-item index="4-5">房地产业</el-menu-item>
-          <el-menu-item index="4-6">其他</el-menu-item>
+          <el-menu-item v-for="(item,index) in navRouters.third" :key="index"
+                        :index="item.index" @click.native="linkToIndustry(item.router)">{{item.name}}
+          </el-menu-item>
 
         </el-menu-item-group>
       </el-submenu>
@@ -145,6 +142,38 @@
               index: "3-2",
               router: "construction",
               name: "建筑业"
+            },
+          ],
+          third: [
+            {
+              index: "4-1",
+              router: "transportation",
+              name: "交通、邮政业"
+            },
+            {
+              index: "4-2",
+              router: "wholeSale",
+              name: "批发、零售业"
+            },
+            {
+              index: "4-3",
+              router: "hotel",
+              name: "住宿、餐饮业"
+            },
+            {
+              index: "4-4",
+              router: "finance",
+              name: "金融业"
+            },
+            {
+              index: "4-5",
+              router: "realEstate",
+              name: "房地产业"
+            },
+            {
+              index: "4-6",
+              router: "other",
+              name: "其他"
             },
           ],
         }
