@@ -9,7 +9,7 @@
     <div class="topBar-userDropdown">
       <el-dropdown>
           <span class="el-dropdown-link">
-            用户名<i class="el-icon-arrow-down el-icon--right"></i>
+            {{loggerName}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>个人信息</el-dropdown-item>
@@ -26,6 +26,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import * as MUTATIONS from '../../../store/mutations'
+  import pubapi from "@/api/pubapi.js"
 
   export default {
     name: "topBar",
@@ -44,7 +45,11 @@
           backgroundImage: 'url(' + require('../../../assets/image/img01/user.png') + ')',
           backgroundSize: '100% 100%'
         },
+        loggerName:pubapi.getCookie("loggerName"),
       }
+    },
+    mounted() {
+
     },
     methods: {
       logout() {

@@ -109,6 +109,7 @@
 
               document.cookie = "loginInfo=" + "true" + expireTime;
               document.cookie = "token=" + res.data.token + expireTime;
+              document.cookie = "loggerName=" + res.data.name + expireTime;
               self.$router.push({name: "adminMap"});
             });
             loginResult.catch((err) => {
