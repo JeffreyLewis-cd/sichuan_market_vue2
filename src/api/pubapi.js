@@ -1,6 +1,7 @@
 // 配置API接口地址
 // let apiRootURL = 'https://localhost:8080/SiChuanMarket_SSM';
-let apiRootURL = 'http://localhost:8080/SiChuanMarket_SSM';
+// let apiRootURL = 'http://localhost:8080/SiChuanMarket_SSM';
+let apiRootURL = baseURL_dynamic;
 
 // 引用axios
 let axios = require('axios');
@@ -72,7 +73,7 @@ function apiAxios(method, urlPath, params, success, failure) {
   })
     .then(function (res) {
       /*尝试两种不同的java response模板*/
-      if (200 === res.data.retCode || 200 ===res.data.code) {
+      if (200 === res.data.retCode || 200 === res.data.code) {
         if (success) {
           success(res.data)
         }
