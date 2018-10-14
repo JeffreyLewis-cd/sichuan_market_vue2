@@ -1,8 +1,8 @@
 <template>
   <div class="industryDataManage">
     <div class="industryDataBtns">
-      <el-button type="primary" size="small" @click="showDialog_add">添 &nbsp;&nbsp;&nbsp; 加</el-button>
-      <batchImport class="batchImport-btn" @importSuccess="importResult"></batchImport>
+      <el-button type="primary" size="small" @click="showDialog_add_ind">添 &nbsp;&nbsp;&nbsp; 加</el-button>
+      <batchImport class="batchImport-btn" @importSuccess="importResult_ind"></batchImport>
     </div>
 
     <div class="industryDataTable">
@@ -10,7 +10,7 @@
         :data="tableData"
         border
         style="width: 100%"
-        max-height="500"
+        height="60vh"
       >
         <el-table-column
           prop="industryName"
@@ -95,8 +95,8 @@
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button @click="deleteAgrData_vue(scope.row)" type="text" size="small">删除</el-button>
-            <el-button @click="showDialog_update(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="deleteIndustryData_ind(scope.row)" type="text" size="small">删除</el-button>
+            <el-button @click="showDialog_update_ind(scope.row)" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -137,7 +137,7 @@
 
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="confirmAgrData" size="small">确 定</el-button>
+          <el-button type="primary" @click="confirmData_ind" size="small">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -239,7 +239,7 @@
         })
       }
 
-      this.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
+      this.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
 
     },
 
@@ -249,7 +249,7 @@
 
     methods: {
       /*展示弹窗--添加*/
-      showDialog_add() {
+      showDialog_add_ind() {
         this.dialogState = "add";
         this.dialogFormVisible = true;
         this.argData = {
@@ -269,24 +269,24 @@
       },
 
       /*展示弹窗--编辑*/
-      showDialog_update(row) {
+      showDialog_update_ind(row) {
         this.dialogState = "update";
         this.dialogFormVisible = true;
         this.argData = row;
       },
 
       /*确认添加数据*/
-      confirmAgrData() {
+      confirmData_ind() {
 
         if ('add' === this.dialogState) {
-          this.addAindustryInfo_vue(); //添加一条行业数据
+          this.addAindustryInfo_ind(); //添加一条行业数据
         } else if ("update" === this.dialogState) {
-          this.updateAgrData_vue();  //修改一条行业数据
+          this.updateIndustryData_ind();  //修改一条行业数据
         }
       },
 
       /*添加一条行业数据*/
-      addAindustryInfo_vue() {
+      addAindustryInfo_ind() {
         let self = this;
 
         let addResult = industryInfo_api.addAindustryInfo(this.argData);
@@ -297,7 +297,7 @@
             type: 'success'
           });
           self.dialogFormVisible = false;
-          self.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
+          self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
         });
         addResult.catch((err) => {
           console.error(err);
@@ -306,7 +306,7 @@
       },
 
       /*删除一条数据*/
-      deleteAgrData_vue(row) {
+      deleteIndustryData_ind(row) {
         let self = this;
 
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -318,14 +318,14 @@
           let param = {
             industryId: row.industryId
           };
-          let deleteResult = industryInfo_api.deleteAgrData(param);
+          let deleteResult = industryInfo_api.deleteIndustryData(param);
           deleteResult.then((res) => {
             self.$notify({
               title: '成功',
               message: '成功删除一条行业信息！',
               type: 'success'
             });
-            self.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
+            self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
 
 
           });
@@ -345,10 +345,10 @@
       },
 
       /*修改一条行业数据*/
-      updateAgrData_vue() {
+      updateIndustryData_ind() {
         let self = this;
         let param = this.argData;
-        let updateResult = industryInfo_api.updateAgrData(param);
+        let updateResult = industryInfo_api.updateIndustryData(param);
         updateResult.then((res) => {
           self.$notify({
             title: '成功',
@@ -356,7 +356,7 @@
             type: 'success'
           });
           self.dialogFormVisible = false;
-          self.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
+          self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
 
 
         });
@@ -368,7 +368,7 @@
       },
 
       /*查询某个行业的全部数据*/
-      findIndustryInfoByCode_vue() {
+      findIndustryInfoByCode_ind() {
         let self = this;
         let param = {
           industryCode: this.industryInfoProp.code,
@@ -397,15 +397,14 @@
       /*切换日期*/
       switchDate(val) {
         this.activeDate = val;
-        this.findIndustryInfoByCode_vue();  //查询某个行业的全部数据
+        this.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
       },
 
       /*导入数据的结果*/
-      importResult(res) {
+      importResult_ind(res) {
         if (res) {
-          this.findIndustryInfoByCode_vue(); //查询某个行业的全部数据
+          this.findIndustryInfoByCode_ind(); //查询某个行业的全部数据
         }
-
       }
     },
 

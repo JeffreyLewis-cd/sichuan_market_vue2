@@ -26,7 +26,7 @@
       :data="adminAreasData"
       border
       :default-sort="{prop: 'city_gdp_total', order: 'descending'}"
-      max-height="500"
+      height="65vh"
       min-height="300"
       style="width: 100%;">
       <el-table-column

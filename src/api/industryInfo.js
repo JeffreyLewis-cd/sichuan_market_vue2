@@ -35,7 +35,7 @@ export default {
   },
 
   /*删除一条行业信息*/
-  deleteAgrData: function (reqParam) {
+  deleteIndustryData: function (reqParam) {
     let apiParam = {
       url: "/industryInfo/deleteAindustryInfo",
       method: "get",
@@ -45,7 +45,7 @@ export default {
   },
 
   /*修改一条行业信息*/
-  updateAgrData: function (reqParam) {
+  updateIndustryData: function (reqParam) {
     let apiParam = {
       url: "/industryInfo/updateAindustryInfo",
       method: "post",
