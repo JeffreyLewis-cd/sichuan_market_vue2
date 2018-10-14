@@ -13,56 +13,56 @@
         height="60vh"
       >
         <el-table-column
-          prop="companyName"
+          prop="company_name"
           label="公司名称"
           width="300"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="companyHeadcount"
+          prop="company_headcount"
           label="员工总数"
           width="100"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="companyAssets"
+          prop="company_assets"
           label="注册资本"
           width="120"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="companyEstablishedDate"
+          prop="company_established_date"
           label="注册时间"
           width="150"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="companyAddress"
+          prop="company_address"
           label="注册地址"
           width="300"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="companyLegalRepresentative"
+          prop="company_legal_representative"
           label="法人代表"
           width="100"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="companyType"
+          prop="company_type"
           label="公司类型"
           width="120"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="companyRegistrationNum"
+          prop="company_registration_num"
           label="注册号"
           width="200"
           align="center"
@@ -133,20 +133,18 @@
     props: ['companyInfoProp'],
     data() {
       return {
-        tableData: [{
-          companyCode: "",
-          companyName: '',
-          totalOutPut: '',
-          totalOutPut_unit: '',
-          productionCosts: '',
-          productionCosts_unit: '',
-          companyProfit: '',
-          profit_unit: '',
-          employedPopulation: '',
-          employedPopulation_unit: '',
-          statisticsDate: '',
-          topCompanies: ""
-        },],
+        tableData: [
+          {
+            company_name: "1",
+            company_headcount: '11',
+            company_assets: '1',
+            company_established_date: '11',
+            company_address: '2',
+            company_legal_representative: '22',
+            company_type: '2',
+            company_registration_num: '22',
+          },
+        ],
         dataFieldsAndLabels: [
           {
             field: "companyName",
@@ -218,36 +216,33 @@
       }
 
 
-
     },
 
-    components: {
-
-    },
+    components: {},
 
     methods: {
       /*删除一条公司信息*/
-      deleteCompanyData_com(){
+      deleteCompanyData_com() {
 
       },
 
       /*展示弹窗*/
-      showDialog_update_com(){
+      showDialog_update_com() {
 
       },
 
       /*展示弹窗-添加公司信息*/
-      showDialog_add_com(){
+      showDialog_add_com() {
 
       },
 
       /*批量导入*/
-      importResult_com(){
+      importResult_com() {
 
       },
 
       /*数据确定*/
-      confirmData_com(){
+      confirmData_com() {
 
       }
 

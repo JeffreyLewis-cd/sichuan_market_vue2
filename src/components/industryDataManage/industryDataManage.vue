@@ -93,17 +93,21 @@
         <el-table-column
           fixed="right"
           label="操作"
-          width="100">
+          align="center"
+          width="150">
           <template slot-scope="scope">
-            <el-button @click="deleteIndustryData_ind(scope.row)" type="text" size="small">删除</el-button>
+            <el-button @click="deleteIndustryData_ind(scope.row)" type="text" size="small" style="color: #F56C6C;">删除
+            </el-button>
             <el-button @click="showDialog_update_ind(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="showDialog_details_ind(scope.row)" type="text" size="small" style="color: #67C23A;">详情
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
     <div class="industryDataDialog">
-      <el-dialog title="添加农业数据" :visible.sync="dialogFormVisible">
+      <el-dialog :title="dialog_title" :visible.sync="dialogFormVisible">
         <div class="industryDataDialog-content">
           <!--新用户信息-->
           <div class="dialog-row-box" v-for="(item,index) in dataFieldsAndLabels" :key="index">
@@ -118,6 +122,15 @@
                   :value="item.value">
                 </el-option>
               </el-select>
+            </div>
+
+            <div v-else-if="'topCompanies'===item.field">
+              <ul class="related_company_box">
+                <li class="add_company">+</li>
+                <li class="company_item">新希望集团</li>
+
+              </ul>
+
             </div>
 
             <div v-else>
@@ -227,7 +240,8 @@
 
         ],
         activeDate: "2017年",
-        dialogState: "add"
+        dialogState: "add",
+        dialog_title: "",
       }
     },
     mounted() {
@@ -250,6 +264,7 @@
     methods: {
       /*展示弹窗--添加*/
       showDialog_add_ind() {
+        this.dialog_title = "添加行业信息";
         this.dialogState = "add";
         this.dialogFormVisible = true;
         this.argData = {
@@ -270,6 +285,7 @@
 
       /*展示弹窗--编辑*/
       showDialog_update_ind(row) {
+        this.dialog_title = "编辑行业信息";
         this.dialogState = "update";
         this.dialogFormVisible = true;
         this.argData = row;
@@ -405,6 +421,12 @@
         if (res) {
           this.findIndustryInfoByCode_ind(); //查询某个行业的全部数据
         }
+      },
+
+      /*行业详情*/
+      showDialog_details_ind() {
+        this.dialog_title = "行业信息详情";
+
       }
     },
 
@@ -437,6 +459,7 @@
     }
     .industryDataDialog {
       .industryDataDialog-content {
+
         .dialog-row-box {
           margin-bottom: 20px;
           width: 48%;
@@ -449,8 +472,56 @@
             line-height: 40px;
           }
 
+          .related_company_box {
+            border: 1px solid #c0c4cc;
+            border-radius: 5px;
+            width: calc(150% - 30px);
+            height: 130px;
+            margin-left: 30%;
+            margin-bottom: 0;
+            padding: 5px 15px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            .add_company {
+              height: 30px;
+              line-height: 26px;
+              width: 30px;
+              font-size: 36px;
+              text-align: center;
+              border: 1px solid green;
+              border-radius: 5px;
+            }
+            .company_item {
+              height: 30px;
+              line-height: 30px;
+              border-radius: 5px;
+              padding:0 10px;
+              margin-left: 20px;
+              border: 1px solid green;
+
+            }
+
+          }
+
         }
 
+      }
+    }
+
+  }
+
+</style>
+
+<style lang="less">
+
+
+  .industryDataDialog {
+    .el-dialog {
+      margin-top: 8vh !important;
+
+      .el-dialog__body {
+        padding: 0 20px !important;
       }
     }
 
