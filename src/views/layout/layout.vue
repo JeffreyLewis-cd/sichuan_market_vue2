@@ -65,12 +65,14 @@
   .layout {
     width: 100%;
     height: 100vh;
+    overflow: hidden !important;
     min-height: @pageMinheight;
     background-color: aqua;
     display: flex;
 
     .layout-left {
       height: 100vh;
+      overflow: hidden !important;
       min-height: @pageMinheight;
       width: 200px;
       min-width: 70px;
@@ -79,6 +81,7 @@
     }
     .layout-right {
       height: 100vh;
+      overflow: hidden !important;
       min-height: @pageMinheight;
       width: calc(100% - 200px);
       background-color: #F0F2F5;

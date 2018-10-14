@@ -2,7 +2,7 @@
   <div class="sichuanMap">
     <div class="sichuanMapBtns">
       <el-select v-model="activeDate" placeholder="请选择" style="width: 100%;" size="small"
-      @change="switchDate">
+                 @change="switchDate">
         <el-option
           v-for="item in dateList"
           :key="item.value"
@@ -101,7 +101,7 @@
             label: '2008年'
           },
         ],
-        activeDate:"2017年",
+        activeDate: "2017年",
       }
     },
     mounted() {
@@ -179,16 +179,16 @@
       },
 
       /*切换日期*/
-      switchDate(){
-          this.findAllCityInfo(); //获取四川省基本信息
+      switchDate() {
+        this.findAllCityInfo(); //获取四川省基本信息
       },
 
 
       /*获取四川省基本信息*/
       findAllCityInfo() {
         let self = this;
-        let param={
-          statistic_date:this.activeDate,
+        let param = {
+          statistic_date: this.activeDate,
         };
         let allCityInfoes = adminAreas.findAllCityInfo(param);
         allCityInfoes.then((res) => {
@@ -314,19 +314,18 @@
 <style scoped lang="less">
   .sichuanMap {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center !important;
+    align-items: center !important;
 
     .sichuanMapBtns {
       height: calc(100% - 100px);
       width: 10%;
       min-height: 650px;
       min-width: 50px;
-      /*border: 1px solid green;*/
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      justify-content: center !important;
+      align-items: center !important;
       margin-right: 20px;
     }
 
@@ -348,7 +347,8 @@
   .sichuanMapBtns {
     .mapVSbtns {
       width: 130px;
-      margin: 20px 0;
+      margin: 20px 0 !important;
+
     }
   }
 

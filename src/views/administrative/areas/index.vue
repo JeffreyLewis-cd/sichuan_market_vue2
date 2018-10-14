@@ -67,16 +67,16 @@
 
 <style scoped lang="less">
   .el-menu-demo {
-    height: 40px;
-    line-height: 40px;
+    height: 40px !important;
+    line-height: 40px !important;
   }
 
 </style>
 <style lang="less">
   .el-menu-demo {
     .el-menu-item {
-      height: 40px;
-      line-height: 40px;
+      height: 40px !important;
+      line-height: 40px !important;
     }
   }
 
