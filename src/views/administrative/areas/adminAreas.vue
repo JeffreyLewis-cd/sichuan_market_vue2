@@ -27,6 +27,7 @@
       border
       :default-sort="{prop: 'city_gdp_total', order: 'descending'}"
       max-height="500"
+      min-height="300"
       style="width: 100%;">
       <el-table-column
         v-for="(cityItem,index) in cityInfoFieldsAndLabels"
@@ -445,7 +446,7 @@
     width: 100%;
     height: calc(100vh - 100px);
     min-height: 300px;
-    min-width: 1200px;
+    min-width: 900px;
     overflow: hidden;
     .adminAreas-operate {
       height: 40px;

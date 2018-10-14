@@ -60,7 +60,7 @@
 </script>
 
 <style scoped lang="less">
-  @pageMinheight: 600px;
+  @pageMinheight: 500px;
 
   .layout {
     width: 100%;

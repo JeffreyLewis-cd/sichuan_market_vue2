@@ -85,7 +85,7 @@
         </el-table-column>
         <el-table-column
           prop="topCompanies"
-          label="龙头企业"
+          label="相关企业"
           width="300"
           align="center"
         >
@@ -212,7 +212,7 @@
           },
           {
             field: "topCompanies",
-            label: "龙头企业",
+            label: "相关企业",
           },
 
 
