@@ -6,10 +6,10 @@
           <primaryProfile></primaryProfile>
         </el-tab-pane>
 
-        <el-tab-pane class="agri-content" label="管理农业数据" name="industryDataManage">
+        <el-tab-pane class="agri-content" label="行业数据" name="industryDataManage">
           <industryDataManage :industryInfoProp="industryInfoProp"></industryDataManage>
         </el-tab-pane>
-        <el-tab-pane class="agri-content" label="农业企业" name="second">
+        <el-tab-pane class="agri-content" label="相关企业" name="second">
           <companyDataManage></companyDataManage>
         </el-tab-pane>
         <el-tab-pane class="agri-content" label="角色管理" name="third">角色管理33</el-tab-pane>
@@ -31,9 +31,9 @@
     data() {
       return {
         activeName: 'agricultureProfile',
-        industryInfoProp:{
-          code:"201",
-          name:"农业"
+        industryInfoProp: {
+          code: "201",
+          name: "农业"
         }
       }
     },

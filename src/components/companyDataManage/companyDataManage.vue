@@ -34,7 +34,7 @@
         >
         </el-table-column>
         <el-table-column
-          prop="company_established_date"
+          prop="company_establish_date"
           label="注册时间"
           width="150"
           align="center"
@@ -48,7 +48,7 @@
         >
         </el-table-column>
         <el-table-column
-          prop="company_legal_representative"
+          prop="company_legal_repre"
           label="法人代表"
           width="100"
           align="center"
@@ -138,9 +138,9 @@
             company_name: "1",
             company_headcount: '11',
             company_assets: '1',
-            company_established_date: '11',
+            company_establish_date: '11',
             company_address: '2',
-            company_legal_representative: '22',
+            company_legal_repre: '22',
             company_type: '2',
             company_registration_num: '22',
           },
@@ -228,7 +228,7 @@
 
       /*展示弹窗*/
       showDialog_update_com() {
-
+        this.dialogFormVisible = true;
       },
 
       /*展示弹窗-添加公司信息*/
