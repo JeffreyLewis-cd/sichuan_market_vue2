@@ -13,56 +13,56 @@
         height="60vh"
       >
         <el-table-column
-          prop="company_name"
-          label="公司名称"
+          prop="companyName"
+          label="企业名称"
           width="300"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="company_headcount"
+          prop="companyHeadcount"
           label="员工总数"
           width="100"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="company_assets"
+          prop="companyAssets"
           label="注册资本"
           width="120"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="company_establish_date"
-          label="注册时间"
+          prop="companyEstablishDate"
+          label="成立日期"
           width="150"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="company_address"
+          prop="companyAddress"
           label="注册地址"
           width="300"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="company_legal_repre"
+          prop="companyLegalRepre"
           label="法人代表"
           width="100"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="company_type"
-          label="公司类型"
+          prop="companyType"
+          label="企业类型"
           width="120"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="company_registration_num"
+          prop="companyRegistrationNum"
           label="注册号"
           width="200"
           align="center"
@@ -82,16 +82,16 @@
     </div>
 
     <div class="companyDataDialog">
-      <el-dialog title="添加农业数据" :visible.sync="dialogFormVisible">
+      <el-dialog title="添加相关企业" :visible.sync="dialogVisibleCom">
         <div class="companyDataDialog-content">
           <!--新用户信息-->
           <div class="dialog-row-box" v-for="(item,index) in dataFieldsAndLabels" :key="index">
             <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
 
-            <div v-if="'statisticDate'===item.field">
-              <el-select v-model="argData[item.field]" placeholder="请选择" style="width: 50%;" size="small">
+            <div v-if="'companyType'===item.field">
+              <el-select v-model="companyData[item.field]" placeholder="请选择" style="width: 65%;" size="small">
                 <el-option
-                  v-for="item in dateList"
+                  v-for="item in companyTypeList"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
@@ -101,11 +101,10 @@
 
             <div v-else>
               <el-input
-                style="width: 50%;"
+                style="width: 65%;"
                 placeholder="请输入..."
                 suffix-icon="el-icon-edit"
-                :disabled="'companyName'===item.field"
-                v-model="argData[item.field]">
+                v-model="companyData[item.field]">
               </el-input>
             </div>
 
@@ -115,7 +114,7 @@
 
 
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
+          <el-button @click="dialogVisibleCom = false" size="small">取 消</el-button>
           <el-button type="primary" @click="confirmData_com" size="small">确 定</el-button>
         </div>
       </el-dialog>
@@ -135,71 +134,79 @@
       return {
         tableData: [
           {
-            company_name: "1",
-            company_headcount: '11',
-            company_assets: '1',
-            company_establish_date: '11',
-            company_address: '2',
-            company_legal_repre: '22',
-            company_type: '2',
-            company_registration_num: '22',
+            companyName: "1",
+            companyHeadcount: '11',
+            companyAssets: '1',
+            companyEstablishDate: '11',
+            companyAddress: '2',
+            companyLegalRepre: '22',
+            companyType: '2',
+            companyRegistrationNum: '22',
           },
         ],
         dataFieldsAndLabels: [
           {
             field: "companyName",
-            label: "行业名称",
+            label: "企业名称",
           },
           {
-            field: "totalOutPut",
-            label: "总产值",
+            field: "companyHeadcount",
+            label: "员工人数",
           },
           {
-            field: "totalOutPut_unit",
-            label: "总产值单位",
+            field: "companyAssets",
+            label: "资产规模",
           },
           {
-            field: "productionCosts",
-            label: "生产成本",
+            field: "companyEstablishDate",
+            label: "成立日期",
           },
           {
-            field: "productionCosts_unit",
-            label: "生产成本单位",
+            field: "companyAddress",
+            label: "企业地址",
           },
           {
-            field: "companyProfit",
-            label: "行业利润",
+            field: "companyLegalRepre",
+            label: "法人代表",
           },
           {
-            field: "profit_unit",
-            label: "行业利润单位",
-          },
-          {
-            field: "employedPopulation",
-            label: "从业人数",
-          },
-          {
-            field: "employedPopulation_unit",
-            label: "从业人数单位",
-          },
-          {
-            field: "statisticDate",
-            label: "统计日期",
-          },
-          {
-            field: "topCompanies",
-            label: "相关企业",
+            field: "companyType",
+            label: "企业性质",
           },
 
-
+          {
+            field: "companyRegistrationNum",
+            label: "注册号",
+          },
         ],
-        argData: {},
-        dialogFormVisible: false,
-        dateList: [
-          /*          {
-                      value: '2017年',
-                      label: '2017年'
-                    },*/
+        companyData: {},
+        dialogVisibleCom: false,
+        companyTypeList: [
+          {
+            value: 31,
+            label: '有限责任公司'
+          }, {
+            value: 32,
+            label: '股份有限公司'
+          }, {
+            value: 33,
+            label: '国有独资公司'
+          }, {
+            value: 34,
+            label: '个人独资企业'
+          }, {
+            value: 35,
+            label: '合伙企业'
+          }, {
+            value: 36,
+            label: '个体工商户'
+          }, {
+            value: 37,
+            label: '外商投资企业'
+          }, {
+            value: 38,
+            label: '私营企业'
+          },
 
         ],
         activeDate: "2017年",
@@ -207,32 +214,38 @@
       }
     },
     mounted() {
-      this.dateList = [];
-      for (let key = 1978; key < 2018; key++) {
-        this.dateList.push({
-          value: key + "年",
-          label: key + "年",
-        })
-      }
-
 
     },
 
     components: {},
 
     methods: {
-      /*删除一条公司信息*/
+      /*删除一条企业信息*/
       deleteCompanyData_com() {
 
       },
 
       /*展示弹窗*/
       showDialog_update_com() {
-        this.dialogFormVisible = true;
+        this.dialogVisibleCom = true;
       },
 
-      /*展示弹窗-添加公司信息*/
+      /*展示弹窗-添加企业信息*/
       showDialog_add_com() {
+        this.dialogVisibleCom = true;
+        this.dialogState = "add";
+        this.companyData = {
+          companyName: "",
+          companyHeadcount: '',
+          companyAssets: '',
+          companyEstablishDate: '',
+          companyAddress: '',
+          companyLegalRepre: '',
+          companyType: '',
+          companyRegistrationNum: '',
+          companyIndustryId: '666'
+        };
+
 
       },
 
@@ -243,6 +256,23 @@
 
       /*数据确定*/
       confirmData_com() {
+        if ("add" === this.dialogState) {
+          let companyDataAPI = JSON.parse(JSON.stringify(this.companyData));
+          let estabDate = new Date(Date.parse(companyDataAPI.companyEstablishDate.replace('年', '-').replace('月', '-').replace('日', '')));
+          console.log(estabDate);
+
+
+          companyDataAPI.companyEstablishDate = estabDate;
+
+          let addComRes = companyInfo_api.addAindustryInfo(companyDataAPI);
+          addComRes.then((res) => {
+            console.log(res)
+          });
+          addComRes.catch((err) => {
+            console.error(err)
+          })
+
+        }
 
       }
 
