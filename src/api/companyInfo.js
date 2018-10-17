@@ -1,4 +1,3 @@
-
 import pubapi from "./pubapi"
 /*公共promise对象*/
 let apiPromise = function (apiParam) {
@@ -36,7 +35,55 @@ export default {
   },
 
 
+  /*删除一条公司信息*/
+  deleteACompanyInfo: function (reqParam) {
+    let apiParam = {
+      url: "/companyInfo/deleteACompanyInfo",
+      method: "get",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
 
+  /*修改一条公司信息*/
+  updateACompanyInfo: function (reqParam) {
+    let apiParam = {
+      url: "/companyInfo/updateACompanyInfo",
+      method: "post",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
+
+  /*查询某个企业信息-根据行业ID*/
+  findComInfoByIndustryId: function (reqParam) {
+    let apiParam = {
+      url: "/companyInfo/findComInfoByIndustryId",
+      method: "post",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
+
+  /*查询某个企业信息-根据行业code*/
+  findComInfoByIndustryCode: function (reqParam) {
+    let apiParam = {
+      url: "/companyInfo/findComInfoByIndustryCode",
+      method: "get",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
+
+  /*查询某个企业信息-根据企业ID*/
+  findCompanyInfoById: function (reqParam) {
+    let apiParam = {
+      url: "/companyInfo/findCompanyInfoById",
+      method: "post",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
 
 }
 

@@ -2,6 +2,7 @@
   <div class="companyDataManage">
     <div class="companyDataBtns">
       <el-button type="primary" size="small" @click="showDialog_add_com">添 &nbsp;&nbsp;&nbsp; 加</el-button>
+      <el-button type="primary" size="small" @click="aquireComInfoByIndustryCode">刷新</el-button>
       <!--<batchImport class="batchImport-btn" @importSuccess="importResult_com"></batchImport>-->
     </div>
 
@@ -98,6 +99,16 @@
                 </el-option>
               </el-select>
             </div>
+            <div v-else-if="'companyIndustryCode'===item.field">
+              <el-select v-model="companyData[item.field]" placeholder="请选择" style="width: 65%;" size="small">
+                <el-option
+                  v-for="item in industryCodeList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </div>
 
             <div v-else>
               <el-input
@@ -142,6 +153,7 @@
             companyLegalRepre: '22',
             companyType: '2',
             companyRegistrationNum: '22',
+            companyIndustryCode: "201",
           },
         ],
         dataFieldsAndLabels: [
@@ -178,48 +190,163 @@
             field: "companyRegistrationNum",
             label: "注册号",
           },
+
+          {
+            field: "companyIndustryCode",
+            label: "所属行业",
+          },
         ],
         companyData: {},
         dialogVisibleCom: false,
         companyTypeList: [
           {
-            value: 31,
+            value: '31',
             label: '有限责任公司'
           }, {
-            value: 32,
+            value: '32',
             label: '股份有限公司'
           }, {
-            value: 33,
+            value: '33',
             label: '国有独资公司'
           }, {
-            value: 34,
+            value: '34',
             label: '个人独资企业'
           }, {
-            value: 35,
+            value: '35',
             label: '合伙企业'
           }, {
-            value: 36,
+            value: '36',
             label: '个体工商户'
           }, {
-            value: 37,
+            value: '37',
             label: '外商投资企业'
           }, {
-            value: 38,
+            value: '38',
             label: '私营企业'
           },
 
         ],
+        industryCodeList: [
+          {
+            value: "201",
+            label: '农业'
+          },
+          {
+            value: "202",
+            label: '林业'
+          },
+          {
+            value: "203",
+            label: '畜牧业'
+          },
+          {
+            value: "204",
+            label: '渔业'
+          },
+          {
+            value: "205",
+            label: '采矿业'
+          },
+          {
+            value: "206",
+            label: '制造业'
+          },
+          {
+            value: "207",
+            label: '水电热燃供应'
+          },
+          {
+            value: "208",
+            label: '建筑业'
+          },
+          {
+            value: "209",
+            label: '批发和零售业'
+          },
+          {
+            value: "210",
+            label: '交通运输、仓储和邮政业'
+          },
+          {
+            value: "211",
+            label: '住宿和餐饮业'
+          },
+          {
+            value: "212",
+            label: '信息软件'
+          },
+          {
+            value: "213",
+            label: '金融业'
+          },
+          {
+            value: "214",
+            label: '房地产业'
+          },
+          {
+            value: "215",
+            label: '科学研究和技术'
+          },
+          {
+            value: "216",
+            label: '居民服务'
+          },
+          {
+            value: "217",
+            label: '教育'
+          },
+          {
+            value: "218",
+            label: '卫生和社会工作'
+          },
+          {
+            value: "219",
+            label: '文化、体育和娱乐业'
+          },
+          {
+            value: "220",
+            label: '公共管理、社会保障'
+          },
+          {
+            value: "221",
+            label: '工业'
+          },
+          {
+            value: "222",
+            label: '其他'
+          },
+        ],
         activeDate: "2017年",
-        dialogState: "add"
+        dialogState: "add",
+        companyIndustryCode: "201"
       }
     },
     mounted() {
-
+      this.aquireComInfoByIndustryCode();
+      /*获取企业列表*/
     },
 
     components: {},
 
     methods: {
+
+      /*获取企业列表*/
+      aquireComInfoByIndustryCode() {
+
+        let param = {
+          companyIndustryCode: this.companyIndustryCode,
+        };
+        let res = companyInfo_api.findComInfoByIndustryCode(param);
+        res.then((res) => {
+          console.log(res);
+        });
+        res.catch((err) => {
+          console.log(err)
+        })
+
+      },
+
+
       /*删除一条企业信息*/
       deleteCompanyData_com() {
 
@@ -256,6 +383,7 @@
 
       /*数据确定*/
       confirmData_com() {
+        let self = this;
         if ("add" === this.dialogState) {
           let companyDataAPI = JSON.parse(JSON.stringify(this.companyData));
           let estabDate = new Date(Date.parse(companyDataAPI.companyEstablishDate.replace('年', '-').replace('月', '-').replace('日', '')));
@@ -267,6 +395,9 @@
           let addComRes = companyInfo_api.addAindustryInfo(companyDataAPI);
           addComRes.then((res) => {
             console.log(res)
+            self.aquireComInfoByIndustryCode();//获取企业列表
+
+
           });
           addComRes.catch((err) => {
             console.error(err)
