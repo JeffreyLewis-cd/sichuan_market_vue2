@@ -61,6 +61,9 @@
           width="120"
           align="center"
         >
+          <template slot-scope="scope">
+            {{comTypeCode2Word(scope.row.companyType)}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="companyRegistrationNum"
@@ -73,17 +76,23 @@
         <el-table-column
           fixed="right"
           label="操作"
-          width="100">
+          align="center"
+          width="150">
           <template slot-scope="scope">
-            <el-button @click="deleteCompanyData_com(scope.row)" type="text" size="small">删除</el-button>
+            <el-button @click="deleteCompanyData_com(scope.row)" type="text" size="small" style="color: #F56C6C;">删除
+            </el-button>
             <el-button @click="showDialog_update_com(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="showDialog_details_com(scope.row)" type="text" size="small" style="color: #67C23A;">详情
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
+
+    <!--弹窗-->
     <div class="companyDataDialog">
-      <el-dialog title="添加相关企业" :visible.sync="dialogVisibleCom">
+      <el-dialog :title="dialogState.title" :visible.sync="dialogVisibleCom">
         <div class="companyDataDialog-content">
           <!--新用户信息-->
           <div class="dialog-row-box" v-for="(item,index) in dataFieldsAndLabels" :key="index">
@@ -317,7 +326,10 @@
           },
         ],
         activeDate: "2017年",
-        dialogState: "add",
+        dialogState: {
+          title: "",
+          func: ""
+        },
         companyIndustryCode: "201"
       }
     },
@@ -332,35 +344,70 @@
 
       /*获取企业列表*/
       aquireComInfoByIndustryCode() {
-
+        let self = this;
         let param = {
           companyIndustryCode: this.companyIndustryCode,
         };
         let res = companyInfo_api.findComInfoByIndustryCode(param);
         res.then((res) => {
-          console.log(res);
+          self.tableData = res.data.companyInfo;
         });
         res.catch((err) => {
-          console.log(err)
+          console.error(err)
         })
 
       },
 
 
       /*删除一条企业信息*/
-      deleteCompanyData_com() {
+      deleteCompanyData_com(row) {
+        let self = this;
+
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          let param = {
+            companyId: row.companyId
+          };
+          let deleteResult = companyInfo_api.deleteACompanyInfo(param);
+          deleteResult.then((res) => {
+            self.$notify({
+              title: '成功',
+              message: '成功删除一条企业信息！',
+              type: 'success'
+            });
+            self.aquireComInfoByIndustryCode();//获取企业列表
+
+
+          });
+          deleteResult.catch((err) => {
+            console.error(err);
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
 
       },
 
-      /*展示弹窗*/
-      showDialog_update_com() {
+      /*展示弹窗-编辑企业信息*/
+      showDialog_update_com(row) {
         this.dialogVisibleCom = true;
+        this.companyData = row;
+        this.dialogState.title = "编辑企业信息";
+        this.dialogState.func = "update";
       },
 
       /*展示弹窗-添加企业信息*/
       showDialog_add_com() {
         this.dialogVisibleCom = true;
-        this.dialogState = "add";
+        this.dialogState.func = "add";
+        this.dialogState.title = "添加企业信息";
         this.companyData = {
           companyName: "",
           companyHeadcount: '',
@@ -384,31 +431,47 @@
       /*数据确定*/
       confirmData_com() {
         let self = this;
-        if ("add" === this.dialogState) {
+        if ("add" === this.dialogState.func) {
           let companyDataAPI = JSON.parse(JSON.stringify(this.companyData));
           let estabDate = new Date(Date.parse(companyDataAPI.companyEstablishDate.replace('年', '-').replace('月', '-').replace('日', '')));
-          console.log(estabDate);
-
-
           companyDataAPI.companyEstablishDate = estabDate;
-
           let addComRes = companyInfo_api.addAindustryInfo(companyDataAPI);
+          /*添加成功*/
           addComRes.then((res) => {
-            console.log(res)
             self.aquireComInfoByIndustryCode();//获取企业列表
-
-
+            self.dialogVisibleCom = false;
           });
           addComRes.catch((err) => {
             console.error(err)
           })
-
         }
+        else if ("update" === this.dialogState.func) {
+          let updateRes = companyInfo_api.updateACompanyInfo(self.companyData);
+          updateRes.then((res) => {
+            self.aquireComInfoByIndustryCode();//获取企业列表
+            self.dialogVisibleCom = false;
+          }).catch((err) => {
+            console.error(err);
+          })
+        }
+      },
+
+      /*企业类型-编码转文字*/
+      comTypeCode2Word(code) {
+        let typeLable = "";
+        this.companyTypeList.map((item, index) => {
+          if (code === item.value) {
+            typeLable = item.label;
+          }
+        });
+        return typeLable;
+      },
+
+      /*企业详情*/
+      showDialog_details_com() {
 
       }
-
     },
-
   }
 </script>
 

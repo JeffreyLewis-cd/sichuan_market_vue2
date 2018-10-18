@@ -24,7 +24,7 @@ let apiPromise = function (apiParam) {
 export default {
 
 
-  /*添加一条公司信息*/
+  /*添加一条企业信息*/
   addAindustryInfo: function (reqParam) {
     let apiParam = {
       url: "/companyInfo/addACompanyInfo",
@@ -35,7 +35,7 @@ export default {
   },
 
 
-  /*删除一条公司信息*/
+  /*删除一条企业信息*/
   deleteACompanyInfo: function (reqParam) {
     let apiParam = {
       url: "/companyInfo/deleteACompanyInfo",
@@ -45,7 +45,7 @@ export default {
     return apiPromise(apiParam);
   },
 
-  /*修改一条公司信息*/
+  /*修改一条企业信息*/
   updateACompanyInfo: function (reqParam) {
     let apiParam = {
       url: "/companyInfo/updateACompanyInfo",

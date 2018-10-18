@@ -347,8 +347,6 @@
           });
           deleteResult.catch((err) => {
             console.error(err);
-
-
           })
         }).catch(() => {
           this.$message({
@@ -356,8 +354,6 @@
             message: '已取消删除'
           });
         });
-
-
       },
 
       /*修改一条行业数据*/
