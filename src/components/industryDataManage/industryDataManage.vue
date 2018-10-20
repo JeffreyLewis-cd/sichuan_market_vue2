@@ -125,11 +125,6 @@
             </div>
 
             <div v-else-if="'topCompanies'===item.field">
-              <!--              <ul class="related_company_box">
-                              <li class="add_company">+</li>
-                              <li class="company_item">新希望集团</li>
-
-                            </ul>-->
               <div class="related_company_box">
 
                 <el-checkbox-group v-model="checkedCompanies" @change="handleCheckedCitiesChange">
@@ -384,23 +379,26 @@
       updateIndustryData_ind() {
         let self = this;
         let param = this.argData;
-        let updateResult = industryInfo_api.updateIndustryData(param);
-        updateResult.then((res) => {
-          self.$notify({
-            title: '成功',
-            message: '成功修改一条行业信息！',
-            type: 'success'
-          });
-          self.dialogFormVisible = false;
-          self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
+
+        console.log(param);
+
+        /*        let updateResult = industryInfo_api.updateIndustryData(param);
+                updateResult.then((res) => {
+                  self.$notify({
+                    title: '成功',
+                    message: '成功修改一条行业信息！',
+                    type: 'success'
+                  });
+                  self.dialogFormVisible = false;
+                  self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
 
 
-        });
-        updateResult.catch((err) => {
-          console.error(err);
+                });
+                updateResult.catch((err) => {
+                  console.error(err);
 
 
-        })
+                })*/
       },
 
       /*查询某个行业的全部数据*/
@@ -450,7 +448,8 @@
       },
 
       handleCheckedCitiesChange(value) {
-        console.log(value);
+        this.argData.topCompanies = value;
+        console.log(this.argData);
       }
     },
 
