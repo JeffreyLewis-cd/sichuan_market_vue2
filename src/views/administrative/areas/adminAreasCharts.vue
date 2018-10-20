@@ -94,7 +94,7 @@
       findTotalGDPList() {
         let self = this;
         let param = {
-          statistic_date: this.activeDate,
+          statisticDate: this.activeDate,
         };
         let totalGDP = adminAreas.findTotalGDPList(param);
         totalGDP.then((res) => {
@@ -119,10 +119,10 @@
 
         /*抽取相关数据*/
         this.GDPList.map((item) => {
-          this.cityCategory.push(item.city_name);
-          this.totalGDPList.push(item.city_gdp_total);
-          this.ppGDPList.push(item.city_gdp_pp);
-          this.population.push(item.city_population);
+          this.cityCategory.push(item.cityName);
+          this.totalGDPList.push(item.cityGdpTotal);
+          this.ppGDPList.push(item.cityGdpPp);
+          this.population.push(item.cityPopulation);
         });
 
         // 基于准备好的dom，初始化echarts实例

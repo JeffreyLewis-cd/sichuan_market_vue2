@@ -146,6 +146,8 @@
 
 <script type="text/ecmascript-6">
   import companyInfo_api from "../../api/companyInfo";
+  import * as MUTATIONS from '../../store/mutations'
+  import {mapGetters} from "vuex"
 
   export default {
     name: "companyDataManage",
@@ -351,6 +353,9 @@
         let res = companyInfo_api.findComInfoByIndustryCode(param);
         res.then((res) => {
           self.tableData = res.data.companyInfo;
+          console.log(self.tableData);
+          self.$store.commit(MUTATIONS.companyListByIndustryCode_mu, self.tableData);
+          console.log(self.companyListByIndustryCode);
         });
         res.catch((err) => {
           console.error(err)
@@ -472,6 +477,13 @@
 
       }
     },
+
+    computed: {
+      ...mapGetters({
+        companyListByIndustryCode: "companyListByIndustryCode"
+      })
+    }
+
   }
 </script>
 

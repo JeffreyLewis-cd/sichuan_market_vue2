@@ -188,7 +188,7 @@
       findAllCityInfo() {
         let self = this;
         let param = {
-          statistic_date: this.activeDate,
+          statisticDate: this.activeDate,
         };
         let allCityInfoes = adminAreas.findAllCityInfo(param);
         allCityInfoes.then((res) => {
@@ -215,8 +215,8 @@
 
         this.allCityInfo.data.map((item) => {
           this.optionData.mapValue.data.push({
-            name: item.city_name,
-            value: item.city_areas,
+            name: item.cityName,
+            value: item.cityAreas,
           })
         });
         this.mapDisplay()
@@ -235,8 +235,8 @@
 
         this.allCityInfo.data.map((item) => {
           this.optionData.mapValue.data.push({
-            name: item.city_name,
-            value: item.city_gdp_total,
+            name: item.cityName,
+            value: item.cityGdpTotal,
           })
         });
         this.mapDisplay()
@@ -256,8 +256,8 @@
 
         this.allCityInfo.data.map((item) => {
           this.optionData.mapValue.data.push({
-            name: item.city_name,
-            value: item.city_gdp_pp,
+            name: item.cityName,
+            value: item.cityGdpPp,
           })
         });
         this.mapDisplay()
@@ -277,8 +277,8 @@
 
         this.allCityInfo.data.map((item) => {
           this.optionData.mapValue.data.push({
-            name: item.city_name,
-            value: item.city_population,
+            name: item.cityName,
+            value: item.cityPopulation,
           })
         });
         this.mapDisplay()
@@ -298,8 +298,8 @@
 
         this.allCityInfo.data.map((item) => {
           this.optionData.mapValue.data.push({
-            name: item.city_name,
-            value: Math.round(item.city_population / item.city_areas * 10000),
+            name: item.cityName,
+            value: Math.round(item.cityPopulation / item.cityAreas * 10000),
           })
         });
         this.mapDisplay()

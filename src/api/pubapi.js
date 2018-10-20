@@ -79,7 +79,7 @@ function apiAxios(method, urlPath, params, success, failure) {
         }
       } else {
         if (failure) {
-          console.log(res.data.code);
+          console.log(res);
           if (403 === res.data.code) {
             router.push({name: "login"}); //后台token过期了，必须重新登录
           }

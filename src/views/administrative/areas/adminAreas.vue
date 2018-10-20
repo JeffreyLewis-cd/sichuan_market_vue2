@@ -25,13 +25,13 @@
     <el-table
       :data="adminAreasData"
       border
-      :default-sort="{prop: 'city_gdp_total', order: 'descending'}"
+      :default-sort="{prop: 'cityGdpTotal', order: 'descending'}"
       height="65vh"
       min-height="300"
       style="width: 100%;">
       <el-table-column
         v-for="(cityItem,index) in cityInfoFieldsAndLabels"
-        :fixed="'city_name'===cityItem.field"
+        :fixed="'cityName'===cityItem.field"
         :prop="cityItem.field"
         :label="cityItem.label"
         :key="index"
@@ -60,17 +60,17 @@
       <div class="dialog-row-box" v-for="(item,index) in cityInfoFieldsAndLabels" :key="index">
         <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
 
-        <div class="selector" v-if="'city_name'===item.field">
+        <div class="selector" v-if="'cityName'===item.field">
           <el-select v-model="dialogPara[item.field]" placeholder="请选择" style="width: 50%;" @change="selectCity">
             <el-option
               v-for="item in cityList"
-              :key="item.city_code"
-              :label="item.city_name"
-              :value="item.city_name">
+              :key="item.cityCode"
+              :label="item.cityName"
+              :value="item.cityName">
             </el-option>
           </el-select>
         </div>
-        <div class="selector" v-else-if="'statistic_date'===item.field">
+        <div class="selector" v-else-if="'statisticDate'===item.field">
           <el-select v-model="dialogPara[item.field]" placeholder="请选择" style="width: 50%;">
             <el-option
               v-for="item in dateList"
@@ -112,71 +112,71 @@
       return {
         cityInfoFieldsAndLabels: [
           {
-            field: "city_name",
+            field: "cityName",
             label: "城市名称",
           },
           {
-            field: "city_gdp_total",
+            field: "cityGdpTotal",
             label: "GDP总量",
           },
           {
-            field: "city_gdp_total_unit",
+            field: "cityGdpTotalUnit",
             label: "GDP总量单位",
           },
           {
-            field: "city_gdp_pp",
+            field: "cityGdpPp",
             label: "人均GDP",
           },
           {
-            field: "city_gdp_pp_unit",
+            field: "cityGdpPpUnit",
             label: "人均GDP单位",
           },
           {
-            field: "city_areas",
+            field: "cityAreas",
             label: "面积",
           },
           {
-            field: "city_areas_unit",
+            field: "cityAreasUnit",
             label: "面积单位",
           },
           {
-            field: "city_population",
+            field: "cityPopulation",
             label: "人口",
           },
           {
-            field: "city_population_unit",
+            field: "cityPopulationUnit",
             label: "人口单位",
           },
           {
-            field: "city_gov_address",
+            field: "cityGovAddress",
             label: "政府驻地",
           },
           {
-            field: "city_scenic_spots",
+            field: "cityScenicSpots",
             label: "热门景点数",
           },
           {
-            field: "city_airlines",
+            field: "cityAirlines",
             label: "航班数",
           },
           {
-            field: "city_airlines_unit",
+            field: "cityAirlinesUnit",
             label: "航班数单位",
           },
           {
-            field: "city_train",
+            field: "cityTrain",
             label: "列车班数",
           },
           {
-            field: "city_train_unit",
+            field: "cityTrainUnit",
             label: "列车班数单位",
           },
           {
-            field: "city_cars_counts",
+            field: "cityCarsCounts",
             label: "汽车保有量",
           },
           {
-            field: "statistic_date",
+            field: "statisticDate",
             label: "统计时间",
           },
 
@@ -269,7 +269,7 @@
       findAllCityInfo() {
         let self = this;
         let param = {
-          statistic_date: this.activeDate,
+          statisticDate: this.activeDate,
         };
         let allCityInfoes = adminAreas.findAllCityInfo(param);
         allCityInfoes.then((res) => {
@@ -277,9 +277,9 @@
           self.adminAreasData = res.data;
           /*小数点后两位*/
           /*          self.adminAreasData.map((item) => {
-                      item.city_areas = self.toDecimal(item.city_areas);
-                      item.city_population = self.toDecimal(item.city_population);
-                      item.city_gdp_total = self.toDecimal(item.city_gdp_total);
+                      item.cityAreas = self.toDecimal(item.cityAreas);
+                      item.cityPopulation = self.toDecimal(item.cityPopulation);
+                      item.cityGdpTotal = self.toDecimal(item.cityGdpTotal);
                     });*/
         });
         allCityInfoes.catch((err) => {
@@ -345,25 +345,25 @@
 
 
         this.dialogPara = {
-          city_id: "",
-          city_name: "",
-          city_code: "",
-          city_gdp_total: 0,
-          city_gdp_total_unit: "亿元",
-          city_gdp_pp: 0,
-          city_gdp_pp_unit: "元",
-          city_areas: 0.00,
-          city_areas_unit: "平方千米",
-          city_population: 0,
-          city_population_unit: "万人",
-          city_gov_address: "",
-          city_scenic_spots: 0,
-          city_airlines: 0,
-          city_airlines_unit: "条",
-          city_train: 0,
-          city_train_unit: "",
-          city_cars_counts: 0,
-          statistic_date: "2017",
+          cityId: "",
+          cityName: "",
+          cityCode: "",
+          cityGdpTotal: 0,
+          cityGdpTotalUnit: "亿元",
+          cityGdpPp: 0,
+          cityGdpPpUnit: "元",
+          cityAreas: 0.00,
+          cityAreasUnit: "平方千米",
+          cityPopulation: 0,
+          cityPopulationUnit: "万人",
+          cityGovAddress: "",
+          cityScenicSpots: 0,
+          cityAirlines: 0,
+          cityAirlinesUnit: "条",
+          cityTrain: 0,
+          cityTrainUnit: "",
+          cityCarsCounts: 0,
+          statisticDate: "2017",
 
         };
         this.dialogVisible = true;
@@ -426,13 +426,13 @@
 
       /*对话框选择城市*/
       selectCity(selectedCity) {
-        let city_code = '';
+        let cityCode = '';
         this.cityList.map((item) => {
-          if (selectedCity === item.city_name) {
-            city_code = item.city_code;
+          if (selectedCity === item.cityName) {
+            cityCode = item.cityCode;
           }
         });
-        this.dialogPara.city_code = city_code;
+        this.dialogPara.cityCode = cityCode;
 
       }
 

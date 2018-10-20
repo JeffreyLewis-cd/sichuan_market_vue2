@@ -125,11 +125,19 @@
             </div>
 
             <div v-else-if="'topCompanies'===item.field">
-              <ul class="related_company_box">
-                <li class="add_company">+</li>
-                <li class="company_item">新希望集团</li>
+              <!--              <ul class="related_company_box">
+                              <li class="add_company">+</li>
+                              <li class="company_item">新希望集团</li>
 
-              </ul>
+                            </ul>-->
+              <div class="related_company_box">
+
+                <el-checkbox-group v-model="checkedCompanies" @change="handleCheckedCitiesChange">
+                  <el-checkbox v-for="company in companyList" :label="company" :key="company.value">{{company.label}}
+                  </el-checkbox>
+                </el-checkbox-group>
+
+              </div>
 
             </div>
 
@@ -162,6 +170,8 @@
 <script type="text/ecmascript-6">
   import industryInfo_api from "../../api/industryInfo";
   import batchImport from "../fileUpload/batchImport";
+  import {mapGetters} from "vuex"
+
 
   export default {
     name: "industryDataManage",
@@ -242,6 +252,9 @@
         activeDate: "2017年",
         dialogState: "add",
         dialog_title: "",
+        checkedCompanies: [],
+        companyList: [],
+
       }
     },
     mounted() {
@@ -289,6 +302,15 @@
         this.dialogState = "update";
         this.dialogFormVisible = true;
         this.argData = row;
+
+        if (this.companyListByIndustryCode) {
+          this.companyListByIndustryCode.map((item, index) => {
+            this.companyList.push({
+              label: item.companyName,
+              value: item.companyId
+            })
+          })
+        }
       },
 
       /*确认添加数据*/
@@ -423,8 +445,18 @@
       showDialog_details_ind() {
         this.dialog_title = "行业信息详情";
 
+      },
+
+      handleCheckedCitiesChange(value) {
+        console.log(value);
       }
     },
+
+    computed: {
+      ...mapGetters({
+        companyListByIndustryCode: "companyListByIndustryCode"
+      })
+    }
 
   }
 </script>
@@ -492,7 +524,7 @@
               height: 30px;
               line-height: 30px;
               border-radius: 5px;
-              padding:0 10px;
+              padding: 0 10px;
               margin-left: 20px;
               border: 1px solid green;
 
