@@ -114,7 +114,7 @@
             <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
 
             <div v-if="'statisticDate'===item.field">
-              <el-select v-model="argData[item.field]" placeholder="请选择" style="width: 50%;" size="small">
+              <el-select v-model="argData[item.field]" placeholder="请选择" style="width: 68%;" size="small">
                 <el-option
                   v-for="item in dateList"
                   :key="item.value"
@@ -133,7 +133,9 @@
               <div class="related_company_box">
 
                 <el-checkbox-group v-model="checkedCompanies" @change="handleCheckedCitiesChange">
-                  <el-checkbox v-for="company in companyList" :label="company" :key="company.value">{{company.label}}
+                  <el-checkbox v-for="company in companyList" :label="company"
+                               style="margin-left: 10px !important"
+                               :key="company.value">{{company.label}}
                   </el-checkbox>
                 </el-checkbox-group>
 
@@ -143,7 +145,7 @@
 
             <div v-else>
               <el-input
-                style="width: 50%;"
+                style="width: 68%;"
                 placeholder="请输入..."
                 suffix-icon="el-icon-edit"
                 :disabled="'industryName'===item.field"
@@ -492,6 +494,7 @@
           margin-bottom: 20px;
           width: 48%;
           display: inline-block;
+          /*border:1px solid red;*/
           .dialog-row-label {
             float: left;
             width: 30%;
@@ -503,14 +506,15 @@
           .related_company_box {
             border: 1px solid #c0c4cc;
             border-radius: 5px;
-            width: calc(150% - 30px);
+            width: calc(200% - 50px);
             height: 130px;
-            margin-left: 30%;
+            margin-left: 4%;
             margin-bottom: 0;
             padding: 5px 15px;
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
+            overflow: auto;
             .add_company {
               height: 30px;
               line-height: 26px;
@@ -550,9 +554,17 @@
 
       .el-dialog__body {
         padding: 0 20px !important;
+        .related_company_box {
+          .checkbox-group {
+            .el-checkbox {
+              margin-left: 30px !important;
+            }
+          }
+        }
       }
     }
 
   }
+
 
 </style>

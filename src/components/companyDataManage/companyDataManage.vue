@@ -336,8 +336,9 @@
       }
     },
     mounted() {
-      this.aquireComInfoByIndustryCode();
       /*获取企业列表*/
+      this.aquireComInfoByIndustryCode();
+
     },
 
     components: {},
@@ -438,8 +439,10 @@
         let self = this;
         if ("add" === this.dialogState.func) {
           let companyDataAPI = JSON.parse(JSON.stringify(this.companyData));
-          let estabDate = new Date(Date.parse(companyDataAPI.companyEstablishDate.replace('年', '-').replace('月', '-').replace('日', '')));
-          companyDataAPI.companyEstablishDate = estabDate;
+/*          let estabDate = new Date(Date.parse(companyDataAPI.companyEstablishDate.replace('年', '-').replace('月', '-').replace('日', '')));
+          console.log(estabDate);
+
+          companyDataAPI.companyEstablishDate = estabDate;*/
           let addComRes = companyInfo_api.addAindustryInfo(companyDataAPI);
           /*添加成功*/
           addComRes.then((res) => {
