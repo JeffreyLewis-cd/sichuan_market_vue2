@@ -86,9 +86,16 @@
         <el-table-column
           prop="topCompanies"
           label="相关企业"
-          width="300"
+          width="600"
           align="center"
         >
+          <template slot-scope="scope" class="relatedCompanyCell">
+            <el-button v-for="(company,index) in scope.row.topCompanies" @click=""
+                       :key="company.companyId" type="text" size="small">{{company.companyName}}
+            </el-button>
+
+          </template>
+
         </el-table-column>
         <el-table-column
           fixed="right"
@@ -114,10 +121,10 @@
             <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
 
             <div v-if="'statisticDate'===item.field">
-              <el-select v-model="argData[item.field]" placeholder="请选择" style="width: 68%;" size="small">
+              <el-select v-model="industryDialogData[item.field]" placeholder="请选择" style="width: 68%;" size="small">
                 <el-option
-                  v-for="item in dateList"
-                  :key="item.value"
+                  v-for="(item,index) in dateList"
+                  :key="index"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
@@ -128,9 +135,9 @@
               <div class="related_company_box">
 
                 <el-checkbox-group v-model="checkedCompanies" @change="handleCheckedCitiesChange">
-                  <el-checkbox v-for="company in companyList" :label="company"
+                  <el-checkbox v-for="(company,index) in companyList" :label="company"
                                style="margin-left: 10px !important"
-                               :key="company.value">{{company.label}}
+                               :key="index">{{company.label}}
                   </el-checkbox>
                 </el-checkbox-group>
 
@@ -144,7 +151,7 @@
                 placeholder="请输入..."
                 suffix-icon="el-icon-edit"
                 :disabled="'industryName'===item.field"
-                v-model="argData[item.field]">
+                v-model="industryDialogData[item.field]">
               </el-input>
             </div>
 
@@ -237,7 +244,7 @@
 
 
         ],
-        argData: {},
+        industryDialogData: {},
         dialogFormVisible: false,
         dateList: [
           /*          {
@@ -277,7 +284,7 @@
         this.dialog_title = "添加行业信息";
         this.dialogState = "add";
         this.dialogFormVisible = true;
-        this.argData = {
+        this.industryDialogData = {
           industryCode: this.industryInfoProp.code,
           industryName: this.industryInfoProp.name,
           totalOutPut: '',
@@ -298,16 +305,10 @@
         this.dialog_title = "编辑行业信息";
         this.dialogState = "update";
         this.dialogFormVisible = true;
-        this.argData = row;
+        this.industryDialogData = JSON.parse(JSON.stringify(row));
+        console.log(this.industryDialogData);
 
-        if (this.companyListByIndustryCode) {
-          this.companyListByIndustryCode.map((item, index) => {
-            this.companyList.push({
-              label: item.companyName,
-              value: item.companyId
-            })
-          })
-        }
+
       },
 
       /*确认添加数据*/
@@ -324,7 +325,7 @@
       addAindustryInfo_ind() {
         let self = this;
 
-        let addResult = industryInfo_api.addAindustryInfo(this.argData);
+        let addResult = industryInfo_api.addAindustryInfo(this.industryDialogData);
         addResult.then((res) => {
           self.$notify({
             title: '成功',
@@ -378,27 +379,27 @@
       /*修改一条行业数据*/
       updateIndustryData_ind() {
         let self = this;
-        let param = this.argData;
+        let param = this.industryDialogData;
 
         console.log(param);
 
-        /*        let updateResult = industryInfo_api.updateIndustryData(param);
-                updateResult.then((res) => {
-                  self.$notify({
-                    title: '成功',
-                    message: '成功修改一条行业信息！',
-                    type: 'success'
-                  });
-                  self.dialogFormVisible = false;
-                  self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
+        let updateResult = industryInfo_api.updateIndustryData(param);
+        updateResult.then((res) => {
+          self.$notify({
+            title: '成功',
+            message: '成功修改一条行业信息！',
+            type: 'success'
+          });
+          self.dialogFormVisible = false;
+          self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
 
 
-                });
-                updateResult.catch((err) => {
-                  console.error(err);
+        });
+        updateResult.catch((err) => {
+          console.error(err);
 
 
-                })*/
+        })
       },
 
       /*查询某个行业的全部数据*/
@@ -448,8 +449,17 @@
       },
 
       handleCheckedCitiesChange(value) {
-        this.argData.topCompanies = value;
-        console.log(this.argData);
+        let checkedCom = JSON.parse(JSON.stringify(value));
+        let checkedComFormat = [];
+        checkedCom.map((item) => {
+          checkedComFormat.push({
+            companyName: item.label,
+            companyId: item.value
+          })
+        });
+        console.log(checkedComFormat);
+        this.industryDialogData.topCompanies = JSON.parse(JSON.stringify(checkedComFormat));
+        console.log(this.industryDialogData);
       }
     },
 
@@ -457,6 +467,20 @@
       ...mapGetters({
         companyListByIndustryCode: "companyListByIndustryCode"
       })
+    },
+    watch: {
+      companyListByIndustryCode() {
+        console.log("备选的企业列表");
+        /*备选的企业列表*/
+        if (this.companyListByIndustryCode) {
+          this.companyListByIndustryCode.map((item, index) => {
+            this.companyList.push({
+              label: item.companyName,
+              value: item.companyId
+            })
+          })
+        }
+      }
     }
 
   }

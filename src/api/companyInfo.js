@@ -25,7 +25,7 @@ export default {
 
 
   /*添加一条企业信息*/
-  addAindustryInfo: function (reqParam) {
+  addACompanyInfo: function (reqParam) {
     let apiParam = {
       url: "/companyInfo/addACompanyInfo",
       method: "post",
