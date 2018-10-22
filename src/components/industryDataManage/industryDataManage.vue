@@ -2,6 +2,7 @@
   <div class="industryDataManage">
     <div class="industryDataBtns">
       <el-button type="primary" size="small" @click="showDialog_add_ind">添 &nbsp;&nbsp;&nbsp; 加</el-button>
+      <el-button type="primary" size="small" @click="findIndustryInfoByCode_ind">刷新</el-button>
       <batchImport class="batchImport-btn" @importSuccess="importResult_ind"></batchImport>
     </div>
 
@@ -91,7 +92,7 @@
         >
           <template slot-scope="scope" class="relatedCompanyCell">
             <el-button v-for="(company,index) in scope.row.topCompanies" @click=""
-                       :key="company.companyId" type="text" size="small">{{company.companyName}}
+                       :key="index" type="text" size="small">{{company.companyName}}
             </el-button>
 
           </template>
@@ -113,7 +114,7 @@
       </el-table>
     </div>
 
-    <div class="industryDataDialog">
+    <div class="industryDataDialog" v-if="dialogFormVisible">
       <el-dialog :title="dialog_title" :visible.sync="dialogFormVisible">
         <div class="industryDataDialog-content">
           <!--新用户信息-->
@@ -134,8 +135,10 @@
             <div v-else-if="'topCompanies'===item.field">
               <div class="related_company_box">
 
-                <el-checkbox-group v-model="checkedCompanies" @change="handleCheckedCitiesChange">
+                <el-checkbox-group v-model="checkedCompanies" v-if="dialogFormVisible"
+                                   @change="handleCheckedCitiesChange">
                   <el-checkbox v-for="(company,index) in companyList" :label="company"
+                               :checked="company.checked"
                                style="margin-left: 10px !important"
                                :key="index">{{company.label}}
                   </el-checkbox>
@@ -281,6 +284,7 @@
     methods: {
       /*展示弹窗--添加*/
       showDialog_add_ind() {
+        this.checkedCompanies = []; //清空已经勾选的企业
         this.dialog_title = "添加行业信息";
         this.dialogState = "add";
         this.dialogFormVisible = true;
@@ -297,23 +301,22 @@
           employedPopulation_unit: '万人',
           statisticDate: '2017年',
           topCompanies: ""
-        }
+        };
+        this.setCompanyList(); //设置备选企业列表
       },
 
       /*展示弹窗--编辑*/
       showDialog_update_ind(row) {
+        this.checkedCompanies = []; //清空已经勾选的企业
         this.dialog_title = "编辑行业信息";
         this.dialogState = "update";
         this.dialogFormVisible = true;
         this.industryDialogData = JSON.parse(JSON.stringify(row));
-        console.log(this.industryDialogData);
-
-
+        this.setCompanyList(this.industryDialogData.topCompanies); //设置备选企业列表
       },
 
       /*确认添加数据*/
       confirmData_ind() {
-
         if ('add' === this.dialogState) {
           this.addAindustryInfo_ind(); //添加一条行业数据
         } else if ("update" === this.dialogState) {
@@ -324,7 +327,6 @@
       /*添加一条行业数据*/
       addAindustryInfo_ind() {
         let self = this;
-
         let addResult = industryInfo_api.addAindustryInfo(this.industryDialogData);
         addResult.then((res) => {
           self.$notify({
@@ -380,7 +382,6 @@
       updateIndustryData_ind() {
         let self = this;
         let param = this.industryDialogData;
-
         console.log(param);
 
         let updateResult = industryInfo_api.updateIndustryData(param);
@@ -397,8 +398,6 @@
         });
         updateResult.catch((err) => {
           console.error(err);
-
-
         })
       },
 
@@ -448,18 +447,65 @@
 
       },
 
+      /*多选-相关企业*/
       handleCheckedCitiesChange(value) {
         let checkedCom = JSON.parse(JSON.stringify(value));
         let checkedComFormat = [];
         checkedCom.map((item) => {
-          checkedComFormat.push({
-            companyName: item.label,
-            companyId: item.value
-          })
+          let repeatOrNot = false;
+          /*查看有沒有重複的*/
+          checkedComFormat.map((subItem) => {
+            if (subItem.companyId == item.value) {
+              repeatOrNot = true;
+            }
+          });
+          if (!repeatOrNot) {
+            checkedComFormat.push({
+              companyName: item.label,
+              companyId: item.value
+            })
+          }
         });
+        console.log("多选-相关企业");
+        console.log(this.checkedCompanies);
+        console.log(this.companyList);
+        console.log(value);
         console.log(checkedComFormat);
         this.industryDialogData.topCompanies = JSON.parse(JSON.stringify(checkedComFormat));
-        console.log(this.industryDialogData);
+        console.log(this.industryDialogData.topCompanies);
+      },
+
+      /*设置备选企业列表*/
+      setCompanyList(topCompanies) {
+        console.log("设置备选企业列表");
+        console.log(topCompanies);
+        console.log(this.companyListByIndustryCode);
+
+        if (this.companyListByIndustryCode) {
+          this.companyList = [];
+          this.companyListByIndustryCode.map((item, index) => {
+            let checkOrNot = false;
+
+            /*设置已经关联的相关企业*/
+            if (topCompanies.length > 0) {
+              topCompanies.map((comItem) => {
+                if (comItem.companyId === item.companyId) {
+                  checkOrNot = true;
+                  console.log("设置已经关联的相关企业")
+                }
+              });
+            }
+
+            this.companyList.push({
+              label: item.companyName,
+              value: item.companyId,
+              checked: checkOrNot,
+            })
+          })
+        }
+
+        console.log("final");
+        console.log(this.companyList);
       }
     },
 
@@ -468,20 +514,7 @@
         companyListByIndustryCode: "companyListByIndustryCode"
       })
     },
-    watch: {
-      companyListByIndustryCode() {
-        console.log("备选的企业列表");
-        /*备选的企业列表*/
-        if (this.companyListByIndustryCode) {
-          this.companyListByIndustryCode.map((item, index) => {
-            this.companyList.push({
-              label: item.companyName,
-              value: item.companyId
-            })
-          })
-        }
-      }
-    }
+    watch: {}
 
   }
 </script>

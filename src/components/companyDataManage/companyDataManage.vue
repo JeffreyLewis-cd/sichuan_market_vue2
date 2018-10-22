@@ -354,16 +354,13 @@
         let res = companyInfo_api.findComInfoByIndustryCode(param);
         res.then((res) => {
           self.tableData = res.data.companyInfo;
-          console.log(self.tableData);
           self.$store.commit(MUTATIONS.companyListByIndustryCode_mu, self.tableData);
-          console.log(self.companyListByIndustryCode);
         });
         res.catch((err) => {
           console.error(err)
         })
 
       },
-
 
       /*删除一条企业信息*/
       deleteCompanyData_com(row) {
