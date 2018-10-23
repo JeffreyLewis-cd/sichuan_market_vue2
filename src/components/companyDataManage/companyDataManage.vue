@@ -1,151 +1,155 @@
 <template>
   <div class="companyDataManage">
-    <div class="companyDataBtns">
-      <el-button type="primary" size="small" @click="showDialog_add_com">添 &nbsp;&nbsp;&nbsp; 加</el-button>
-      <el-button type="primary" size="small" @click="aquireComInfoByIndustryCode">刷新</el-button>
-      <!--<batchImport class="batchImport-btn" @importSuccess="importResult_com"></batchImport>-->
-    </div>
+    <!--企业基本信息-->
+    <div class="companyBasicInfo" v-show="!comDetailsShow">
+      <!--操作按钮-->
+      <div class="companyDataBtns">
+        <el-button type="primary" size="small" @click="showDialog_add_com">添 &nbsp;&nbsp;&nbsp; 加</el-button>
+        <el-button type="primary" size="small" @click="aquireComInfoByIndustryCode">刷新</el-button>
+        <!--<batchImport class="batchImport-btn" @importSuccess="importResult_com"></batchImport>-->
+      </div>
+      <div class="companyDataTable">
+        <el-table
+          :data="tableData"
+          border
+          style="width: 100%"
+          height="60vh"
+        >
+          <el-table-column
+            prop="companyName"
+            label="企业名称"
+            width="300"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="companyHeadcount"
+            label="员工总数"
+            width="100"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="companyAssets"
+            label="注册资本"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="companyEstablishDate"
+            label="成立日期"
+            width="150"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="companyAddress"
+            label="注册地址"
+            width="300"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="companyLegalRepre"
+            label="法人代表"
+            width="100"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="companyType"
+            label="企业类型"
+            width="120"
+            align="center"
+          >
+            <template slot-scope="scope">
+              {{comTypeCode2Word(scope.row.companyType)}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="companyRegistrationNum"
+            label="注册号"
+            width="200"
+            align="center"
+          >
+          </el-table-column>
 
-    <div class="companyDataTable">
-      <el-table
-        :data="tableData"
-        border
-        style="width: 100%"
-        height="60vh"
-      >
-        <el-table-column
-          prop="companyName"
-          label="企业名称"
-          width="300"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="companyHeadcount"
-          label="员工总数"
-          width="100"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="companyAssets"
-          label="注册资本"
-          width="120"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="companyEstablishDate"
-          label="成立日期"
-          width="150"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="companyAddress"
-          label="注册地址"
-          width="300"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="companyLegalRepre"
-          label="法人代表"
-          width="100"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="companyType"
-          label="企业类型"
-          width="120"
-          align="center"
-        >
-          <template slot-scope="scope">
-            {{comTypeCode2Word(scope.row.companyType)}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="companyRegistrationNum"
-          label="注册号"
-          width="200"
-          align="center"
-        >
-        </el-table-column>
+          <el-table-column
+            fixed="right"
+            label="操作"
+            align="center"
+            width="150">
+            <template slot-scope="scope">
+              <el-button @click="deleteCompanyData_com(scope.row)" type="text" size="small" style="color: #F56C6C;">删除
+              </el-button>
+              <el-button @click="showDialog_update_com(scope.row)" type="text" size="small">编辑</el-button>
+              <el-button @click="showDialog_details_com(scope.row)" type="text" size="small" style="color: #67C23A;">详情
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <!--弹窗-->
+      <div class="companyDataDialog">
+        <el-dialog :title="dialogState.title" :visible.sync="dialogVisibleCom">
+          <div class="companyDataDialog-content">
+            <!--新用户信息-->
+            <div class="dialog-row-box" v-for="(item,index) in dataFieldsAndLabels" :key="index">
+              <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
 
-        <el-table-column
-          fixed="right"
-          label="操作"
-          align="center"
-          width="150">
-          <template slot-scope="scope">
-            <el-button @click="deleteCompanyData_com(scope.row)" type="text" size="small" style="color: #F56C6C;">删除
-            </el-button>
-            <el-button @click="showDialog_update_com(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button @click="showDialog_details_com(scope.row)" type="text" size="small" style="color: #67C23A;">详情
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+              <div v-if="'companyType'===item.field">
+                <el-select v-model="companyData[item.field]" placeholder="请选择" style="width: 65%;" size="small">
+                  <el-option
+                    v-for="item in companyTypeList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </div>
+              <div v-else-if="'companyIndustryCode'===item.field">
+                <el-select v-model="companyData[item.field]" placeholder="请选择" style="width: 65%;" size="small">
+                  <el-option
+                    v-for="item in industryCodeList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </div>
 
+              <div v-else>
+                <el-input
+                  style="width: 65%;"
+                  placeholder="请输入..."
+                  suffix-icon="el-icon-edit"
+                  v-model="companyData[item.field]">
+                </el-input>
+              </div>
 
-    <!--弹窗-->
-    <div class="companyDataDialog">
-      <el-dialog :title="dialogState.title" :visible.sync="dialogVisibleCom">
-        <div class="companyDataDialog-content">
-          <!--新用户信息-->
-          <div class="dialog-row-box" v-for="(item,index) in dataFieldsAndLabels" :key="index">
-            <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
-
-            <div v-if="'companyType'===item.field">
-              <el-select v-model="companyData[item.field]" placeholder="请选择" style="width: 65%;" size="small">
-                <el-option
-                  v-for="item in companyTypeList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </div>
-            <div v-else-if="'companyIndustryCode'===item.field">
-              <el-select v-model="companyData[item.field]" placeholder="请选择" style="width: 65%;" size="small">
-                <el-option
-                  v-for="item in industryCodeList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </div>
-
-            <div v-else>
-              <el-input
-                style="width: 65%;"
-                placeholder="请输入..."
-                suffix-icon="el-icon-edit"
-                v-model="companyData[item.field]">
-              </el-input>
             </div>
 
           </div>
 
-        </div>
 
-
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisibleCom = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="confirmData_com" size="small">确 定</el-button>
-        </div>
-      </el-dialog>
-
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisibleCom = false" size="small">取 消</el-button>
+            <el-button type="primary" @click="confirmData_com" size="small">确 定</el-button>
+          </div>
+        </el-dialog>
+      </div>
     </div>
+    <!--企业详情-->
+    <companyDetails :companyInfoProp="activeCompanyInfo" @showCompanyDetails="showCompanyDetailsFa"
+                    v-if="comDetailsShow"></companyDetails>
   </div>
-
 </template>
 
 <script type="text/ecmascript-6">
   import companyInfo_api from "../../api/companyInfo";
+  import companyDetails from "./companyDetails"
+
   import * as MUTATIONS from '../../store/mutations'
   import {mapGetters} from "vuex"
 
@@ -332,7 +336,9 @@
           title: "",
           func: ""
         },
-        companyIndustryCode: "201"
+        companyIndustryCode: "201",
+        activeCompanyInfo: null,
+        comDetailsShow: false,
       }
     },
     mounted() {
@@ -341,7 +347,9 @@
 
     },
 
-    components: {},
+    components: {
+      companyDetails,
+    },
 
     methods: {
 
@@ -422,8 +430,6 @@
           companyRegistrationNum: '',
           companyIndustryId: '666'
         };
-
-
       },
 
       /*批量导入*/
@@ -470,8 +476,16 @@
       },
 
       /*企业详情*/
-      showDialog_details_com() {
+      showDialog_details_com(comRow) {
+        console.log("企业详情");
+        console.log(comRow);
+        this.activeCompanyInfo = comRow;
+        this.comDetailsShow = true;
+      },
 
+      /*展示企业列表*/
+      showCompanyDetailsFa(detailsShow) {
+        this.comDetailsShow = detailsShow;
       }
     },
 

@@ -90,7 +90,8 @@
       </div>
     </div>
     <!--行业详情-->
-    <industryDetails v-if="industryDetailsShow" @backToInustryList="showIndustryList"></industryDetails>
+    <industryDetails v-if="industryDetailsShow" :indusDetailProp="activeIndustryInfo"
+                     @backToInustryList="showIndustryList"></industryDetails>
   </div>
 </template>
 
@@ -174,6 +175,7 @@
         checkedCompanies: [],
         companyList: [],
         industryDetailsShow: false,
+        activeIndustryInfo:null,
       }
     },
     mounted() {
@@ -332,9 +334,10 @@
       },
 
       /*行业详情*/
-      showDialog_details_ind() {
+      showDialog_details_ind(rowData) {
         this.dialog_title = "行业信息详情";
         this.industryDetailsShow = true; //展示行业详情
+        this.activeIndustryInfo=rowData;
       },
 
       /*多选-相关企业*/

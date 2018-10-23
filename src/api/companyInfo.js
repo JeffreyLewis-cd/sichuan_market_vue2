@@ -79,7 +79,7 @@ export default {
   findCompanyInfoById: function (reqParam) {
     let apiParam = {
       url: "/companyInfo/findCompanyInfoById",
-      method: "post",
+      method: "get",
       param: reqParam
     };
     return apiPromise(apiParam);
