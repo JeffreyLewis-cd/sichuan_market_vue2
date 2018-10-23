@@ -3,7 +3,7 @@
     <div class="agri-tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane class="agri-content" label="农业概况" name="agricultureProfile">
-          <primaryProfile></primaryProfile>
+          <primaryProfile v-if="'agricultureProfile'===activeName"></primaryProfile>
         </el-tab-pane>
 
         <el-tab-pane class="agri-content" label="行业数据" name="industryDataManage">

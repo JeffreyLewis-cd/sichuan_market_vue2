@@ -1,184 +1,104 @@
 <template>
   <div class="industryDataManage">
-    <div class="industryDataBtns">
-      <el-button type="primary" size="small" @click="showDialog_add_ind">添 &nbsp;&nbsp;&nbsp; 加</el-button>
-      <el-button type="primary" size="small" @click="findIndustryInfoByCode_ind">刷新</el-button>
-      <batchImport class="batchImport-btn" @importSuccess="importResult_ind"></batchImport>
-    </div>
-
-    <div class="industryDataTable">
-      <el-table
-        :data="tableData"
-        border
-        style="width: 100%"
-        height="60vh"
-      >
-        <el-table-column
-          prop="industryName"
-          label="行业名称"
-          width="180"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="totalOutPut"
-          label="总产值"
-          width="100"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="totalOutPut_unit"
-          label="总产值单位"
-          width="120"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="productionCosts"
-          label="生产成本"
-          width="100"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="productionCosts_unit"
-          label="生产成本单位"
-          width="120"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="industryProfit"
-          label="行业利润"
-          width="100"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="profit_unit"
-          label="行业利润单位"
-          width="120"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="employedPopulation"
-          label="从业人数"
-          width="100"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="employedPopulation_unit"
-          label="从业人数单位"
-          width="120"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="statisticDate"
-          label="统计日期"
-          sortable
-          width="140"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="topCompanies"
-          label="相关企业"
-          width="600"
-          align="center"
-        >
-          <template slot-scope="scope" class="relatedCompanyCell">
-            <el-button v-for="(company,index) in scope.row.topCompanies" @click=""
-                       :key="index" type="text" size="small">{{company.companyName}}
-            </el-button>
-
-          </template>
-
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          align="center"
-          width="150">
-          <template slot-scope="scope">
-            <el-button @click="deleteIndustryData_ind(scope.row)" type="text" size="small" style="color: #F56C6C;">删除
-            </el-button>
-            <el-button @click="showDialog_update_ind(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button @click="showDialog_details_ind(scope.row)" type="text" size="small" style="color: #67C23A;">详情
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-
-    <div class="industryDataDialog" v-if="dialogFormVisible">
-      <el-dialog :title="dialog_title" :visible.sync="dialogFormVisible">
-        <div class="industryDataDialog-content">
-          <!--新用户信息-->
-          <div class="dialog-row-box" v-for="(item,index) in dataFieldsAndLabels" :key="index">
-            <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
-
-            <div v-if="'statisticDate'===item.field">
-              <el-select v-model="industryDialogData[item.field]" placeholder="请选择" style="width: 68%;" size="small">
-                <el-option
-                  v-for="(item,index) in dateList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </div>
-
-            <div v-else-if="'topCompanies'===item.field">
-              <div class="related_company_box">
-
-                <el-checkbox-group v-model="checkedCompanies" v-if="dialogFormVisible"
-                                   @change="handleCheckedCitiesChange">
-                  <el-checkbox v-for="(company,index) in companyList" :label="company"
-                               :checked="company.checked"
-                               style="margin-left: 10px !important"
-                               :key="index">{{company.label}}
-                  </el-checkbox>
-                </el-checkbox-group>
-
+    <!--行业列表-->
+    <div class="industryList" v-show="!industryDetailsShow">
+      <!--操作按钮-->
+      <div class="industryDataBtns">
+        <el-button type="primary" size="small" @click="showDialog_add_ind">添 &nbsp;&nbsp;&nbsp; 加</el-button>
+        <el-button type="primary" size="small" @click="findIndustryInfoByCode_ind">刷新</el-button>
+        <batchImport class="batchImport-btn" @importSuccess="importResult_ind"></batchImport>
+      </div>
+      <!--行业信息表格-->
+      <div class="industryDataTable">
+        <el-table :data="tableData" border style="width: 100%" height="60vh">
+          <el-table-column prop="industryName" label="行业名称" width="180" align="center"></el-table-column>
+          <el-table-column prop="totalOutPut" label="总产值" width="100" align="center"></el-table-column>
+          <el-table-column prop="totalOutPutUnit" label="总产值单位" width="120" align="center"></el-table-column>
+          <el-table-column prop="productionCosts" label="生产成本" width="100" align="center"></el-table-column>
+          <el-table-column prop="productionCostsUnit" label="生产成本单位" width="120" align="center"></el-table-column>
+          <el-table-column prop="industryProfit" label="行业利润" width="100" align="center"></el-table-column>
+          <el-table-column prop="profitUnit" label="行业利润单位" width="120" align="center"></el-table-column>
+          <el-table-column prop="employedPopulation" label="从业人数" width="100" align="center"></el-table-column>
+          <el-table-column prop="employedPopulationUnit" label="从业人数单位" width="120" align="center"></el-table-column>
+          <el-table-column prop="statisticDate" label="统计日期" sortable width="140" align="center"></el-table-column>
+          <el-table-column prop="topCompanies" label="相关企业" width="600" align="center">
+            <template slot-scope="scope" class="relatedCompanyCell">
+              <el-button v-for="(company,index) in scope.row.topCompanies" @click=""
+                         :key="index" type="text" size="small">{{company.companyName}}
+              </el-button>
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" align="center" width="150">
+            <template slot-scope="scope">
+              <el-button @click="deleteIndustryData_ind(scope.row)" type="text" size="small" style="color: #F56C6C;">删除
+              </el-button>
+              <el-button @click="showDialog_update_ind(scope.row)" type="text" size="small">编辑</el-button>
+              <el-button @click="showDialog_details_ind(scope.row)" type="text" size="small" style="color: #67C23A;">详情
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <!--弹窗-->
+      <div class="industryDataDialog" v-if="dialogFormVisible">
+        <el-dialog :title="dialog_title" :visible.sync="dialogFormVisible">
+          <div class="industryDataDialog-content">
+            <!--新用户信息-->
+            <div class="dialog-row-box" v-for="(item,index) in dataFieldsAndLabels" :key="index">
+              <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
+              <!--选择日期-->
+              <div v-if="'statisticDate'===item.field">
+                <el-select v-model="industryDialogData[item.field]" placeholder="请选择" style="width: 68%;" size="small">
+                  <el-option
+                    v-for="(item,index) in dateList"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
               </div>
-
+              <!--设置相关企业-->
+              <div v-else-if="'topCompanies'===item.field">
+                <div class="related_company_box">
+                  <el-checkbox-group v-model="checkedCompanies" v-if="dialogFormVisible"
+                                     @change="handleCheckedCitiesChange">
+                    <el-checkbox v-for="(company,index) in companyList" :label="company"
+                                 :checked="company.checked"
+                                 style="margin-left: 10px !important"
+                                 :key="index">{{company.label}}
+                    </el-checkbox>
+                  </el-checkbox-group>
+                </div>
+              </div>
+              <!--普通字段-->
+              <div v-else>
+                <el-input
+                  style="width: 68%;"
+                  placeholder="请输入..."
+                  suffix-icon="el-icon-edit"
+                  :disabled="'industryName'===item.field"
+                  v-model="industryDialogData[item.field]">
+                </el-input>
+              </div>
             </div>
-
-            <div v-else>
-              <el-input
-                style="width: 68%;"
-                placeholder="请输入..."
-                suffix-icon="el-icon-edit"
-                :disabled="'industryName'===item.field"
-                v-model="industryDialogData[item.field]">
-              </el-input>
-            </div>
-
           </div>
-
-        </div>
-
-
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="confirmData_ind" size="small">确 定</el-button>
-        </div>
-      </el-dialog>
-
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
+            <el-button type="primary" @click="confirmData_ind" size="small">确 定</el-button>
+          </div>
+        </el-dialog>
+      </div>
     </div>
+    <!--行业详情-->
+    <industryDetails v-if="industryDetailsShow" @backToInustryList="showIndustryList"></industryDetails>
   </div>
-
 </template>
 
 <script type="text/ecmascript-6">
   import industryInfo_api from "../../api/industryInfo";
   import batchImport from "../fileUpload/batchImport";
+  import industryDetails from "./industryDetails"
   import {mapGetters} from "vuex"
-
 
   export default {
     name: "industryDataManage",
@@ -189,13 +109,13 @@
           industryCode: "",
           industryName: '',
           totalOutPut: '',
-          totalOutPut_unit: '',
+          totalOutPutUnit: '',
           productionCosts: '',
-          productionCosts_unit: '',
+          productionCostsUnit: '',
           industryProfit: '',
-          profit_unit: '',
+          profitUnit: '',
           employedPopulation: '',
-          employedPopulation_unit: '',
+          employedPopulationUnit: '',
           statisticsDate: '',
           topCompanies: ""
         },],
@@ -209,7 +129,7 @@
             label: "总产值",
           },
           {
-            field: "totalOutPut_unit",
+            field: "totalOutPutUnit",
             label: "总产值单位",
           },
           {
@@ -217,7 +137,7 @@
             label: "生产成本",
           },
           {
-            field: "productionCosts_unit",
+            field: "productionCostsUnit",
             label: "生产成本单位",
           },
           {
@@ -225,7 +145,7 @@
             label: "行业利润",
           },
           {
-            field: "profit_unit",
+            field: "profitUnit",
             label: "行业利润单位",
           },
           {
@@ -233,7 +153,7 @@
             label: "从业人数",
           },
           {
-            field: "employedPopulation_unit",
+            field: "employedPopulationUnit",
             label: "从业人数单位",
           },
           {
@@ -244,24 +164,16 @@
             field: "topCompanies",
             label: "相关企业",
           },
-
-
         ],
         industryDialogData: {},
         dialogFormVisible: false,
-        dateList: [
-          /*          {
-                      value: '2017年',
-                      label: '2017年'
-                    },*/
-
-        ],
+        dateList: [],
         activeDate: "2017年",
         dialogState: "add",
         dialog_title: "",
         checkedCompanies: [],
         companyList: [],
-
+        industryDetailsShow: false,
       }
     },
     mounted() {
@@ -272,15 +184,12 @@
           label: key + "年",
         })
       }
-
       this.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
-
     },
-
     components: {
       batchImport,
+      industryDetails,
     },
-
     methods: {
       /*展示弹窗--添加*/
       showDialog_add_ind() {
@@ -292,13 +201,13 @@
           industryCode: this.industryInfoProp.code,
           industryName: this.industryInfoProp.name,
           totalOutPut: '',
-          totalOutPut_unit: '亿元',
+          totalOutPutUnit: '亿元',
           productionCosts: '',
-          productionCosts_unit: '亿元',
+          productionCostsUnit: '亿元',
           industryProfit: '',
-          profit_unit: '亿元',
+          profitUnit: '亿元',
           employedPopulation: '',
-          employedPopulation_unit: '万人',
+          employedPopulationUnit: '万人',
           statisticDate: '2017年',
           topCompanies: ""
         };
@@ -340,19 +249,16 @@
         addResult.catch((err) => {
           console.error(err);
         })
-
       },
 
       /*删除一条数据*/
       deleteIndustryData_ind(row) {
         let self = this;
-
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-
           let param = {
             industryId: row.industryId
           };
@@ -364,8 +270,6 @@
               type: 'success'
             });
             self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
-
-
           });
           deleteResult.catch((err) => {
             console.error(err);
@@ -382,8 +286,6 @@
       updateIndustryData_ind() {
         let self = this;
         let param = this.industryDialogData;
-        console.log(param);
-
         let updateResult = industryInfo_api.updateIndustryData(param);
         updateResult.then((res) => {
           self.$notify({
@@ -393,8 +295,6 @@
           });
           self.dialogFormVisible = false;
           self.findIndustryInfoByCode_ind();  //查询某个行业的全部数据
-
-
         });
         updateResult.catch((err) => {
           console.error(err);
@@ -410,21 +310,11 @@
         let findResult = industryInfo_api.findIndustryInfoByCode(param);
         findResult.then((res) => {
           if (res.data.industryInfo.length > 0) {
-            /*            self.$notify({
-                          title: '成功',
-                          message: '成功获取_' + self.industryInfoProp.name + '_信息！',
-                          type: 'success'
-                        });*/
-
             self.tableData = res.data.industryInfo;
           }
-
-
         });
         findResult.catch((err) => {
           console.error(err);
-
-
         })
       },
 
@@ -444,7 +334,7 @@
       /*行业详情*/
       showDialog_details_ind() {
         this.dialog_title = "行业信息详情";
-
+        this.industryDetailsShow = true; //展示行业详情
       },
 
       /*多选-相关企业*/
@@ -466,36 +356,23 @@
             })
           }
         });
-        console.log("多选-相关企业");
-        console.log(this.checkedCompanies);
-        console.log(this.companyList);
-        console.log(value);
-        console.log(checkedComFormat);
         this.industryDialogData.topCompanies = JSON.parse(JSON.stringify(checkedComFormat));
-        console.log(this.industryDialogData.topCompanies);
       },
 
       /*设置备选企业列表*/
       setCompanyList(topCompanies) {
-        console.log("设置备选企业列表");
-        console.log(topCompanies);
-        console.log(this.companyListByIndustryCode);
-
         if (this.companyListByIndustryCode) {
           this.companyList = [];
           this.companyListByIndustryCode.map((item, index) => {
             let checkOrNot = false;
-
             /*设置已经关联的相关企业*/
-            if (topCompanies.length > 0) {
+            if (topCompanies && topCompanies.length > 0) {
               topCompanies.map((comItem) => {
                 if (comItem.companyId === item.companyId) {
                   checkOrNot = true;
-                  console.log("设置已经关联的相关企业")
                 }
               });
             }
-
             this.companyList.push({
               label: item.companyName,
               value: item.companyId,
@@ -503,19 +380,21 @@
             })
           })
         }
+      },
 
-        console.log("final");
-        console.log(this.companyList);
+      /*展示行业列表信息*/
+      showIndustryList(value) {
+        console.log("展示行业列表信息-father");
+        console.log(value);
+        this.industryDetailsShow = value;
       }
     },
-
     computed: {
       ...mapGetters({
         companyListByIndustryCode: "companyListByIndustryCode"
       })
     },
     watch: {}
-
   }
 </script>
 
@@ -545,12 +424,10 @@
     }
     .industryDataDialog {
       .industryDataDialog-content {
-
         .dialog-row-box {
           margin-bottom: 20px;
           width: 48%;
           display: inline-block;
-          /*border:1px solid red;*/
           .dialog-row-label {
             float: left;
             width: 30%;
@@ -587,27 +464,18 @@
               padding: 0 10px;
               margin-left: 20px;
               border: 1px solid green;
-
             }
-
           }
-
         }
-
       }
     }
-
   }
-
 </style>
 
 <style lang="less">
-
-
   .industryDataDialog {
     .el-dialog {
       margin-top: 8vh !important;
-
       .el-dialog__body {
         padding: 0 20px !important;
         .related_company_box {
@@ -619,8 +487,5 @@
         }
       }
     }
-
   }
-
-
 </style>
