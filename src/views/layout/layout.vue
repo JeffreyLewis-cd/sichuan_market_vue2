@@ -1,9 +1,10 @@
 <template>
-
   <div class="layout">
+    <!--页面左侧导航-->
     <div class="layout-left " :class="{'layout-left-collapse':leftSideNavCollapse}">
       <leftSideNav @adjustRightHeight="adjustRightHeightFa" ref="layoutLeft"></leftSideNav>
     </div>
+    <!--页面右侧主体部分-->
     <div class="layout-right " ref="layoutRight"
          :class="{'layout-right-collapse':leftSideNavCollapse}">
       <topBar class="layout-right-topbar"></topBar>
@@ -18,8 +19,6 @@
   import leftSideNav from '@/views/layout/leftSideNav/leftSideNav';
   import topBar from '@/views/layout/topBar/topBar';
   import {mapGetters} from "vuex"
-
-
   export default {
     name: 'Title',
     data() {
@@ -29,14 +28,12 @@
     },
     mounted: function () {
 
-
     },
     components: {
       leftSideNav,
       topBar,
     },
     methods: {
-
       /*调整页面右边高度*/
       adjustRightHeightFa(val) {
         let newRheight = '';
@@ -48,10 +45,8 @@
         }
         rightEle.style.height = newRheight;
       }
-
     },
     computed: {
-
       ...mapGetters({
         leftSideNavCollapse: 'leftSideNavCollapse',
       })
@@ -61,15 +56,13 @@
 
 <style scoped lang="less">
   @pageMinheight: 500px;
-
   .layout {
     width: 100%;
     height: 100vh;
     overflow: hidden !important;
     min-height: @pageMinheight;
-    background-color: aqua;
+    background-color: #f0f2f5;
     display: flex;
-
     .layout-left {
       height: 100vh;
       overflow: hidden !important;
@@ -112,4 +105,7 @@
     }
   }
 
+</style>
+<style lang="less">
+  @import "../../assets/style/basicStyle";
 </style>

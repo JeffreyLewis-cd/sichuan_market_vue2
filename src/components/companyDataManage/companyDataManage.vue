@@ -344,7 +344,6 @@
     mounted() {
       /*获取企业列表*/
       this.aquireComInfoByIndustryCode();
-
     },
 
     components: {
@@ -352,7 +351,6 @@
     },
 
     methods: {
-
       /*获取企业列表*/
       aquireComInfoByIndustryCode() {
         let self = this;
@@ -367,19 +365,16 @@
         res.catch((err) => {
           console.error(err)
         })
-
       },
 
       /*删除一条企业信息*/
       deleteCompanyData_com(row) {
         let self = this;
-
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-
           let param = {
             companyId: row.companyId
           };
@@ -391,8 +386,6 @@
               type: 'success'
             });
             self.aquireComInfoByIndustryCode();//获取企业列表
-
-
           });
           deleteResult.catch((err) => {
             console.error(err);
@@ -403,7 +396,6 @@
             message: '已取消删除'
           });
         });
-
       },
 
       /*展示弹窗-编辑企业信息*/
@@ -431,18 +423,15 @@
           companyIndustryId: '666'
         };
       },
-
       /*批量导入*/
       importResult_com() {
 
       },
-
       /*数据确定*/
       confirmData_com() {
         let self = this;
         if ("add" === this.dialogState.func) {
           let companyDataAPI = JSON.parse(JSON.stringify(this.companyData));
-
           let addComRes = companyInfo_api.addACompanyInfo(companyDataAPI);
           /*添加成功*/
           addComRes.then((res) => {
@@ -463,7 +452,6 @@
           })
         }
       },
-
       /*企业类型-编码转文字*/
       comTypeCode2Word(code) {
         let typeLable = "";
@@ -474,7 +462,6 @@
         });
         return typeLable;
       },
-
       /*企业详情*/
       showDialog_details_com(comRow) {
         console.log("企业详情");
@@ -482,7 +469,6 @@
         this.activeCompanyInfo = comRow;
         this.comDetailsShow = true;
       },
-
       /*展示企业列表*/
       showCompanyDetailsFa(detailsShow) {
         this.comDetailsShow = detailsShow;
@@ -494,7 +480,6 @@
         companyListByIndustryCode: "companyListByIndustryCode"
       })
     }
-
   }
 </script>
 
@@ -535,12 +520,19 @@
             height: 40px;
             line-height: 40px;
           }
-
         }
-
       }
     }
-
   }
 
+</style>
+<style lang="less">
+  .companyDataDialog {
+    .el-dialog {
+      margin-top: 5vh !important;
+      .el-dialog__body{
+        padding:10px 20px;
+      }
+    }
+  }
 </style>

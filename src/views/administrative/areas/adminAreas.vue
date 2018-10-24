@@ -1,6 +1,5 @@
 <template>
   <div class="adminAreas-page">
-
     <!--城市信息操作按钮-->
     <div class="adminAreas-operate">
       <h3 class="title">市级行政区域列表</h3>
@@ -20,7 +19,6 @@
       </div>
 
     </div>
-
     <!--城市信息列表展示-->
     <el-table
       :data="adminAreasData"
@@ -50,8 +48,7 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <!--对话框-添加新用户-->
+    <!--对话框-添加城市信息-->
     <el-dialog class="cityInfo-dialog"
                :title="dialogTitle"
                :visible.sync="dialogVisible"
@@ -59,7 +56,6 @@
       <!--新用户信息-->
       <div class="dialog-row-box" v-for="(item,index) in cityInfoFieldsAndLabels" :key="index">
         <p class="dialog-row-label">{{item.label}}:&nbsp;</p>
-
         <div class="selector" v-if="'cityName'===item.field">
           <el-select v-model="dialogPara[item.field]" placeholder="请选择" style="width: 50%;" @change="selectCity">
             <el-option
@@ -80,7 +76,6 @@
             </el-option>
           </el-select>
         </div>
-
         <div class="txtInput" v-else>
           <el-input
             style="width: 50%;"
@@ -90,17 +85,13 @@
           </el-input>
         </div>
       </div>
-
       <!--对话框-按钮-->
       <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false" size="small">取 消</el-button>
           <el-button type="primary" @click="dialogConfirm" size="small">确 定</el-button>
       </span>
     </el-dialog>
-
-
   </div>
-
 </template>
 
 <script type="text/ecmascript-6">
@@ -179,7 +170,6 @@
             field: "statisticDate",
             label: "统计时间",
           },
-
         ],
         adminAreasData: [],
         dialogVisible: false,
@@ -230,7 +220,6 @@
           },
         ],
         activeDate: "2017年",
-
       }
     },
     mounted() {
@@ -258,13 +247,10 @@
         }
         return s;
       },
-
       /*切换日期*/
       switchDate() {
         this.findAllCityInfo(); //获取四川省基本信息
       },
-
-
       /*查询所有的城市信息*/
       findAllCityInfo() {
         let self = this;
@@ -273,7 +259,6 @@
         };
         let allCityInfoes = adminAreas.findAllCityInfo(param);
         allCityInfoes.then((res) => {
-
           self.adminAreasData = res.data;
           /*小数点后两位*/
           /*          self.adminAreasData.map((item) => {
@@ -286,7 +271,6 @@
           console.error(err);
           self.adminAreasData = []
         })
-
       },
 
       /*删除城市信息*/
@@ -297,7 +281,6 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-
           /*确定要删除*/
           let deleteResult = adminAreas.deleteCityInfo(row);
           deleteResult.then((res) => {
@@ -316,7 +299,6 @@
               message: '操作失败！'
             });
           })
-
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -342,8 +324,6 @@
         }).catch((err) => {
           console.error(err);
         });
-
-
         this.dialogPara = {
           cityId: "",
           cityName: "",
@@ -423,7 +403,6 @@
           });
         })
       },
-
       /*对话框选择城市*/
       selectCity(selectedCity) {
         let cityCode = '';
@@ -433,11 +412,8 @@
           }
         });
         this.dialogPara.cityCode = cityCode;
-
       }
-
     },
-
   }
 </script>
 
@@ -459,7 +435,7 @@
 
     .cityInfo-dialog {
       .dialog-row-box {
-        margin-bottom: 20px;
+        margin-bottom: 12px;
         width: 48%;
         display: inline-block;
         .dialog-row-label {
@@ -469,9 +445,7 @@
           height: 40px;
           line-height: 40px;
         }
-
       }
-
     }
   }
 
@@ -482,7 +456,9 @@
   .cityInfo-dialog {
     .el-dialog {
       margin-top: 5vh !important;
+      .el-dialog__body{
+        padding:10px 20px;
+      }
     }
   }
-
 </style>

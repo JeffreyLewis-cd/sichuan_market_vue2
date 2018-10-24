@@ -12,7 +12,9 @@
         <el-tab-pane class="agri-content" label="相关企业" name="second">
           <companyDataManage></companyDataManage>
         </el-tab-pane>
-        <el-tab-pane class="agri-content" label="角色管理" name="third">角色管理33</el-tab-pane>
+        <el-tab-pane class="agri-content" label="农产品展示" name="third">
+          <productDataManage></productDataManage>
+        </el-tab-pane>
       </el-tabs>
     </div>
 
@@ -24,6 +26,7 @@
   import industryDataManage from "@/components/industryDataManage/industryDataManage"
   import companyDataManage from "@/components/companyDataManage/companyDataManage"
   import primaryProfile from "@/components/industryDataManage/primaryProfile"
+  import productDataManage from "@/components/productDataManage/productDataManage"
 
 
   export default {
@@ -45,6 +48,7 @@
       industryDataManage,
       primaryProfile,
       companyDataManage,
+      productDataManage,
     },
 
     methods: {

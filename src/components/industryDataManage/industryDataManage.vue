@@ -406,27 +406,22 @@
 
       /*展示行业列表信息*/
       showIndustryList(value) {
-        console.log("展示行业列表信息-father");
-        console.log(value);
         this.industryDetailsShow = value;
       },
 
       /*展示企业详情*/
       showCompanyDetails(companyId) {
-        console.log("展示企业详情");
-        console.log(companyId);
         let self = this;
         let param = {
           companyId: companyId,
         };
         let companyDetails = companyInfo_api.findCompanyInfoById(param);
         companyDetails.then((res) => {
-          console.log(res);
           self.companyDetailGet = res.data.companyInfo;
           self.comDetailsShow = true;
         });
         companyDetails.catch((err) => {
-          console.log(err);
+          console.error(err);
         });
       },
 
@@ -434,6 +429,7 @@
       showCompanyDetailsFa(detailsShow) {
         this.comDetailsShow = detailsShow;
       },
+
       /*相关企业格式化*/
       formatTopCompanies(topCompanies) {
         let formatCom = {
@@ -482,7 +478,7 @@
     .industryDataDialog {
       .industryDataDialog-content {
         .dialog-row-box {
-          margin-bottom: 20px;
+          margin-bottom: 12px;
           width: 48%;
           display: inline-block;
           .dialog-row-label {
@@ -492,7 +488,6 @@
             height: 40px;
             line-height: 40px;
           }
-
           .related_company_box {
             border: 1px solid #c0c4cc;
             border-radius: 5px;
