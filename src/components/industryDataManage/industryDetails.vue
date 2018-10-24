@@ -7,7 +7,7 @@
       </div>
       <!--详情字段部分-->
       <div class="indusDetailsContent">
-        <h3>行业基本详情</h3>
+        <h3 class="industryBasicTitle">行业基本详情</h3>
         <ul class="industryBasicDetails">
           <li class="indusDetailsRow">
             <span class="title">行业名称：</span>
@@ -38,7 +38,7 @@
             <span>{{indusDetailProp.statisticDate}}</span>
           </li>
         </ul>
-        <h3>行业相关企业</h3>
+        <h3 class="indRelatedComTitle">行业相关企业</h3>
         <ul class="industryCompanies">
           <li v-for="(comItem,index) in indusDetailProp.topCompanies" :key="index" class="companyRow">
             <el-button type="text" size="small" @click.native="showCompanyDetails(comItem.companyId)">
@@ -49,7 +49,6 @@
         </ul>
       </div>
     </div>
-    <!--企业详情-->
     <!--企业详情-->
     <companyDetails :companyInfoProp="companyDetailGet" @showCompanyDetails="showCompanyDetailsFa"
                     v-if="comDetailsShow"></companyDetails>
@@ -122,9 +121,10 @@
     }
     .indusDetailsContent {
       padding: 0 20px;
-
-      .industryBasicDetails {
+      .industryBasicTitle {
         border-bottom: 1px solid #E8E8E8;
+      }
+      .industryBasicDetails {
         margin-bottom: 30px;
         .indusDetailsRow {
           height: 36px;
@@ -134,6 +134,9 @@
           .title {
           }
         }
+      }
+      .indRelatedComTitle {
+        border-bottom: 1px solid #E8E8E8;
       }
       .industryCompanies {
         height: 300px;
