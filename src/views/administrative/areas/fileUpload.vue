@@ -10,14 +10,20 @@
       multiple
       :limit="3"
       :on-exceed="handleExceed"
+      :headers="headersSetting"
+      :auto-upload="false"
+      ref="upload"
       :file-list="fileList">
-      <el-button size="small" type="primary">点击上传</el-button>
+      <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+      <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
       <div slot="tip" class="el-upload__tip">单个文件不超过10G</div>
     </el-upload>
 
   </div>
 
 </template>
+
+<!--  -->
 
 <script type="text/ecmascript-6">
   import pubapi from "../../../api/pubapi"
@@ -26,10 +32,11 @@
     name: "fileUpload",
     data() {
       return {
-        fileList: [
-
-        ],
+        fileList: [],
         uploadURL: pubapi.apiRootURL + "/files/fileUpload",
+        headersSetting: {
+          'Authorization': this.getCookie('token'),
+        }
       }
     },
     mounted() {
@@ -50,6 +57,18 @@
       },
       beforeRemove(file, fileList) {
         return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      submitUpload() {
+        this.$refs.upload.submit();
+      },
+
+      //读取cookies
+      getCookie(name) {
+        let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+          return unescape(arr[2]);
+        else
+          return null;
       }
     },
 

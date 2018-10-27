@@ -1,7 +1,10 @@
 <template>
   <div class="productDataManagePage">
     <!--产品分类-->
-    <div class="productsCategory">
+    <div class="productsCategory" v-if="!addProductFormShow">
+      <el-button type="primary" size="small" class="productAddBtn"
+                 @click="showDialog_add_product">添加产品
+      </el-button>
       <span>产品分类：</span>
       <el-button :type="(item.value===activeCategory)?'primary':'text'" size="small" plain
                  v-for="(item,index) in proCategoryList" :key="index"
@@ -9,7 +12,7 @@
       </el-button>
     </div>
     <!--产品列表卡片-->
-    <div class="productsContent">
+    <div class="productsContent" v-if="!addProductFormShow">
       <div class="productsItem" v-for="(proItem,index) in productsList" :key="index">
         <!--<img src="../../assets/image/img01/lemon_01.png" class="proThumbnail"/>-->
         <img :src="proItem.productThumbnail" class="proThumbnail"/>
@@ -19,11 +22,14 @@
         </div>
       </div>
     </div>
+    <!--添加产品-->
+    <addProductForm v-if="addProductFormShow" @addProFormShow="addProFormShowFa"></addProductForm>
   </div>
-
 </template>
 
 <script type="text/ecmascript-6">
+  import addProductForm from "./addProductForm"
+
   export default {
     name: "productDataManage",
     data() {
@@ -61,25 +67,25 @@
             productName: '柠檬',
             productDescribe: '柠檬描述',
             productThumbnail: require("../../assets/image/products/lemon02.jpg"),
-            productDetails:{
-              images:[
+            productDetails: {
+              images: [
                 {
-                  txt:"",
-                  url:"",
+                  txt: "",
+                  url: "",
                 },
                 {
-                  txt:"",
-                  url:"",
+                  txt: "",
+                  url: "",
                 },
                 {
-                  txt:"",
-                  url:"",
+                  txt: "",
+                  url: "",
                 },
               ],
-              videos:[
+              videos: [
                 {
-                  txt:"",
-                  url:"",
+                  txt: "",
+                  url: "",
                 }
               ]
             }
@@ -125,43 +131,58 @@
             productVideo: []
           },
         ],
+        addProductFormShow: false,
       }
     },
     mounted() {
 
     },
 
-    components: {},
+    components: {
+      addProductForm,
+    },
 
     methods: {
       /*切换产品分类*/
       switchProCategory(value) {
         this.activeCategory = value;
-      }
-    },
+      },
 
+      /*添加产品*/
+      showDialog_add_product() {
+        this.addProductFormShow = true;
+      },
+
+      /*返回产品列表*/
+      addProFormShowFa(value) {
+        this.addProductFormShow = value;
+      }
+    }
   }
 </script>
 
 <style scoped lang="less">
   .productDataManagePage {
-
+    overflow: auto;
     .productsCategory {
       height: 36px;
-      width: calc(100% - 60px);
+      width: calc(100% - 44px);
       border-bottom: 1px solid #E4E7ED;
-      margin-left: 30px;
+      margin-left: 22px;
       .proCateItem {
         margin-right: 20px;
         letter-spacing: 5px;
         padding: 6px 20px;
         font-weight: bold;
       }
+      .productAddBtn {
+        margin-right: 30px;
+      }
     }
     .productsContent {
       min-height: 460px;
-      height: calc(100vh - 250px);
-      width: calc(100% - 50px);
+      height: calc(100vh - 255px);
+      width: calc(100% - 42px);
       padding: 10px;
       margin-top: 15px;
       overflow: auto;
@@ -187,7 +208,6 @@
         box-shadow: 0 0 20px rgba(160, 160, 160, 0.9);
       }
     }
-
   }
 
 

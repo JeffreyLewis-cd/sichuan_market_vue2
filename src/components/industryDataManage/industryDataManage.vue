@@ -111,7 +111,7 @@
 
 <script type="text/ecmascript-6">
   import industryInfo_api from "../../api/industryInfo";
-  import batchImport from "../fileUpload/batchImport";
+  import batchImport from "../batchImport/batchImport";
   import industryDetails from "./industryDetails"
   import companyInfo_api from "../../api/companyInfo";
   import companyDetails from "../companyDataManage/companyDetails";

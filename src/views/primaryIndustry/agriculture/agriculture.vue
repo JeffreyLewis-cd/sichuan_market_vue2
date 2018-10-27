@@ -6,13 +6,13 @@
           <primaryProfile v-if="'agricultureProfile'===activeName"></primaryProfile>
         </el-tab-pane>
 
-        <el-tab-pane class="agri-content" label="行业数据" name="industryDataManage">
+        <el-tab-pane class="agri-content" label="农业数据" name="industryDataManage">
           <industryDataManage :industryInfoProp="industryInfoProp"></industryDataManage>
         </el-tab-pane>
-        <el-tab-pane class="agri-content" label="相关企业" name="second">
+        <el-tab-pane class="agri-content" label="农业企业" name="second">
           <companyDataManage></companyDataManage>
         </el-tab-pane>
-        <el-tab-pane class="agri-content" label="农产品展示" name="third">
+        <el-tab-pane class="agri-content" label="农业产品" name="third">
           <productDataManage></productDataManage>
         </el-tab-pane>
       </el-tabs>
@@ -76,6 +76,7 @@
       min-height: 300px;
       min-width: 50px;
       padding: 10px;
+      overflow: auto;
     }
   }
 
