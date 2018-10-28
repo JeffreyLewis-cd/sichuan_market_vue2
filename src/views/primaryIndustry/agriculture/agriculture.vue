@@ -76,7 +76,7 @@
       min-height: 300px;
       min-width: 50px;
       padding: 10px;
-      overflow: auto;
+      overflow: hidden;
     }
   }
 
