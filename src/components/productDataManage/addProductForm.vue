@@ -3,6 +3,7 @@
     <!--返回按钮-->
     <div class="addProductFormBtn">
       <el-button type="primary" size="small" @click="backToProductList">返 &nbsp;&nbsp;&nbsp;回</el-button>
+      <el-button type="success" size="small" @click="addAProductInfoBtn">保 &nbsp;&nbsp;&nbsp;存</el-button>
     </div>
     <!--添加产品表单-->
     <div class="addProFormContent">
@@ -18,12 +19,13 @@
       </div>
       <!--产品简介-->
       <div class="proShortDescribe">
-        <div class="proThumbnail">
+        <div class="proFile">
           <p>封面小图一张：</p>
-          <div class="proThumbnailUpload">
+          <div class="proFileUpload">
             <el-upload
               :action="uploadThumbnailURL"
               list-type="picture-card"
+              :headers="headersSetting"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove">
               <i class="el-icon-plus"></i>
@@ -44,12 +46,13 @@
         </div>
       </div>
       <!--产品详情-->
-      <div class="proShortDescribe" v-for="(fileItem,index) in newProductInfo.productDetails" :key="index">
-        <div class="proThumbnail">
+      <div class="proShortDescribe" v-for="(fileItem,index) in productDetails" :key="index">
+        <div class="proFile">
           <p>{{fileItem.fileTitle}} (配图或者视频) ：</p>
-          <div class="proThumbnailUpload">
+          <div class="proFileUpload">
             <el-upload
-              action="https://jsonplaceholder.typicode.com/posts/"
+              :action="storeInFileSystem"
+              :headers="headersSetting"
               list-type="picture-card"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove">
@@ -76,6 +79,7 @@
 
 <script type="text/ecmascript-6">
   import pubapi from "../../api/pubapi"
+  import productInfo from "../../api/productInfo"
 
   export default {
     name: "addProductForm",
@@ -85,32 +89,36 @@
           productName: "666",
           productThumbnail: "",
           productDescribe: "",
-          productDetails: [
-            {
-              fileTitle: "产品介绍一",
-              fileUrl: "url图片01",
-              fileTxt: "图片01",
-            },
-            {
-              fileTitle: "产品介绍二",
-              fileUrl: "url图片02",
-              fileTxt: "图片02",
-            },
-            {
-              fileTitle: "产品介绍三",
-              fileUrl: "url图片03",
-              fileTxt: "图片03",
-            },
-            {
-              fileTitle: "产品介绍四",
-              fileUrl: "url视频01",
-              fileTxt: "视频01",
-            }
-          ],
         },
-        uploadThumbnailURL: pubapi.apiRootURL + "/files/imageByte",
+        productDetails: [
+          {
+            fileTitle: "产品介绍一",
+            fileUrl: "url图片01",
+            fileTxt: "图片01",
+          },
+          {
+            fileTitle: "产品介绍二",
+            fileUrl: "url图片02",
+            fileTxt: "图片02",
+          },
+          {
+            fileTitle: "产品介绍三",
+            fileUrl: "url图片03",
+            fileTxt: "图片03",
+          },
+          {
+            fileTitle: "产品介绍四",
+            fileUrl: "url视频01",
+            fileTxt: "视频01",
+          }
+        ],
+        uploadThumbnailURL: pubapi.apiRootURL + "/ProductInfo/imageByte",
+        storeInFileSystem: pubapi.apiRootURL + "/ProductInfo/storeInFileSystem",
         dialogImageUrl: '',
-        dialogVisible: false
+        dialogVisible: false,
+        headersSetting: {
+          'Authorization': this.getCookie('token'),
+        }
       }
     },
     mounted() {
@@ -131,6 +139,27 @@
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
+      },
+      //读取cookies
+      getCookie(name) {
+        let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+          return unescape(arr[2]);
+        else
+          return null;
+      },
+
+      /*保存一条产品信息*/
+      addAProductInfoBtn() {
+        let addProduct = productInfo.addAProductInfo(this.newProductInfo);
+        addProduct.then((res) => {
+          console.log("保存一条产品信息");
+          console.log(res);
+        });
+        addProduct.catch((err) => {
+          console.error(err);
+        })
+
       }
     },
   }
@@ -158,10 +187,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        .proThumbnail {
+        .proFile {
           width: 40%;
           height: 200px;
-          .proThumbnailUpload {
+          .proFileUpload {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -176,7 +205,7 @@
   }
 </style>
 <style lang="less">
-  .proThumbnailUpload {
+  .proFileUpload {
     .el-upload--picture-card {
       height: 138px;
       width: 138px;
