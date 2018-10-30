@@ -1,21 +1,21 @@
 <template>
   <div class="productDataManagePage">
     <!--产品分类-->
-    <div class="productsCategory" v-if="!addProductFormShow">
+    <div class="productsCategory" v-if="'productList'===productPageShow">
       <el-button type="primary" size="small" class="productAddBtn"
                  @click="showDialog_add_product">添加产品
       </el-button>
       <span>产品分类：</span>
-      <el-button :type="(item.value===activeCategory)?'primary':'text'" size="small" plain
+      <el-button :type="(item.value===activeProductCode)?'primary':'text'" size="small" plain
                  v-for="(item,index) in proCategoryList" :key="index"
                  @click.native="switchProCategory(item.value)" class="proCateItem"> {{item.label}}
       </el-button>
     </div>
     <!--产品列表卡片-->
-    <div class="productsContent" v-if="!addProductFormShow">
-      <div class="productsItem" v-for="(proItem,index) in productsList" :key="index">
-        <!--<img src="../../assets/image/img01/lemon_01.png" class="proThumbnail"/>-->
-        <img :src="proItem.productThumbnail" class="proThumbnail"/>
+    <div class="productsContent" v-if="'productList'===productPageShow">
+      <div class="productsItem" v-for="(proItem,index) in productsList" :key="index"
+           @click="showProductDetails(proItem)">
+        <img :src="'data:image/jpeg;base64,'+proItem.productThumbnail" class="proThumbnail"/>
         <div class="proText">
           <h4>{{proItem.productName}}</h4>
           <p>{{proItem.productDescribe}}</p>
@@ -23,12 +23,18 @@
       </div>
     </div>
     <!--添加产品-->
-    <addProductForm v-if="addProductFormShow" @addProFormShow="addProFormShowFa"></addProductForm>
+    <addProductForm v-if="'addProduct'===productPageShow" @addProFormShow="addProFormShowFa"></addProductForm>
+    <!--产品详情-->
+    <productDetails v-if="'productDetails'===productPageShow" @backToProList="backToProListFa"
+                    :proDetailsProp="activeProDetails"></productDetails>
+
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import addProductForm from "./addProductForm"
+  import productInfoAPI from "../../api/productInfo"
+  import productDetails from "./productDetails"
 
   export default {
     name: "productDataManage",
@@ -60,102 +66,152 @@
             value: "406"
           },
         ],
-        activeCategory: "401",
+        activeProductCode: "401",
         productsList: [
-          {
-            productId: "",
-            productName: '柠檬',
-            productDescribe: '柠檬描述',
-            productThumbnail: require("../../assets/image/products/lemon02.jpg"),
-            productDetails: {
-              images: [
-                {
-                  txt: "",
-                  url: "",
-                },
-                {
-                  txt: "",
-                  url: "",
-                },
-                {
-                  txt: "",
-                  url: "",
-                },
-              ],
-              videos: [
-                {
-                  txt: "",
-                  url: "",
-                }
-              ]
-            }
-          },
-          {
-            productId: "",
-            productName: '水蜜桃',
-            productDescribe: '水蜜桃描述',
-            productThumbnail: require("../../assets/image/products/honeyPeach02.jpg"),
-            productImage: [],
-            productVideo: []
-          },
-          {
-            productId: "",
-            productName: '猕猴桃',
-            productDescribe: '猕猴桃描述',
-            productThumbnail: require("../../assets/image/products/kiwifruit01.jpg"),
-            productImage: [],
-            productVideo: []
-          },
-          {
-            productId: "",
-            productName: '芒果',
-            productDescribe: '芒果描述',
-            productThumbnail: require("../../assets/image/products/mango01.jpg"),
-            productImage: [],
-            productVideo: []
-          },
-          {
-            productId: "",
-            productName: '石榴',
-            productDescribe: '石榴描述',
-            productThumbnail: require("../../assets/image/products/pomegranate01.jpg"),
-            productImage: [],
-            productVideo: []
-          },
-          {
-            productId: "",
-            productName: '草莓',
-            productDescribe: '草莓描述',
-            productThumbnail: require("../../assets/image/products/strabarrey01.jpg"),
-            productImage: [],
-            productVideo: []
-          },
+          /*          {
+                      productId: "",
+                      productName: '柠檬',
+                      productDescribe: '柠檬描述',
+                      productThumbnail: require("../../assets/image/products/lemon02.jpg"),
+                      productDetails: [
+                        {
+                          fileTitle: "",
+                          fileTxt: "",
+                          fileUrl: "",
+                        }
+
+                      ]
+
+                    },*/
+          /*          {
+                      productId: "",
+                      productName:
+                        '水蜜桃',
+                      productDescribe:
+                        '水蜜桃描述',
+                      productThumbnail:
+                        require("../../assets/image/products/honeyPeach02.jpg"),
+                      productImage:
+                        [],
+                      productVideo:
+                        []
+                    }
+                    ,
+                    {
+                      productId: "",
+                      productName:
+                        '猕猴桃',
+                      productDescribe:
+                        '猕猴桃描述',
+                      productThumbnail:
+                        require("../../assets/image/products/kiwifruit01.jpg"),
+                      productImage:
+                        [],
+                      productVideo:
+                        []
+                    }
+                    ,
+                    {
+                      productId: "",
+                      productName:
+                        '芒果',
+                      productDescribe:
+                        '芒果描述',
+                      productThumbnail:
+                        require("../../assets/image/products/mango01.jpg"),
+                      productImage:
+                        [],
+                      productVideo:
+                        []
+                    }
+                    ,
+                    {
+                      productId: "",
+                      productName:
+                        '石榴',
+                      productDescribe:
+                        '石榴描述',
+                      productThumbnail:
+                        require("../../assets/image/products/pomegranate01.jpg"),
+                      productImage:
+                        [],
+                      productVideo:
+                        []
+                    }
+                    ,
+                    {
+                      productId: "",
+                      productName:
+                        '草莓',
+                      productDescribe:
+                        '草莓描述',
+                      productThumbnail:
+                        require("../../assets/image/products/strabarrey01.jpg"),
+                      productImage:
+                        [],
+                      productVideo:
+                        []
+                    }
+                    ,*/
         ],
-        addProductFormShow: false,
+        productPageShow: "productList",
+        activeProDetails: null,
       }
     },
     mounted() {
-
+      this.findProductsByCodeVue();  //通过产品code查询
     },
 
     components: {
       addProductForm,
+      productDetails,
     },
 
     methods: {
       /*切换产品分类*/
       switchProCategory(value) {
-        this.activeCategory = value;
+        this.activeProductCode = value;
       },
 
       /*添加产品*/
       showDialog_add_product() {
-        this.addProductFormShow = true;
+        this.productPageShow = "addProduct";
       },
 
       /*返回产品列表*/
       addProFormShowFa(value) {
-        this.addProductFormShow = value;
+        this.productPageShow = value;
+      },
+
+      /*通过产品code查询*/
+      findProductsByCodeVue() {
+        let self = this;
+        let param = {
+          productCode: this.activeProductCode,
+        };
+        let productsRes = productInfoAPI.findProductsByCode(param);
+        productsRes.then((res) => {
+          console.log("通过产品code查询");
+          console.log(res);
+          self.productsList = res.data.productInfo;
+          console.log(self.productsList);
+        });
+        productsRes.catch((err) => {
+          console.error(err);
+        })
+      },
+
+      /*展示产品详情*/
+      showProductDetails(proDetails) {
+        this.activeProDetails = proDetails;
+        console.log("展示产品详情");
+        console.log(this.activeProDetails);
+        this.productPageShow = "productDetails"
+      },
+
+      /*展示产品列表*/
+      backToProListFa(value) {
+        this.productPageShow = value;
       }
     }
   }

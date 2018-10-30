@@ -32,6 +32,16 @@ export default {
     return apiPromise(apiParam);
   },
 
+  /*通过产品code查询*/
+  findProductsByCode: function (reqParam) {
+    let apiParam = {
+      url: "/ProductInfo/findProductsByCode",
+      method: "get",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  }
+
 
 }
 

@@ -8,14 +8,27 @@
     <!--添加产品表单-->
     <div class="addProFormContent">
       <!--产品名称-->
-      <div class="productTitle">
-        <span>产品名称：</span>
-        <el-input
-          class="proNameInput"
-          placeholder="请输入内容"
-          suffix-icon="el-icon-edit"
-          v-model="newProductInfo.productName">
-        </el-input>
+      <div class="productTitleAndType">
+        <div class="productTitle">
+          <span>产品名称：</span>
+          <el-input
+            class="proNameInput"
+            placeholder="请输入内容"
+            suffix-icon="el-icon-edit"
+            v-model="newProductInfo.productName">
+          </el-input>
+        </div>
+        <div class="productType">
+          <span>产品类型：</span>
+          <el-select v-model="newProductInfo.productCode" placeholder="请选择">
+            <el-option
+              v-for="item in proCategoryList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
       </div>
       <!--产品简介-->
       <div class="proShortDescribe">
@@ -80,7 +93,7 @@
 
 <script type="text/ecmascript-6">
   import pubapi from "../../api/pubapi"
-  import productInfo from "../../api/productInfo"
+  import productInfoAPI from "../../api/productInfo"
 
   export default {
     name: "addProductForm",
@@ -90,6 +103,7 @@
           productName: "666",
           productThumbnail: "",
           productDescribe: "",
+          productCode: "",
           productDetails: [
             {
               productId: "",
@@ -125,6 +139,33 @@
           'Authorization': this.getCookie('token'),
         },
         activeDedailsIndex: 0,
+        proCategoryList: [
+          {
+            label: "水果",
+            value: "401"
+          },
+          {
+            label: "粮食",
+            value: "402"
+          },
+          {
+            label: "油料",
+            value: "403"
+          },
+          {
+            label: "蔬菜",
+            value: "404"
+          },
+          {
+            label: "花卉",
+            value: "405"
+          },
+          {
+            label: "调料",
+            value: "406"
+          },
+        ],
+        value: '',
       }
     },
     mounted() {
@@ -136,7 +177,7 @@
     methods: {
       /*返回产品列表*/
       backToProductList() {
-        this.$emit("addProFormShow", false)
+        this.$emit("addProFormShow", "productList")
       },
       /*上传封面小图*/
       handleRemove(file, fileList) {
@@ -157,7 +198,7 @@
 
       /*保存一条产品信息*/
       addAProductInfoBtn() {
-        let addProduct = productInfo.addAProductInfo(this.newProductInfo);
+        let addProduct = productInfoAPI.addAProductInfo(this.newProductInfo);
         addProduct.then((res) => {
           console.log("保存一条产品信息");
           console.log(res);
@@ -165,7 +206,6 @@
         addProduct.catch((err) => {
           console.error(err);
         })
-
       },
       /*设置文件序号*/
       setFileIndex(detailsIndex) {
@@ -189,18 +229,26 @@
 
 <style scoped lang="less">
   .addProductForm {
-    padding: 0 20px;
+    padding: 0 22px;
     overflow: auto;
     .addProFormContent {
       min-height: 400px;
       width: 100%;
       min-width: 900px;
       height: calc(100vh - 230px);
-      .productTitle {
+      .productTitleAndType {
         text-align: left;
         margin: 15px 0;
-        .proNameInput {
-          width: 300px;
+        display: flex;
+        justify-content: space-between;
+        .productTitle {
+          width: 40%;
+          .proNameInput {
+            width: 300px;
+          }
+        }
+        .productType {
+          width: 60%;
         }
       }
       .proShortDescribe {
