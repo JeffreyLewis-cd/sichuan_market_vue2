@@ -46,14 +46,15 @@
         </div>
       </div>
       <!--产品详情-->
-      <div class="proShortDescribe" v-for="(fileItem,index) in productDetails" :key="index">
+      <div class="proShortDescribe" v-for="(fileItem,index) in newProductInfo.productDetails" :key="index">
         <div class="proFile">
           <p>{{fileItem.fileTitle}} (配图或者视频) ：</p>
-          <div class="proFileUpload">
+          <div class="proFileUpload" @click.stop="setFileIndex(index)">
             <el-upload
               :action="storeInFileSystem"
               :headers="headersSetting"
               list-type="picture-card"
+              :on-success="uploadFileSuccess"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove">
               <i class="el-icon-plus"></i>
@@ -69,7 +70,7 @@
             type="textarea"
             :rows="6"
             placeholder="请输入内容"
-            v-model="newProductInfo.productDescribe">
+            v-model="fileItem.fileTxt">
           </el-input>
         </div>
       </div>
@@ -89,36 +90,41 @@
           productName: "666",
           productThumbnail: "",
           productDescribe: "",
+          productDetails: [
+            {
+              productId: "",
+              fileTitle: "产品介绍一",
+              fileUrl: "url图片01",
+              fileTxt: "图片01",
+            },
+            {
+              productId: "",
+              fileTitle: "产品介绍二",
+              fileUrl: "url图片02",
+              fileTxt: "图片02",
+            },
+            {
+              productId: "",
+              fileTitle: "产品介绍三",
+              fileUrl: "url图片03",
+              fileTxt: "图片03",
+            },
+            {
+              productId: "",
+              fileTitle: "产品介绍四",
+              fileUrl: "url视频01",
+              fileTxt: "视频01",
+            }
+          ],
         },
-        productDetails: [
-          {
-            fileTitle: "产品介绍一",
-            fileUrl: "url图片01",
-            fileTxt: "图片01",
-          },
-          {
-            fileTitle: "产品介绍二",
-            fileUrl: "url图片02",
-            fileTxt: "图片02",
-          },
-          {
-            fileTitle: "产品介绍三",
-            fileUrl: "url图片03",
-            fileTxt: "图片03",
-          },
-          {
-            fileTitle: "产品介绍四",
-            fileUrl: "url视频01",
-            fileTxt: "视频01",
-          }
-        ],
         uploadThumbnailURL: pubapi.apiRootURL + "/ProductInfo/imageByte",
         storeInFileSystem: pubapi.apiRootURL + "/ProductInfo/storeInFileSystem",
         dialogImageUrl: '',
         dialogVisible: false,
         headersSetting: {
           'Authorization': this.getCookie('token'),
-        }
+        },
+        activeDedailsIndex: 0,
       }
     },
     mounted() {
@@ -160,6 +166,22 @@
           console.error(err);
         })
 
+      },
+      /*设置文件序号*/
+      setFileIndex(detailsIndex) {
+        console.log("设置文件序号");
+        console.log(detailsIndex);
+        this.activeDedailsIndex = detailsIndex;
+      },
+
+      /*上传文件成功*/
+      uploadFileSuccess(response, file, fileList,) {
+        console.log("上传文件成功");
+        console.log(response);
+        console.log(file);
+        console.log(fileList);
+        this.newProductInfo.productDetails[this.activeDedailsIndex].fileUrl = response.data.filePath;
+        console.log(this.newProductInfo);
       }
     },
   }
