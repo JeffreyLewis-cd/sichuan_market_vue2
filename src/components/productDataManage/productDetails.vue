@@ -5,9 +5,9 @@
     </div>
     <h3 class="proDetailsTitle">{{proDetails.productName}}</h3>
     <p class="proDetDescribe">{{proDetails.productDescribe}}"</p>
-    <div v-for="(proItem,index) in proDetails.productDetails" :key="index">
+    <div v-for="(proItem,index) in proDetails.productDetails" :key="index" class="proDetailsItem">
       <img :src="proItem.fileUrl">
-      <p>{{proItem.fileTxt}}</p>
+      <p class="proTxt">{{proItem.fileTxt}}</p>
 
     </div>
   </div>
@@ -41,13 +41,22 @@
 
 <style scoped lang="less">
   .productDetails {
+    height: calc(100vh - 175px);
+    width: 96%;
+    overflow-y: auto;
     padding: 0 22px;
     .proDetailsTitle {
       text-align: center;
     }
     .proDetDescribe {
-      border: 1px solid red;
       text-indent: 26px;
+    }
+    .proDetailsItem {
+      text-align: center;
+      .proTxt{
+        text-indent: 28px;
+        text-align: left;
+      }
     }
   }
 
