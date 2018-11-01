@@ -374,7 +374,8 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(() => {
+        })
+          .then(() => {
           let param = {
             companyId: row.companyId
           };
@@ -390,7 +391,8 @@
           deleteResult.catch((err) => {
             console.error(err);
           })
-        }).catch(() => {
+        })
+          .catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'

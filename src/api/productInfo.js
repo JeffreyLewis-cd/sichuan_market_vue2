@@ -32,6 +32,16 @@ export default {
     return apiPromise(apiParam);
   },
 
+  /*添加一条产品信息*/
+  deleteAProductInfo: function (reqParam) {
+    let apiParam = {
+      url: "/ProductInfo/deleteAProductInfo",
+      method: "get",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
+
   /*通过产品code查询*/
   findProductsByCode: function (reqParam) {
     let apiParam = {

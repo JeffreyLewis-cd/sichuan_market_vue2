@@ -18,9 +18,17 @@
         <img :src="'data:image/jpeg;base64,'+proItem.productThumbnail" class="proThumbnail"/>
         <div class="proText">
           <h4>{{proItem.productName}}</h4>
-          <p>{{proItem.productDescribe}}</p>
+          <div>
+            <p class="txt">{{proItem.productDescribe}}</p>
+          </div>
+        </div>
+        <div class="proInfoOperate">
+          <p class="delete" @click.stop="deleteAProductInfoVue(proItem.productId)">
+            <i class="el-icon-delete"></i>
+          </p>
         </div>
       </div>
+      <img class="noDataGif" src="../../assets/image/products/nodate.gif" v-if="0===productsList.length"/>
     </div>
     <!--添加产品-->
     <addProductForm v-if="'addProduct'===productPageShow" @addProFormShow="addProFormShowFa"></addProductForm>
@@ -171,6 +179,7 @@
       /*切换产品分类*/
       switchProCategory(value) {
         this.activeProductCode = value;
+        this.findProductsByCodeVue();  //通过产品code查询
       },
 
       /*添加产品*/
@@ -181,6 +190,7 @@
       /*返回产品列表*/
       addProFormShowFa(value) {
         this.productPageShow = value;
+        this.findProductsByCodeVue();  //通过产品code查询
       },
 
       /*通过产品code查询*/
@@ -212,6 +222,41 @@
       /*展示产品列表*/
       backToProListFa(value) {
         this.productPageShow = value;
+        this.findProductsByCodeVue();  //通过产品code查询
+      },
+
+      /*删除一条产品信息*/
+      deleteAProductInfoVue(productId) {
+        let self = this;
+        this.$confirm('此操作将永久删除该产品信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+          .then(() => {
+            let param = {
+              productId: productId,
+            };
+            let deleteResult = productInfoAPI.deleteAProductInfo(param);
+            deleteResult.then((res) => {
+              self.$notify({
+                title: '成功',
+                message: '成功删除一条产品信息！',
+                type: 'success'
+              });
+              self.findProductsByCodeVue();  //通过产品code查询
+            });
+            deleteResult.catch((err) => {
+              console.error(err);
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+
       }
     }
   }
@@ -257,8 +302,38 @@
           width: 100%;
         }
         .proText {
-          padding: 15px;
+          padding: 5px 15px;
+          .txt {
+            height: 70px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
         }
+        .proInfoOperate {
+          height: 36px;
+          width: 100%;
+          text-align: right;
+          font-size: 18px;
+          .delete {
+            width: 36px;
+            float: right;
+            text-align: center;
+          }
+          .delete:hover {
+            font-size: 24px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 36px;
+          }
+        }
+
+      }
+      .noDataGif {
+        display: block;
+        margin: 0 auto;
+        /*border: 1px solid red;*/
       }
       .productsItem:hover {
         box-shadow: 0 0 20px rgba(160, 160, 160, 0.9);

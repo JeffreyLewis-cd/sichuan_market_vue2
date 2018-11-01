@@ -6,7 +6,7 @@
     <h3 class="proDetailsTitle">{{proDetails.productName}}</h3>
     <p class="proDetDescribe">{{proDetails.productDescribe}}"</p>
     <div v-for="(proItem,index) in proDetails.productDetails" :key="index" class="proDetailsItem">
-      <img :src="proItem.fileUrl">
+      <img :src="proItem.fileUrl" class="proDetailImg">
       <p class="proTxt">{{proItem.fileTxt}}</p>
 
     </div>
@@ -53,7 +53,10 @@
     }
     .proDetailsItem {
       text-align: center;
-      .proTxt{
+      .proDetailImg {
+        max-width: 1000px;
+      }
+      .proTxt {
         text-indent: 28px;
         text-align: left;
       }

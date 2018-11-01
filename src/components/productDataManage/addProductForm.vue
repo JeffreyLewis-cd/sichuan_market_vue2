@@ -38,6 +38,7 @@
             <el-upload
               :action="uploadThumbnailURL"
               list-type="picture-card"
+              :limit="1"
               :headers="headersSetting"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove">
@@ -66,6 +67,7 @@
             <el-upload
               :action="storeInFileSystem"
               :headers="headersSetting"
+              :limit="1"
               list-type="picture-card"
               :on-success="uploadFileSuccess"
               :on-preview="handlePictureCardPreview"
@@ -198,10 +200,17 @@
 
       /*保存一条产品信息*/
       addAProductInfoBtn() {
+        let self = this;
         let addProduct = productInfoAPI.addAProductInfo(this.newProductInfo);
         addProduct.then((res) => {
           console.log("保存一条产品信息");
           console.log(res);
+          self.$notify({
+            title: '成功',
+            message: '成功添加该产品信息！',
+            type: 'success'
+          });
+          self.$emit("addProFormShow", "productList")
         });
         addProduct.catch((err) => {
           console.error(err);
