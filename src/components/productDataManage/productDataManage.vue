@@ -23,8 +23,11 @@
           </div>
         </div>
         <div class="proInfoOperate">
-          <p class="delete" @click.stop="deleteAProductInfoVue(proItem.productId)">
+          <p class="operate delete" @click.stop="deleteAProductInfoVue(proItem.productId)">
             <i class="el-icon-delete"></i>
+          </p>
+          <p class="operate edit" @click.stop="deleteAProductInfoVue(proItem.productId)">
+            <i class="el-icon-edit"></i>
           </p>
         </div>
       </div>
@@ -75,93 +78,7 @@
           },
         ],
         activeProductCode: "401",
-        productsList: [
-          /*          {
-                      productId: "",
-                      productName: '柠檬',
-                      productDescribe: '柠檬描述',
-                      productThumbnail: require("../../assets/image/products/lemon02.jpg"),
-                      productDetails: [
-                        {
-                          fileTitle: "",
-                          fileTxt: "",
-                          fileUrl: "",
-                        }
-
-                      ]
-
-                    },*/
-          /*          {
-                      productId: "",
-                      productName:
-                        '水蜜桃',
-                      productDescribe:
-                        '水蜜桃描述',
-                      productThumbnail:
-                        require("../../assets/image/products/honeyPeach02.jpg"),
-                      productImage:
-                        [],
-                      productVideo:
-                        []
-                    }
-                    ,
-                    {
-                      productId: "",
-                      productName:
-                        '猕猴桃',
-                      productDescribe:
-                        '猕猴桃描述',
-                      productThumbnail:
-                        require("../../assets/image/products/kiwifruit01.jpg"),
-                      productImage:
-                        [],
-                      productVideo:
-                        []
-                    }
-                    ,
-                    {
-                      productId: "",
-                      productName:
-                        '芒果',
-                      productDescribe:
-                        '芒果描述',
-                      productThumbnail:
-                        require("../../assets/image/products/mango01.jpg"),
-                      productImage:
-                        [],
-                      productVideo:
-                        []
-                    }
-                    ,
-                    {
-                      productId: "",
-                      productName:
-                        '石榴',
-                      productDescribe:
-                        '石榴描述',
-                      productThumbnail:
-                        require("../../assets/image/products/pomegranate01.jpg"),
-                      productImage:
-                        [],
-                      productVideo:
-                        []
-                    }
-                    ,
-                    {
-                      productId: "",
-                      productName:
-                        '草莓',
-                      productDescribe:
-                        '草莓描述',
-                      productThumbnail:
-                        require("../../assets/image/products/strabarrey01.jpg"),
-                      productImage:
-                        [],
-                      productVideo:
-                        []
-                    }
-                    ,*/
-        ],
+        productsList: [],
         productPageShow: "productList",
         activeProDetails: null,
       }
@@ -317,15 +234,22 @@
           width: 100%;
           text-align: right;
           font-size: 18px;
-          .delete {
+          .operate {
             width: 36px;
             float: right;
             text-align: center;
           }
           .delete:hover {
             font-size: 24px;
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(245, 108, 108, 0.8);
             border-radius: 36px;
+            color: rgba(255, 255, 255, 1);
+          }
+          .edit:hover {
+            font-size: 24px;
+            background-color: rgba(64, 128, 255, 0.8);
+            border-radius: 36px;
+            color: rgba(255, 255, 255, 1);
           }
         }
 
