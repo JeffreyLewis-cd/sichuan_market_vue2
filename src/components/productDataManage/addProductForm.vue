@@ -75,7 +75,7 @@
               <i class="el-icon-plus"></i>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt="">
+              <img width="100%" :src="''!==dialogImageUrl?dialogImageUrl:fileItem.fileUrl" alt="">
             </el-dialog>
           </div>
         </div>
@@ -99,6 +99,7 @@
 
   export default {
     name: "addProductForm",
+    props: ["updateProInfoProp"],
     data() {
       return {
         newProductInfo: {
@@ -140,7 +141,7 @@
         headersSetting: {
           'Authorization': this.getCookie('token'),
         },
-        activeDedailsIndex: 0,
+        activeDetailsIndex: 0,
         proCategoryList: [
           {
             label: "水果",
@@ -171,7 +172,9 @@
       }
     },
     mounted() {
-
+      this.newProductInfo = this.updateProInfoProp;
+      console.log("产品编辑");
+      console.log(this.newProductInfo);
     },
 
     components: {},
@@ -220,7 +223,7 @@
       setFileIndex(detailsIndex) {
         console.log("设置文件序号");
         console.log(detailsIndex);
-        this.activeDedailsIndex = detailsIndex;
+        this.activeDetailsIndex = detailsIndex;
       },
 
       /*上传文件成功*/
@@ -229,7 +232,7 @@
         console.log(response);
         console.log(file);
         console.log(fileList);
-        this.newProductInfo.productDetails[this.activeDedailsIndex].fileUrl = response.data.filePath;
+        this.newProductInfo.productDetails[this.activeDetailsIndex].fileUrl = response.data.filePath;
         console.log(this.newProductInfo);
       }
     },

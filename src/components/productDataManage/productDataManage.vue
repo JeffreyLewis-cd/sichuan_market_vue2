@@ -26,7 +26,7 @@
           <p class="operate delete" @click.stop="deleteAProductInfoVue(proItem.productId)">
             <i class="el-icon-delete"></i>
           </p>
-          <p class="operate edit" @click.stop="deleteAProductInfoVue(proItem.productId)">
+          <p class="operate edit" @click.stop="updateAProductInfoVue(proItem.productId)">
             <i class="el-icon-edit"></i>
           </p>
         </div>
@@ -34,7 +34,8 @@
       <img class="noDataGif" src="../../assets/image/products/nodate.gif" v-if="0===productsList.length"/>
     </div>
     <!--添加产品-->
-    <addProductForm v-if="'addProduct'===productPageShow" @addProFormShow="addProFormShowFa"></addProductForm>
+    <addProductForm v-if="'addProduct'===productPageShow" :updateProInfoProp="updateProInfo"
+                    @addProFormShow="addProFormShowFa"></addProductForm>
     <!--产品详情-->
     <productDetails v-if="'productDetails'===productPageShow" @backToProList="backToProListFa"
                     :proDetailsProp="activeProDetails"></productDetails>
@@ -81,6 +82,7 @@
         productsList: [],
         productPageShow: "productList",
         activeProDetails: null,
+        updateProInfo: null,
       }
     },
     mounted() {
@@ -174,6 +176,26 @@
             });
           });
 
+      },
+
+      /*编辑更新一条产品信息*/
+      updateAProductInfoVue(productId) {
+        console.log("productId");
+        console.log(productId);
+        let self = this;
+        let param = {
+          productId: productId,
+        };
+        let proInfo = productInfoAPI.findProductInfoById(param);
+        proInfo.then((res) => {
+          console.log(res);
+          self.updateProInfo = res.data.productInfo;
+          console.log(self.updateProInfo);
+          self.productPageShow = "addProduct";
+        });
+        proInfo.catch((err) => {
+          console.error(err);
+        })
       }
     }
   }
