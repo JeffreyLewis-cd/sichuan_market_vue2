@@ -68,7 +68,7 @@
       width: 100%;
     }
     .agri-content {
-      height: calc(100vh - 180px);
+      height: calc(100vh - 130px);
       width: calc(100% - 22px);
       border: 1px solid #E5E5E5;
       border-radius: 5px;
@@ -76,6 +76,7 @@
       min-height: 300px;
       min-width: 50px;
       padding: 10px;
+      padding-top: 5px;
       overflow: hidden;
     }
   }

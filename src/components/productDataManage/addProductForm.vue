@@ -176,13 +176,9 @@
       }
     },
     mounted() {
-      console.log("产品编辑");
-      console.log(this.updateProInfoProp);
       if (null != this.updateProInfoProp) {
         this.newProductInfo = this.updateProInfoProp;
         this.productFormState = "update";
-        console.log("this.newProductInfo");
-        console.log(this.newProductInfo);
         this.thumbnailFile = [{
           name: this.newProductInfo.productName,
           url: 'data:image/gif;base64,' + this.newProductInfo.productThumbnail
@@ -202,7 +198,6 @@
       },
       /*上传封面小图*/
       handleRemove(file, fileList) {
-        console.log(file, fileList);
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
@@ -230,8 +225,6 @@
         let self = this;
         let addProduct = productInfoAPI.addAProductInfo(this.newProductInfo);
         addProduct.then((res) => {
-          console.log("保存一条产品信息");
-          console.log(res);
           self.$notify({
             title: '成功',
             message: '成功添加该产品信息！',
@@ -247,12 +240,8 @@
       /*修改一条产品信息*/
       updateProductInfo() {
         let self = this;
-        console.log("修改一条产品信息-参数02");
-        console.log(this.newProductInfo);
         let updateRes = productInfoAPI.updateAProductInfo(this.newProductInfo);
         updateRes.then((res) => {
-          console.log("修改一条产品信息");
-          console.log(res);
           self.$notify({
             title: '成功',
             message: '成功修改该产品信息！',
@@ -266,25 +255,16 @@
 
       /*设置文件序号*/
       setFileIndex(detailsIndex) {
-        console.log("设置文件序号");
-        console.log(detailsIndex);
         this.activeDetailsIndex = detailsIndex;
       },
 
       /*上传文件成功*/
       uploadFileSuccess(response, file, fileList,) {
-        console.log("上传文件成功");
-        console.log(response);
-        console.log(file);
-        console.log(fileList);
         this.newProductInfo.productDetails[this.activeDetailsIndex].fileUrl = response.data.filePath;
-        console.log(this.newProductInfo);
       },
 
       /*格式化详情文件*/
       formatDetailsFile(fileItem) {
-        console.log("格式化详情文件");
-        console.log(fileItem);
         let formatDetail = null;
         if ('' == fileItem.productId) {
           formatDetail = [];

@@ -5,7 +5,6 @@
       <el-button type="primary" size="small" class="addUser" @click="showAddUserDialog">
         <i class="el-icon-plus"></i>&nbsp;&nbsp;添加用户</el-button>
     </div>
-
     <!--所有用户列表-->
     <el-table
       :data="allUsers"

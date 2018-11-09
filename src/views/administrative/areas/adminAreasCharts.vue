@@ -11,8 +11,7 @@
         </el-option>
       </el-select>
     </div>
-    <div id="GDPChart" :style="{width: 'calc(100% - 2px)', height: '500px'}"></div>
-
+    <div id="GDPChart" :style="{width: 'calc(100% - 2px)', height: 'calc(100vh - 170px'}"></div>
   </div>
 
 </template>
@@ -235,7 +234,7 @@
 <style scoped lang="less">
 
   .adminAreasCharts {
-    height: 75vh;
+    height: calc(100vh - 130px);
     width: 100%;
     min-height: 360px;
     background-color: #f0f2f5;

@@ -12,9 +12,7 @@
         <el-tab-pane class="construction-content" label="角色管理" name="third">角色管理33</el-tab-pane>
       </el-tabs>
     </div>
-
   </div>
-
 </template>
 
 <script type="text/ecmascript-6">

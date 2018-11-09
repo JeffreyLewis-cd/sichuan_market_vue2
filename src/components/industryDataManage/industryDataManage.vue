@@ -12,7 +12,7 @@
         </div>
         <!--行业信息表格-->
         <div class="industryDataTable">
-          <el-table :data="tableData" border style="width: 100%" height="60vh">
+          <el-table :data="tableData" border style="width: 100%" height="calc(100vh - 180px)">
             <el-table-column prop="industryName" label="行业名称" width="180" align="center"></el-table-column>
             <el-table-column prop="totalOutPut" label="总产值" width="100" align="center"></el-table-column>
             <el-table-column prop="totalOutPutUnit" label="总产值单位" width="120" align="center"></el-table-column>

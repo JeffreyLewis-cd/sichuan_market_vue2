@@ -231,12 +231,10 @@
       }
     },
     computed: {
-
       ...mapGetters({
         leftSideNavCollapse: 'leftSideNavCollapse',
       })
     }
-
   }
 </script>
 
@@ -246,7 +244,7 @@
     min-height: 500px;
     .industryProfileBox {
       width: 100%;
-      height: 500px;
+      height: calc(100vh - 120px);
       min-width: 1000px;
     }
   }

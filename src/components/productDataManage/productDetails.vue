@@ -26,7 +26,7 @@
       }
     },
     mounted() {
-      console.log(this.proDetails);
+
     },
 
     components: {},
@@ -40,7 +40,6 @@
       /*判断文件类型*/
       checkFileType(fileUrl) {
         let fileType = fileUrl.split(".").pop();
-        console.log(fileType);
         let eleType = "image";
         if ('mp4' === fileType || 'MP4' === fileType) {
           eleType = "video";
@@ -57,7 +56,7 @@
 
 <style scoped lang="less">
   .productDetails {
-    height: calc(100vh - 175px);
+    height: calc(100vh - 125px);
     width: 96%;
     overflow-y: auto;
     padding: 0 22px;

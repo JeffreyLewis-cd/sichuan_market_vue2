@@ -19,6 +19,7 @@
   import leftSideNav from '@/views/layout/leftSideNav/leftSideNav';
   import topBar from '@/views/layout/topBar/topBar';
   import {mapGetters} from "vuex"
+
   export default {
     name: 'Title',
     data() {
@@ -80,27 +81,28 @@
       background-color: #F0F2F5;
       transition: width linear 270ms, height linear 270ms;
       .layout-right-topbar {
-        height: 60px;
-        line-height: 60px;
+        height: 50px;
+        line-height: 50px;
         padding-right: 20px;
         width: calc(100% - 20px);
         background-color: #fff;
       }
       .layout-right-details {
-        height: calc(100vh - 100px);
-        min-height: @pageMinheight - 100px;
+        height: calc(100vh - 70px);
+        min-height: @pageMinheight - 70px;
         width: calc(100% - 40px);
         background-color: #f0f2f5;
         padding: 20px;
+        padding-top: 0;
         overflow: hidden;
       }
     }
 
     .layout-left-collapse {
-      width: 60px;
+      width: 50px;
     }
     .layout-right-collapse {
-      width: calc(100% - 60px);
+      width: calc(100% - 50px);
       overflow: hidden;
     }
   }

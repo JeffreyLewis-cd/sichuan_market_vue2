@@ -13,7 +13,7 @@
           :data="tableData"
           border
           style="width: 100%"
-          height="60vh"
+          height="calc(100vh - 180px)"
         >
           <el-table-column
             prop="companyName"
@@ -376,28 +376,28 @@
           type: 'warning'
         })
           .then(() => {
-          let param = {
-            companyId: row.companyId
-          };
-          let deleteResult = companyInfo_api.deleteACompanyInfo(param);
-          deleteResult.then((res) => {
-            self.$notify({
-              title: '成功',
-              message: '成功删除一条企业信息！',
-              type: 'success'
+            let param = {
+              companyId: row.companyId
+            };
+            let deleteResult = companyInfo_api.deleteACompanyInfo(param);
+            deleteResult.then((res) => {
+              self.$notify({
+                title: '成功',
+                message: '成功删除一条企业信息！',
+                type: 'success'
+              });
+              self.aquireComInfoByIndustryCode();//获取企业列表
             });
-            self.aquireComInfoByIndustryCode();//获取企业列表
-          });
-          deleteResult.catch((err) => {
-            console.error(err);
+            deleteResult.catch((err) => {
+              console.error(err);
+            })
           })
-        })
           .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
           });
-        });
       },
 
       /*展示弹窗-编辑企业信息*/
@@ -466,8 +466,6 @@
       },
       /*企业详情*/
       showDialog_details_com(comRow) {
-        console.log("企业详情");
-        console.log(comRow);
         this.activeCompanyInfo = comRow;
         this.comDetailsShow = true;
       },
@@ -532,8 +530,8 @@
   .companyDataDialog {
     .el-dialog {
       margin-top: 5vh !important;
-      .el-dialog__body{
-        padding:10px 20px;
+      .el-dialog__body {
+        padding: 10px 20px;
       }
     }
   }

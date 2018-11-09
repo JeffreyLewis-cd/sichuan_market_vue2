@@ -104,7 +104,7 @@
       /*添加产品*/
       showDialog_add_product() {
         this.productPageShow = "addProduct";
-        this.updateProInfo=null;
+        this.updateProInfo = null;
       },
 
       /*返回产品列表*/
@@ -121,10 +121,7 @@
         };
         let productsRes = productInfoAPI.findProductsByCode(param);
         productsRes.then((res) => {
-          console.log("通过产品code查询");
-          console.log(res);
           self.productsList = res.data.productInfo;
-          console.log(self.productsList);
         });
         productsRes.catch((err) => {
           console.error(err);
@@ -134,8 +131,6 @@
       /*展示产品详情*/
       showProductDetails(proDetails) {
         this.activeProDetails = proDetails;
-        console.log("展示产品详情");
-        console.log(this.activeProDetails);
         this.productPageShow = "productDetails"
       },
 
@@ -181,17 +176,13 @@
 
       /*编辑更新一条产品信息*/
       updateAProductInfoVue(productId) {
-        console.log("productId");
-        console.log(productId);
         let self = this;
         let param = {
           productId: productId,
         };
         let proInfo = productInfoAPI.findProductInfoById(param);
         proInfo.then((res) => {
-          console.log(res);
           self.updateProInfo = res.data.productInfo;
-          console.log(self.updateProInfo);
           self.productPageShow = "addProduct";
         });
         proInfo.catch((err) => {
@@ -222,10 +213,11 @@
     }
     .productsContent {
       min-height: 460px;
-      height: calc(100vh - 255px);
-      width: calc(100% - 42px);
+      height: calc(100vh - 175px);
+      width: calc(100% - 40px);
       padding: 10px;
-      margin-top: 15px;
+      padding-top: 0;
+      margin-top: 5px;
       overflow: auto;
       .productsItem {
         height: 360px;

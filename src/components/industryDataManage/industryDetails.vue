@@ -70,8 +70,7 @@
       }
     },
     mounted() {
-      console.log('indusDetailProp');
-      console.log(this.indusDetailProp);
+
     },
 
     components: {
@@ -86,20 +85,17 @@
 
       /*展示企业详情*/
       showCompanyDetails(companyId) {
-        console.log('展示企业详情');
-        console.log(companyId);
         let self = this;
         let param = {
           companyId: companyId,
         };
         let companyDetails = companyInfo_api.findCompanyInfoById(param);
         companyDetails.then((res) => {
-          console.log(res);
           self.companyDetailGet = res.data.companyInfo;
           self.comDetailsShow = true;
         });
         companyDetails.catch((err) => {
-          console.log(err);
+          console.error(err);
         });
       },
 

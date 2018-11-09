@@ -199,12 +199,10 @@
       }
     },
     computed: {
-
       ...mapGetters({
         leftSideNavCollapse: 'leftSideNavCollapse',
       })
     }
-
   }
 </script>
 
@@ -218,5 +216,4 @@
       min-width: 1000px;
     }
   }
-
 </style>

@@ -45,7 +45,7 @@
           backgroundImage: 'url(' + require('../../../assets/image/img01/user.png') + ')',
           backgroundSize: '100% 100%'
         },
-        loginName:pubapi.getCookie("loginName"),
+        loginName: pubapi.getCookie("loginName"),
       }
     },
     mounted() {
@@ -77,10 +77,10 @@
 <style scoped lang="less">
   .topBar {
     width: 100%;
-    height: 60px;
+    height: 50px;
     .expandOrCollapse {
-      height: 60px;
-      width: 60px;
+      height: 50px;
+      width: 50px;
       cursor: pointer;
       display: flex;
       justify-content: center;
@@ -89,32 +89,23 @@
       .expandOrCollapse-icon {
         height: 25px;
         width: 25px;
-        /*background-image: url("../../../assets/image/img01/list-collapsed.png");*/
-        /*background: url("~@/assets/image/img01/list-collapsed.png") center center no-repeat;*/
-        /*background-size: 100% 100%;*/
       }
       .expandOrCollapse-icon-expand {
-        /*background-image: url("../../../assets/image/img01/expand.png");*/
-        /*background: url("~@/assets/image/img01/expand.png") center center no-repeat;*/
-        /*background-size: 100% 100%;*/
       }
     }
     .expandOrCollapse:hover {
       background-color: aliceblue;
     }
     .topBar-userIcon {
-      height: 60px;
-      width: 60px;
+      height: 50px;
+      width: 50px;
       float: right;
       display: flex;
       justify-content: center;
       align-items: center;
-
       .user-img {
         height: 25px;
         width: 25px;
-        /*background-image: url("../../../assets/image/img01/user.png");*/
-        /*background: url("~@/assets/image/img01/user.png") center center no-repeat;*/
         background-size: 100% 100%;
       }
     }

@@ -328,19 +328,17 @@
       align-items: center !important;
       margin-right: 20px;
     }
-
     .sichuanMapBox {
-      height: calc(100% - 100px);
+      height: calc(100vh - 80px);
       width: 90%;
       min-height: 600px;
       min-width: 600px;
-      margin: 5px 0;
+      margin: 15px 0;
       border: 1px solid #cccccc;
       border-radius: 5px;
       overflow: hidden;
     }
   }
-
 </style>
 
 <style lang="less">
