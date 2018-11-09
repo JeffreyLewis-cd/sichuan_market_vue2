@@ -42,6 +42,16 @@ export default {
     return apiPromise(apiParam);
   },
 
+  /*修改一条产品信息*/
+  updateAProductInfo: function (reqParam) {
+    let apiParam = {
+      url: "/ProductInfo/updateAProductInfo",
+      method: "post",
+      param: reqParam
+    };
+    return apiPromise(apiParam);
+  },
+
   /*通过产品code查询*/
   findProductsByCode: function (reqParam) {
     let apiParam = {
@@ -51,6 +61,7 @@ export default {
     };
     return apiPromise(apiParam);
   },
+
   /*通过产品id查询-findProductInfoById*/
   findProductInfoById: function (reqParam) {
     let apiParam = {

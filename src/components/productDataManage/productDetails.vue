@@ -6,7 +6,9 @@
     <h3 class="proDetailsTitle">{{proDetails.productName}}</h3>
     <p class="proDetDescribe">{{proDetails.productDescribe}}"</p>
     <div v-for="(proItem,index) in proDetails.productDetails" :key="index" class="proDetailsItem">
-      <img :src="proItem.fileUrl" class="proDetailImg">
+      <img v-if="'image'===checkFileType(proItem.fileUrl)" :src="proItem.fileUrl" class="proDetailImg">
+      <video v-if="'video'===checkFileType(proItem.fileUrl)" :src="proItem.fileUrl" controls="controls"
+             class="proVideo"></video>
       <p class="proTxt">{{proItem.fileTxt}}</p>
 
     </div>
@@ -33,7 +35,21 @@
       /*返回产品列表*/
       backToProList() {
         this.$emit("backToProList", "productList")
+      },
+
+      /*判断文件类型*/
+      checkFileType(fileUrl) {
+        let fileType = fileUrl.split(".").pop();
+        console.log(fileType);
+        let eleType = "image";
+        if ('mp4' === fileType || 'MP4' === fileType) {
+          eleType = "video";
+        } else {
+          eleType = "image";
+        }
+        return eleType;
       }
+
     },
 
   }
@@ -55,6 +71,10 @@
       text-align: center;
       .proDetailImg {
         max-width: 1000px;
+      }
+      .proVideo {
+        max-width: 1000px;
+        min-width: 800px;
       }
       .proTxt {
         text-indent: 28px;

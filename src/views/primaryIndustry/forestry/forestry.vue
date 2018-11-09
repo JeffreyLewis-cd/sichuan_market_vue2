@@ -10,7 +10,12 @@
           <industryDataManage :industryInfoProp="industryInfoProp"></industryDataManage>
         </el-tab-pane>
 
-        <el-tab-pane class="forestry-content" label="配置管理" name="second">配置管理22</el-tab-pane>
+        <el-tab-pane class="forestry-content" label="配置管理" name="second">
+          <div class="audioTest">
+            <p>666</p>
+            <video class="videoElement" src="../../../assets/video/x07790mf7cj.m701.mp4" controls="controls"></video>
+          </div>
+        </el-tab-pane>
         <el-tab-pane class="forestry-content" label="角色管理" name="third">角色管理33</el-tab-pane>
       </el-tabs>
     </div>
@@ -68,6 +73,16 @@
       min-height: 300px;
       min-width: 50px;
       padding: 10px;
+      .audioTest {
+        height: 500px;
+        width: 800px;
+        margin: 0 auto;
+        border: 1px solid red;
+        .videoElement {
+          height: 100%;
+          width: 100%;
+        }
+      }
     }
   }
 

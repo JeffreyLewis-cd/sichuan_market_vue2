@@ -3,7 +3,7 @@
     <!--返回按钮-->
     <div class="addProductFormBtn">
       <el-button type="primary" size="small" @click="backToProductList">返 &nbsp;&nbsp;&nbsp;回</el-button>
-      <el-button type="success" size="small" @click="addAProductInfoBtn">保 &nbsp;&nbsp;&nbsp;存</el-button>
+      <el-button type="success" size="small" @click="clickSaveBtn">保 &nbsp;&nbsp;&nbsp;存</el-button>
     </div>
     <!--添加产品表单-->
     <div class="addProFormContent">
@@ -40,6 +40,7 @@
               list-type="picture-card"
               :limit="1"
               :headers="headersSetting"
+              :file-list="thumbnailFile"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove">
               <i class="el-icon-plus"></i>
@@ -68,6 +69,7 @@
               :action="storeInFileSystem"
               :headers="headersSetting"
               :limit="1"
+              :file-list="formatDetailsFile(fileItem)"
               list-type="picture-card"
               :on-success="uploadFileSuccess"
               :on-preview="handlePictureCardPreview"
@@ -75,7 +77,7 @@
               <i class="el-icon-plus"></i>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="''!==dialogImageUrl?dialogImageUrl:fileItem.fileUrl" alt="">
+              <img width="100%" :src="dialogImageUrl" alt="">
             </el-dialog>
           </div>
         </div>
@@ -169,12 +171,26 @@
           },
         ],
         value: '',
+        productFormState: "add",
+        thumbnailFile: [],
       }
     },
     mounted() {
-      this.newProductInfo = this.updateProInfoProp;
       console.log("产品编辑");
-      console.log(this.newProductInfo);
+      console.log(this.updateProInfoProp);
+      if (null != this.updateProInfoProp) {
+        this.newProductInfo = this.updateProInfoProp;
+        this.productFormState = "update";
+        console.log("this.newProductInfo");
+        console.log(this.newProductInfo);
+        this.thumbnailFile = [{
+          name: this.newProductInfo.productName,
+          url: 'data:image/gif;base64,' + this.newProductInfo.productThumbnail
+        }];
+      } else {
+        this.productFormState = "add";
+        this.thumbnailFile = [];
+      }
     },
 
     components: {},
@@ -200,6 +216,14 @@
         else
           return null;
       },
+      /*点击保存按钮*/
+      clickSaveBtn() {
+        if ("update" === this.productFormState) {
+          this.updateProductInfo()  //修改一条产品信息
+        } else {
+          this.addAProductInfoBtn(); //保存一条产品信息
+        }
+      },
 
       /*保存一条产品信息*/
       addAProductInfoBtn() {
@@ -219,6 +243,27 @@
           console.error(err);
         })
       },
+
+      /*修改一条产品信息*/
+      updateProductInfo() {
+        let self = this;
+        console.log("修改一条产品信息-参数02");
+        console.log(this.newProductInfo);
+        let updateRes = productInfoAPI.updateAProductInfo(this.newProductInfo);
+        updateRes.then((res) => {
+          console.log("修改一条产品信息");
+          console.log(res);
+          self.$notify({
+            title: '成功',
+            message: '成功修改该产品信息！',
+            type: 'success'
+          });
+        });
+        updateRes.catch((err) => {
+          console.error(err);
+        })
+      },
+
       /*设置文件序号*/
       setFileIndex(detailsIndex) {
         console.log("设置文件序号");
@@ -234,6 +279,19 @@
         console.log(fileList);
         this.newProductInfo.productDetails[this.activeDetailsIndex].fileUrl = response.data.filePath;
         console.log(this.newProductInfo);
+      },
+
+      /*格式化详情文件*/
+      formatDetailsFile(fileItem) {
+        console.log("格式化详情文件");
+        console.log(fileItem);
+        let formatDetail = null;
+        if ('' == fileItem.productId) {
+          formatDetail = [];
+        } else {
+          formatDetail = [{name: fileItem.fileName, url: fileItem.fileUrl}];
+        }
+        return formatDetail;
       }
     },
   }

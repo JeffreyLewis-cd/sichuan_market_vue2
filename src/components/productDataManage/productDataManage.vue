@@ -104,6 +104,7 @@
       /*添加产品*/
       showDialog_add_product() {
         this.productPageShow = "addProduct";
+        this.updateProInfo=null;
       },
 
       /*返回产品列表*/
