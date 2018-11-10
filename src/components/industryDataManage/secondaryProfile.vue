@@ -212,7 +212,7 @@
     min-height: 500px;
     .secondaryProfileBox {
       width: 100%;
-      height: 500px;
+      height: calc(100vh - 150px);
       min-width: 1000px;
     }
   }

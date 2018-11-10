@@ -274,9 +274,10 @@
   .thirdProfile {
     width: 100%;
     min-height: 500px;
+
     .thirdProfileBox {
       width: 100%;
-      height: 500px;
+      height: calc(100vh - 150px);
       min-width: 1000px;
     }
   }
