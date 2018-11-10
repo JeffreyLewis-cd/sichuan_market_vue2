@@ -101,7 +101,7 @@
               <div v-if="'companyType'===item.field">
                 <el-select v-model="companyData[item.field]" placeholder="请选择" style="width: 65%;" size="small">
                   <el-option
-                    v-for="item in companyTypeList"
+                    v-for="item in companyTypeListPub"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -111,14 +111,13 @@
               <div v-else-if="'companyIndustryCode'===item.field">
                 <el-select v-model="companyData[item.field]" placeholder="请选择" style="width: 65%;" size="small">
                   <el-option
-                    v-for="item in industryCodeList"
+                    v-for="item in industryCodeListPub"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
                   </el-option>
                 </el-select>
               </div>
-
               <div v-else>
                 <el-input
                   style="width: 65%;"
@@ -127,12 +126,8 @@
                   v-model="companyData[item.field]">
                 </el-input>
               </div>
-
             </div>
-
           </div>
-
-
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogVisibleCom = false" size="small">取 消</el-button>
             <el-button type="primary" @click="confirmData_com" size="small">确 定</el-button>
@@ -213,124 +208,6 @@
         ],
         companyData: {},
         dialogVisibleCom: false,
-        companyTypeList: [
-          {
-            value: '31',
-            label: '有限责任公司'
-          }, {
-            value: '32',
-            label: '股份有限公司'
-          }, {
-            value: '33',
-            label: '国有独资公司'
-          }, {
-            value: '34',
-            label: '个人独资企业'
-          }, {
-            value: '35',
-            label: '合伙企业'
-          }, {
-            value: '36',
-            label: '个体工商户'
-          }, {
-            value: '37',
-            label: '外商投资企业'
-          }, {
-            value: '38',
-            label: '私营企业'
-          },
-
-        ],
-        industryCodeList: [
-          {
-            value: "201",
-            label: '农业'
-          },
-          {
-            value: "202",
-            label: '林业'
-          },
-          {
-            value: "203",
-            label: '畜牧业'
-          },
-          {
-            value: "204",
-            label: '渔业'
-          },
-          {
-            value: "205",
-            label: '采矿业'
-          },
-          {
-            value: "206",
-            label: '制造业'
-          },
-          {
-            value: "207",
-            label: '水电热燃供应'
-          },
-          {
-            value: "208",
-            label: '建筑业'
-          },
-          {
-            value: "209",
-            label: '批发和零售业'
-          },
-          {
-            value: "210",
-            label: '交通运输、仓储和邮政业'
-          },
-          {
-            value: "211",
-            label: '住宿和餐饮业'
-          },
-          {
-            value: "212",
-            label: '信息软件'
-          },
-          {
-            value: "213",
-            label: '金融业'
-          },
-          {
-            value: "214",
-            label: '房地产业'
-          },
-          {
-            value: "215",
-            label: '科学研究和技术'
-          },
-          {
-            value: "216",
-            label: '居民服务'
-          },
-          {
-            value: "217",
-            label: '教育'
-          },
-          {
-            value: "218",
-            label: '卫生和社会工作'
-          },
-          {
-            value: "219",
-            label: '文化、体育和娱乐业'
-          },
-          {
-            value: "220",
-            label: '公共管理、社会保障'
-          },
-          {
-            value: "221",
-            label: '工业'
-          },
-          {
-            value: "222",
-            label: '其他'
-          },
-        ],
         activeDate: "2017年",
         dialogState: {
           title: "",
@@ -341,6 +218,7 @@
         comDetailsShow: false,
       }
     },
+
     mounted() {
       /*获取企业列表*/
       this.aquireComInfoByIndustryCode();
@@ -457,11 +335,14 @@
       /*企业类型-编码转文字*/
       comTypeCode2Word(code) {
         let typeLable = "";
-        this.companyTypeList.map((item, index) => {
-          if (code === item.value) {
-            typeLable = item.label;
-          }
-        });
+        if (this.companyTypeListPub) {
+          this.companyTypeListPub.map((item, index) => {
+            if (code === item.value) {
+              typeLable = item.label;
+            }
+          });
+        }
+
         return typeLable;
       },
       /*企业详情*/
@@ -477,7 +358,9 @@
 
     computed: {
       ...mapGetters({
-        companyListByIndustryCode: "companyListByIndustryCode"
+        companyListByIndustryCode: "companyListByIndustryCode",
+        companyTypeListPub: "companyTypeListPub",
+        industryCodeListPub: "industryCodeListPub",
       })
     }
   }

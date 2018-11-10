@@ -11,7 +11,7 @@
       </li>
       <li class="comDetailsItem">
         <span>企业性质：</span>
-        <span>{{companyInfoProp.companyType}}</span>
+        <span>{{comTypeFormat(companyInfoProp.companyType)}}</span>
       </li>
       <li class="comDetailsItem">
         <span>注册号：</span>
@@ -37,7 +37,7 @@
       </li>
       <li class="comDetailsItem">
         <span>所属行业：</span>
-        <span>{{companyInfoProp.companyIndustryCode}}</span>
+        <span>{{industryFormat(companyInfoProp.companyIndustryCode)}}</span>
       </li>
       <li class="comDetailsItem" style="width:64%">
         <span>企业地址：</span>
@@ -49,6 +49,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapGetters} from "vuex"
+
   export default {
     name: "companyDetails",
     props: ['companyInfoProp'],
@@ -65,9 +67,42 @@
       /*返回企业列表*/
       backToCompanyList() {
         this.$emit("showCompanyDetails", false)
+      },
+
+      /*企业性质转换*/
+      comTypeFormat(typeCode) {
+        let typeTxt = "空";
+        if (this.companyTypeListPub) {
+          this.companyTypeListPub.map((item) => {
+            if (typeCode === item.value) {
+              typeTxt = item.label;
+            }
+          });
+        }
+        return typeTxt;
+      },
+
+      /*所属行业转换*/
+      industryFormat(industryCode) {
+        let indusTxt = "空";
+        if (this.industryCodeListPub) {
+          this.industryCodeListPub.map((item) => {
+            if (industryCode === item.value) {
+              indusTxt = item.label;
+            }
+          });
+        }
+        return indusTxt;
       }
+
     },
 
+    computed: {
+      ...mapGetters({
+        companyTypeListPub: "companyTypeListPub",
+        industryCodeListPub: "industryCodeListPub",
+      })
+    }
   }
 </script>
 
@@ -77,7 +112,7 @@
     .comDetailsBtns {
       text-align: right;
     }
-    .comDetailsTitle{
+    .comDetailsTitle {
       margin-bottom: 15px;
       border-bottom: 1px solid #E8E8E8;
     }
