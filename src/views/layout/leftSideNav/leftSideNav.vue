@@ -4,7 +4,7 @@
     <!--网站标题-->
     <div class="web-title">
       <img src="../../../assets/image/img01/CUIT.png" class="logo">
-      <span v-show="!leftSideNavCollapse">四川经济</span>
+      <span v-show="!leftSideNavCollapse">统计平台</span>
     </div>
 
     <el-menu
@@ -234,6 +234,7 @@
 
   .leftSideNav {
     background-color: #002140;
+
     .web-title {
       height: 60px;
       line-height: 60px;
@@ -241,11 +242,13 @@
       text-align: center;
       font-size: 22px;
       overflow: hidden;
+
       .logo {
         height: 40px;
         width: 40px;
       }
     }
+
     .el-menu-vertical-demo {
       .leftNav-icon {
         height: 18px;

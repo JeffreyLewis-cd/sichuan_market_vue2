@@ -1,7 +1,8 @@
 <template>
   <div class="loginPage" :style="loginPageStyle">
     <div class="loginPage-box">
-      <h2 class="login-title">四川省经济统计分析平台</h2>
+<!--      <h2 class="login-title">四川省经济统计分析平台</h2>-->
+      <h2 class="login-title">统计分析平台</h2>
       <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="70px" class="login-ruleForm">
 
         <el-form-item label="账号" prop="name">
