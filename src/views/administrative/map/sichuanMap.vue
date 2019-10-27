@@ -10,6 +10,9 @@
           :value="item.value">
         </el-option>
       </el-select>
+      <el-button class="mapVSbtns" @click.native="downloadExcel" :type="'popuDensity'==mapType?'primary':''"
+                 size="small">下载excel
+      </el-button>
       <el-button class="mapVSbtns" @click.native="showAreasData" :type="'areas'==mapType?'primary':''"
                  size="small">各市面积比较
       </el-button>
@@ -25,6 +28,7 @@
       <el-button class="mapVSbtns" @click.native="showPopuDensity" :type="'popuDensity'==mapType?'primary':''"
                  size="small">各市人口密度比较
       </el-button>
+
     </div>
     <div id="sichuan" ref="sichuan" class="sichuanMapBox"></div>
   </div>
@@ -36,7 +40,8 @@
   //   import '../../node_modules/echarts/map/js/world.js'
   import '../../../../node_modules/echarts/map/js/china.js' // 引入中国地图数据
   import '../../../../node_modules/echarts/map/js/province/sichuan.js' // 引入中国地图数据
-  import adminAreas from "@/api/adminAreas"
+  import adminAreas from "@/api/adminAreas";
+  import axios from "axios";
 
 
   export default {
@@ -306,6 +311,52 @@
 
       },
 
+      //读取cookies
+      getCookie(name) {
+        let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+          return unescape(arr[2]);
+        else
+          return null;
+      },
+
+      downloadExcel() {
+        console.log('下载表格');
+        let auToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NzIxODY2NzUwODAsInBheWxvYWQiOiJ7XCJpZFwiOjQyLFwibmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjM1wiLFwicGhvbmVcIjpcIjE1OTI4OTAyOTU1XCIsXCJlbWFpbFwiOlwiMTE3ODUwNzkzNUBxcS5jb21cIixcInN0YXR1c1wiOjF9In0.4lOmLSe3Q4TUEZ51ue5ZHqKxxsqsVqvr9z0LzssaFks';
+        let url = 'http://localhost:8081/SiChuanMarket_SSM/cityInfo/fileDown?AuthCode=' + auToken;
+        console.log('sichuan_download excel');
+        console.log(url);
+
+        axios({
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': this.getCookie('token'),
+          },
+          method: 'GET',
+          url: url,
+          responseType: 'blob', //二进制流
+        }).then(function (res) {
+          console.log(res);
+          // 创建隐藏的可下载链接
+          let eleLink = document.createElement('a');
+          let timestamp = new Date().getTime();
+          eleLink.download = timestamp + ".xls";
+          eleLink.style.display = 'none';
+          let blob = new Blob([res.data], {type: 'application/vnd.ms-excel'});
+          console.log(blob);
+
+          eleLink.href = URL.createObjectURL(blob);
+          // 触发点击
+          document.body.appendChild(eleLink);
+          eleLink.click();
+          // 然后移除
+          document.body.removeChild(eleLink);
+        }).catch(function (error) {
+          console.log(error)
+        });
+
+      }
+
     },
 
   }
@@ -328,6 +379,7 @@
       align-items: center !important;
       margin-right: 20px;
     }
+
     .sichuanMapBox {
       height: calc(100vh - 80px);
       width: 90%;
